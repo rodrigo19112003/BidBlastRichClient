@@ -1,0 +1,46 @@
+# Ignorar archivos y directorios de compilación
+/target/
+/build/
+/nbproject/private/
+/dist/
+/classes/
+*.class
+*.log
+
+# Ignorar archivos de configuración de entornos de desarrollo
+/.classpath
+/.project
+/.settings/
+/.idea/
+*.iml
+*.ipr
+*.iws
+
+# Archivos de configuración local o específicos del usuario
+private.properties
+
+# Archivos y directorios del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# Archivos de paquetes
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+.rar
+
+# Archivos específicos de NetBeans
+/nbproject/Makefile-.mk
+/nbproject/Package-*.bash
+/nbproject/build-impl.xml
+
+dist/
