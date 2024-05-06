@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bidblastrichclient.controllers.CompletedAuctionsListController">
+   <children>
+      <Pane prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #00086A;">
+         <children>
+            <ImageView fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../resources/Arrow.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="52.0" layoutY="19.0" text="Subastas concretadas" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <TextField layoutX="65.0" layoutY="90.0" prefHeight="33.0" prefWidth="728.0" promptText="Buscar en compras" style="-fx-border-color: black; -fx-background-color: withe; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="800.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+         <image>
+            <Image url="@../resources/Search.png" />
+         </image>
+      </ImageView>
+      <TableView layoutX="64.0" layoutY="201.0" prefHeight="344.0" prefWidth="772.0">
+        <columns>
+          <TableColumn prefWidth="137.0" text="Avatar del vendedor" />
+          <TableColumn prefWidth="192.0" text="Nombre del vendedor" />
+            <TableColumn prefWidth="199.0" text="Título del artículo" />
+            <TableColumn prefWidth="150.0" text="Fecha de compra" />
+            <TableColumn prefWidth="93.0" text="Precio" />
+        </columns>
+      </TableView>
+      <Button layoutX="636.0" layoutY="132.0" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Estadísticas de compras" textFill="#ff5c00">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="760.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+         <image>
+            <Image url="@../resources/Email.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="800.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+         <image>
+            <Image url="@../resources/Phone.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
