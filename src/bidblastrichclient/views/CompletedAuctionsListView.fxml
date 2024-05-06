@@ -37,10 +37,11 @@
       <TableView layoutX="64.0" layoutY="201.0" prefHeight="344.0" prefWidth="772.0">
         <columns>
           <TableColumn prefWidth="137.0" text="Avatar del vendedor" />
-          <TableColumn prefWidth="192.0" text="Nombre del vendedor" />
-            <TableColumn prefWidth="199.0" text="Título del artículo" />
-            <TableColumn prefWidth="150.0" text="Fecha de compra" />
-            <TableColumn prefWidth="93.0" text="Precio" />
+          <TableColumn prefWidth="151.0" text="Nombre del vendedor" />
+            <TableColumn prefWidth="183.0" text="Título del artículo" />
+            <TableColumn prefWidth="117.0" text="Imagen del artículo" />
+            <TableColumn minWidth="0.0" prefWidth="109.0" text="Fecha de compra" />
+            <TableColumn prefWidth="74.0" text="Precio" />
         </columns>
       </TableView>
       <Button layoutX="636.0" layoutY="132.0" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Estadísticas de compras" textFill="#ff5c00">

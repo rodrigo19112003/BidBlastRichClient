@@ -4,9 +4,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 
-public class ModifyProductCategoryController implements Initializable {
+public class ConsultOffersOnAuctionController implements Initializable {
 
-    @Override
+   @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
