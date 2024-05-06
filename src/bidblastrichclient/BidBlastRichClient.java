@@ -10,7 +10,7 @@ public class BidBlastRichClient extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("views/ConsultOffersOnAuctioView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/PurchasingStatisticsView.fxml"));
         
         Scene scene = new Scene(root);
         
