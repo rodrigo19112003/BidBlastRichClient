@@ -7,6 +7,6 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface IRegisterService {
-    @POST("accounts")
+    @POST("accounts/")
      Call<UserRegisterJSONResponse> createAccount(@Body UserRegisterBody body);
 }
