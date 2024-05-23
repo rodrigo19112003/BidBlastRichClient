@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="bidblastrichclient.controllers.SignUpController">
+   <children>
+      <TextField fx:id="tfFullName" layoutX="65.0" layoutY="92.0" prefHeight="27.0" prefWidth="770.0" style="-fx-border-color: black; -fx-background-color: withe; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="73.0" layoutY="56.0" text="Nombre completo*">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="65.0" layoutY="161.0" text="Correo*">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfEmail" layoutX="65.0" layoutY="186.0" prefHeight="27.0" prefWidth="770.0" promptText="ejemplo@gmail.com" style="-fx-border-color: black; -fx-background-color: withe; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="65.0" layoutY="258.0" text="Número telefónico*">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfPhoneNumber" layoutX="65.0" layoutY="284.0" prefHeight="27.0" prefWidth="770.0" style="-fx-border-color: black; -fx-background-color: withe; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="65.0" layoutY="338.0" text="Contraseña*">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfPassword" layoutX="65.0" layoutY="374.0" prefHeight="27.0" prefWidth="770.0" style="-fx-border-color: black; -fx-background-color: withe; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Button fx:id="btnRegister" layoutX="675.0" layoutY="488.0" mnemonicParsing="false" onMouseClicked="#btnTegisterNewAccount" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Registrarme" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
