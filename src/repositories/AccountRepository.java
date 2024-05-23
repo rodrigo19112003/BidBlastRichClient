@@ -25,15 +25,18 @@ public class AccountRepository {
                     if (responseBody != null && responseBody.getAccount() != null) {
                         creationListener.onSuccess();
                     } else {
+                        System.err.println("Response body or account is null");
                         creationListener.onError(ProcessErrorCodes.FATAL_ERROR);
                     }
                 } else {
+                    System.err.println("Response not successful: " + response.code());
                     creationListener.onError(ProcessErrorCodes.FATAL_ERROR);
                 }
             }
 
             @Override
             public void onFailure(Call<UserRegisterJSONResponse> call, Throwable t) {
+                System.err.println("Request failed: " + t.getMessage());
                 creationListener.onError(ProcessErrorCodes.FATAL_ERROR);
             }
         });

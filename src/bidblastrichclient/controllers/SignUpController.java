@@ -1,12 +1,8 @@
 package bidblastrichclient.controllers;
 
-import api.ApiClient;
 import api.IEmptyProcessStatusListener;
-import api.IRegisterService;
-import api.RequestStatus;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
