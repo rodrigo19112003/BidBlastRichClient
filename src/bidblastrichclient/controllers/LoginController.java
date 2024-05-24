@@ -11,6 +11,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import lib.Navigation;
+import lib.Session;
 import lib.ValidationToolkit;
 import repositories.AuthenticationRepository;
 import repositories.IEmptyProcessStatusListener;
@@ -81,7 +84,20 @@ public class LoginController implements Initializable {
     }
     
     private void redirectToMenu() {
-        System.out.println("Redireccionando a menú principal");
+        Platform.runLater(() -> {
+            String MODERATOR_ROLE = "MODERATOR";
+            Stage baseStage = (Stage) tfEmail.getScene().getWindow();
+
+            if(Session.getInstance().getUser().getRoles().contains(MODERATOR_ROLE)) {
+                baseStage.setScene(Navigation.startScene("views/ModeratorMenuView.fxml"));
+                baseStage.setTitle("Panel administrativo");
+            } else {
+                baseStage.setScene(Navigation.startScene("views/MainMenuView.fxml"));
+                baseStage.setTitle("Menu principal");
+            }
+
+            baseStage.show();
+        });
     }
     
     private void showLoginError(ProcessErrorCodes errorStatus) {

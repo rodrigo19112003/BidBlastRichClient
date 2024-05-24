@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="bidblastrichclient.controllers.ModeratorMenuController">
+   <children>
+      <Pane prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #00086A;">
+         <children>
+            <ImageView fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../resources/Arrow.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="52.0" layoutY="19.0" text="Panel administrativo" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
