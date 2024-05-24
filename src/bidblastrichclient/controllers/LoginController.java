@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Border;
 import lib.ValidationToolkit;
 
-public class LoginViewController implements Initializable {
+public class LoginController implements Initializable {
 
     @FXML
     private TextField tfEmail;

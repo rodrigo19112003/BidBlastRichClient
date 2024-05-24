@@ -9,6 +9,7 @@ public class ApiClient {
     private static final ApiClient apiClient = new ApiClient();
     public static final String API_BASE_URL = "http://localhost:3000/api/";
     private final Retrofit retrofit;
+    private IAuthenticationService authenticationService;
     private IRegisterService registerService;
 
     public static ApiClient getInstance() {
@@ -21,6 +22,15 @@ public class ApiClient {
             .addConverterFactory(MoshiConverterFactory.create())
             .build();
     }
+    
+    public IAuthenticationService getAuthenticationService() {
+        if (authenticationService == null) {
+            authenticationService = retrofit.create(IAuthenticationService.class);
+        }
+
+        return authenticationService;
+    }
+    
     public IRegisterService getRegisterService() {
         if (registerService == null) {
             registerService = retrofit.create(IRegisterService.class);
