@@ -1,4 +1,4 @@
-package responses.register;
+package api.responses.register;
 
 import model.Account;
 

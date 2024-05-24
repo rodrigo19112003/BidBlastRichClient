@@ -10,11 +10,12 @@ public class BidBlastRichClient extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("views/SignUpView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/LoginView.fxml"));
         
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
+        stage.setTitle("Inicio de sesión");
         stage.show();
     }
 

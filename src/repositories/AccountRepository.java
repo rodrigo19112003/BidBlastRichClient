@@ -1,9 +1,8 @@
 package repositories;
 
 import api.ApiClient;
-import api.IEmptyProcessStatusListener;
-import requests.register.UserRegisterBody;
-import responses.register.UserRegisterJSONResponse;
+import api.requests.register.UserRegisterBody;
+import api.responses.register.UserRegisterJSONResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
