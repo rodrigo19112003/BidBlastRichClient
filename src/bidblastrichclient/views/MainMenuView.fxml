@@ -8,8 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="bidblastrichclient.controllers.MainMenuController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bidblastrichclient.controllers.MainMenuController">
    <children>
       <Pane prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #00086A;">
          <children>
@@ -25,5 +24,35 @@
             </Label>
          </children>
       </Pane>
+      <Button defaultButton="true" layoutX="30.0" layoutY="144.0" mnemonicParsing="false" onAction="#btnSearchAuctionClick" prefHeight="37.0" prefWidth="155.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Buscar subasta" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="30.0" layoutY="95.0" prefHeight="28.0" prefWidth="835.0" style="-fx-border-width: 0 0 1 0; -fx-border-color: black; -fx-padding: 0 4;" text="Subastas">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="30.0" layoutY="272.0" prefHeight="28.0" prefWidth="835.0" style="-fx-border-width: 0 0 1 0; -fx-border-color: black; -fx-padding: 0 4;" text="Compras y ventas">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button defaultButton="true" layoutX="30.0" layoutY="200.0" mnemonicParsing="false" onAction="#btnCreateAuctionClick" prefHeight="37.0" prefWidth="155.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Crear subasta" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button defaultButton="true" layoutX="30.0" layoutY="321.0" mnemonicParsing="false" onAction="#btnPurchasesClick" prefHeight="37.0" prefWidth="232.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Consultar mis compras" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button defaultButton="true" layoutX="30.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnSalesClick" prefHeight="37.0" prefWidth="232.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Consultar mis ventas" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
