@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -29,6 +30,10 @@ public class LoginController implements Initializable {
     private Label lblEmailError;
     @FXML
     private Label lblPasswordError;
+    @FXML
+    private Label lblLoadingLogin;
+    @FXML
+    private Button btnLogin;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -64,6 +69,7 @@ public class LoginController implements Initializable {
     }
     
     private void login() {
+        startLoginLoading();
         String email = tfEmail.getText().trim();
         String password = pfPassword.getText().trim();
         
@@ -81,6 +87,16 @@ public class LoginController implements Initializable {
                 }
             }
         );
+    }
+    
+    private void startLoginLoading() {
+        lblLoadingLogin.setVisible(true);
+        btnLogin.setDisable(true);
+    }
+    
+    private void endLoginLoading() {
+        lblLoadingLogin.setVisible(false);
+        btnLogin.setDisable(false);
     }
     
     private void redirectToMenu() {
@@ -102,6 +118,8 @@ public class LoginController implements Initializable {
     
     private void showLoginError(ProcessErrorCodes errorStatus) {
         Platform.runLater(() -> {
+            endLoginLoading();
+            
             String errorMessage;
             switch(errorStatus) {
                 case REQUEST_FORMAT_ERROR:
