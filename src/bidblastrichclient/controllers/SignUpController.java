@@ -1,6 +1,6 @@
 package bidblastrichclient.controllers;
 
-import api.IEmptyProcessStatusListener;
+import repositories.IEmptyProcessStatusListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import repositories.AccountRepository;
 import repositories.ProcessErrorCodes;
-import requests.register.UserRegisterBody;
+import api.requests.register.UserRegisterBody;
 
 
 public class SignUpController implements Initializable {
