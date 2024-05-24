@@ -5,8 +5,15 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import lib.Navigation;
 
 public class MainMenuController implements Initializable {
+
+    @FXML
+    private ImageView imgReturnToPreviousPage;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -14,6 +21,11 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void btnSearchAuctionClick(ActionEvent event) {
+        Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/SearchAuctionView.fxml"));
+        baseStage.setTitle("Buscar subasta");
+        baseStage.show();
     }
 
     @FXML
