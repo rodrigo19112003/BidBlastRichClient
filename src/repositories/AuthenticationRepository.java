@@ -39,7 +39,12 @@ public class AuthenticationRepository {
                         statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
                     }
                 } else {
-                    statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+                    System.out.println(response.code());
+                    if(response.code() == 400) {
+                        statusListener.onError(ProcessErrorCodes.REQUEST_FORMAT_ERROR);
+                    } else {
+                        statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+                    }
                 }
             }
 
