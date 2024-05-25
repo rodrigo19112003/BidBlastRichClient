@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="bidblastrichclient.controllers.PurchasingStatisticsController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="bidblastrichclient.controllers.SalesStatisticsController">
    <children>
       <Pane prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #00086A;">
          <children>

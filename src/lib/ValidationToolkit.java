@@ -19,6 +19,22 @@ public class ValidationToolkit {
         return isValidEmail;
     }
     
+    public static boolean areValidKeywords(String keywords){
+        boolean areValidKeywords = false;
+
+        if (keywords != null) {
+            String keywordsPattern = "^(\\w+\\s*,\\s*){2,}\\w+$";
+
+            Pattern pattern = Pattern.compile(keywordsPattern);
+            Matcher matcher = pattern.matcher(keywords);
+
+            areValidKeywords = matcher.matches();
+
+        }
+
+        return  areValidKeywords;
+    }
+    
     public static boolean isNumeric(String text) {
         boolean isNumeric = false;
         
