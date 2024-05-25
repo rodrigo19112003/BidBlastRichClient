@@ -303,7 +303,8 @@ public class SearchAuctionController implements Initializable {
         String limit = tfLimit.getText().trim();
         String offset = tfOffset.getText().trim();
         
-        boolean isValidLimit = limit.isEmpty() || ValidationToolkit.isNumeric(limit);
+        boolean isValidLimit = limit.isEmpty() 
+            || (ValidationToolkit.isNumeric(limit) && Integer.parseInt(limit) > 0);
         boolean isValidOffset = offset.isEmpty() || ValidationToolkit.isNumeric(offset);
         
         return isValidLimit && isValidOffset;
@@ -313,8 +314,9 @@ public class SearchAuctionController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Filtros inválidos");
         alert.setHeaderText(null);
-        alert.setContentText("Verifique que los valores ingresados en los campos"
-            + "offset y limit sean números enteros positivos");
+        alert.setContentText("Verifique que los valores ingresados en los campos "
+            + "offset y limit sean números enteros no negativos. Tome en cuenta "
+            + "que el valor mínimo aceptado de limit es 1");
         alert.showAndWait();
     }
 }
