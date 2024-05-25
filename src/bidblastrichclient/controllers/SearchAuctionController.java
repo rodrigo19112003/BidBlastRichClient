@@ -20,7 +20,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import lib.ImageToolkit;
 import model.AuctionCategory;
@@ -36,6 +35,9 @@ import java.util.Date;
 import lib.DateToolkit;
 import model.PriceRange;
 import java.util.Arrays;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import lib.Navigation;
 import lib.ValidationToolkit;
 
 public class SearchAuctionController implements Initializable {
@@ -51,8 +53,6 @@ public class SearchAuctionController implements Initializable {
     @FXML
     private TextField tfOffset;
     @FXML
-    private Pane pnAuctionsList;
-    @FXML
     private TableColumn colAuctionId;
     @FXML
     private TableColumn colAuctionTitle;
@@ -66,6 +66,8 @@ public class SearchAuctionController implements Initializable {
     private TableColumn<Auction, String> colLastOfferAmount;
     @FXML
     private TableView<Auction> tvAuctions;
+    @FXML
+    private ImageView imgReturnToPreviousPage;
     
     private ObservableList<AuctionCategory> allAuctionCategories;
     
@@ -318,5 +320,14 @@ public class SearchAuctionController implements Initializable {
             + "offset y limit sean números enteros no negativos. Tome en cuenta "
             + "que el valor mínimo aceptado de limit es 1");
         alert.showAndWait();
+    }
+
+    @FXML
+    private void imgReturnToPreviousPageClick(MouseEvent event) {
+        Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/MainMenuView.fxml"));
+        baseStage.setTitle("Menu principal");
+        baseStage.show();
     }
 }
