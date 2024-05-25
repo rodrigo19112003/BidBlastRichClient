@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bidblastrichclient.controllers.SearchAuctionController">
+   <children>
+      <Pane prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #00086A;">
+         <children>
+            <ImageView fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../resources/Arrow.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="52.0" layoutY="19.0" text="Buscar subastas" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <TextField fx:id="tfSearchQuery" layoutX="35.0" layoutY="124.0" prefHeight="33.0" prefWidth="369.0" promptText="Título o descripción de subasta" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="34.0" layoutY="99.0" text="Búsqueda">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbCategories" disable="true" layoutX="450.0" layoutY="124.0" prefHeight="35.0" prefWidth="184.0" promptText="Seleccione una categoría" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5; -fx-padding: 4 0;" />
+      <Label layoutX="450.0" layoutY="99.0" text="Filtrar por categorías">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="651.0" layoutY="100.0" text="Filtrar por precio">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbPriceRanges" layoutX="651.0" layoutY="124.0" prefHeight="35.0" prefWidth="216.0" promptText="Seleccione un rango de precios" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5; -fx-padding: 4 0;" />
+      <Label layoutX="34.0" layoutY="176.0" text="Limit">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfLimit" layoutX="34.0" layoutY="201.0" prefHeight="33.0" prefWidth="266.0" promptText="Cantidad de subastas a recuperar" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="tfOffset" layoutX="308.0" layoutY="201.0" prefHeight="33.0" prefWidth="266.0" promptText="Cantidad de subastas a omitir" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="308.0" layoutY="176.0" text="Offset">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Button defaultButton="true" layoutX="767.0" layoutY="199.0" mnemonicParsing="false" onAction="#btnSearchClick" prefHeight="37.0" prefWidth="100.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Buscar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Pane fx:id="pnAuctionsList" layoutX="35.0" layoutY="254.0" prefHeight="315.0" prefWidth="831.0">
+         <children>
+            <Label text="Subastas recuperadas">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tvAuctions" layoutY="29.0" prefHeight="288.0" prefWidth="832.0">
+              <columns>
+                <TableColumn fx:id="colAuctionId" prefWidth="34.0" text="ID" />
+                <TableColumn fx:id="colAuctionTitle" prefWidth="204.0" text="Título" />
+                  <TableColumn fx:id="colAuctionClosingDate" prefWidth="183.0" text="Cierre de subasta" />
+                  <TableColumn fx:id="colAuctionImage" prefWidth="158.0" text="Imagen de portada" />
+                  <TableColumn fx:id="colAuctioneerName" prefWidth="170.0" text="Subastador" />
+                  <TableColumn fx:id="colLastOfferAmount" prefWidth="82.0" text="Última oferta" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
