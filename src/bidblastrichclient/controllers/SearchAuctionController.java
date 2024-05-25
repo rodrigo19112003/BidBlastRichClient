@@ -179,28 +179,15 @@ public class SearchAuctionController implements Initializable {
     }
     
     private void loadAuctions() {
-        int minimumPrice = 0, 
-            maximumPrice = Integer.MAX_VALUE,
-            limit = 10,
-            offset = 0;
-        String searchQuery = "",
-            categories = "";
-        /*PriceRange priceFilter = priceFilterSelected.getValue();
-        if(priceFilter != null) {
-            if(priceFilter.getMinimumAmount() != Float.NEGATIVE_INFINITY) {
-                minimumPrice = (int)priceFilter.getMinimumAmount();
-            }
-
-            if(priceFilter.getMaximumAmount() != Float.POSITIVE_INFINITY) {
-                maximumPrice = (int)priceFilter.getMaximumAmount();
-            }
-        }*/
+        int minimumPrice = getMinimumPriceFilterValue(), 
+            maximumPrice = getMaximumPriceFilterValue(),
+            limit = getLimitFilterValue(),
+            offset = getOffsetFilterValue();
+        String searchQuery = tfSearchQuery.getText().trim(),
+            categories = getCategoryFilterValue();
 
         new AuctionsRepository().getAuctionsList(
-            searchQuery, limit, offset,
-            //ApiFormatter.parseToPlainMultiValueParam(categoryFiltersSelected.getValue()),
-            categories,
-            minimumPrice, maximumPrice,
+            searchQuery, limit, offset, categories, minimumPrice, maximumPrice,
             new IProcessStatusListener<List<Auction>>() {
                 @Override
                 public void onSuccess(List<Auction> auctions) {
@@ -226,6 +213,65 @@ public class SearchAuctionController implements Initializable {
         );
     }
     
+    private int getMinimumPriceFilterValue() {
+        int minimumPrice = 0;
+        
+        PriceRange priceFilter = cbPriceRanges.getSelectionModel().getSelectedItem();
+        if(priceFilter != null) {
+            if(priceFilter.getMinimumAmount() != Float.NEGATIVE_INFINITY) {
+                minimumPrice = (int)priceFilter.getMinimumAmount();
+            }
+        }
+        
+        return minimumPrice;
+    }
+    
+    private int getMaximumPriceFilterValue() {
+        int maximumPrice = Integer.MAX_VALUE;
+        
+        PriceRange priceFilter = cbPriceRanges.getSelectionModel().getSelectedItem();
+        if(priceFilter != null) {
+            if(priceFilter.getMaximumAmount() != Float.POSITIVE_INFINITY) {
+                maximumPrice = (int)priceFilter.getMaximumAmount();
+            }
+        }
+        
+        return maximumPrice;
+    }
+    
+    private int getLimitFilterValue() {
+        int limit = 10;
+        
+        String limitValue = tfLimit.getText().trim();
+        if(ValidationToolkit.isNumeric(limitValue)) {
+            limit = Integer.parseInt(limitValue);
+        }
+        
+        return limit;
+    }
+    
+    private int getOffsetFilterValue() {
+        int offset = 0;
+        
+        String offsetValue = tfOffset.getText().trim();
+        if(ValidationToolkit.isNumeric(offsetValue)) {
+            offset = Integer.parseInt(offsetValue);
+        }
+        
+        return offset;
+    }
+    
+    private String getCategoryFilterValue() {
+        String categoryValue = "";
+        
+        AuctionCategory selectedCategory = cbCategories.getSelectionModel().getSelectedItem();
+        if(selectedCategory != null) {
+            categoryValue = String.valueOf(selectedCategory.getId());
+        }
+        
+        return categoryValue;
+    }
+    
     private void loadPriceRanges() {
         allPriceRanges = FXCollections.observableArrayList();
         allPriceRanges.addAll(
@@ -240,7 +286,6 @@ public class SearchAuctionController implements Initializable {
             ))
         );
         cbPriceRanges.setItems(allPriceRanges);
-        
     }
 
     @FXML
