@@ -18,4 +18,19 @@ public class ValidationToolkit {
 
         return isValidEmail;
     }
+    
+    public static boolean isNumeric(String text) {
+        boolean isNumeric = false;
+        
+        if (text != null) {
+            String numericPattern = "^[0-9]+$";
+
+            Pattern pattern = Pattern.compile(numericPattern);
+            Matcher matcher = pattern.matcher(text);
+
+            isNumeric = matcher.matches();
+        }
+        
+        return isNumeric;
+    }
 }

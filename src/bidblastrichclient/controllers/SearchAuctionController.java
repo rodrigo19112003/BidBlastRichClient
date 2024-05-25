@@ -1,6 +1,7 @@
 package bidblastrichclient.controllers;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -33,6 +34,9 @@ import model.Offer;
 import model.User;
 import java.util.Date;
 import lib.DateToolkit;
+import model.PriceRange;
+import java.util.Arrays;
+import lib.ValidationToolkit;
 
 public class SearchAuctionController implements Initializable {
 
@@ -41,7 +45,7 @@ public class SearchAuctionController implements Initializable {
     @FXML
     private ComboBox<AuctionCategory> cbCategories;
     @FXML
-    private ComboBox<?> cbPriceRanges;
+    private ComboBox<PriceRange> cbPriceRanges;
     @FXML
     private TextField tfLimit;
     @FXML
@@ -63,13 +67,16 @@ public class SearchAuctionController implements Initializable {
     @FXML
     private TableView<Auction> tvAuctions;
     
-    private ObservableList<AuctionCategory> auctionCategories;
+    private ObservableList<AuctionCategory> allAuctionCategories;
     
     private ObservableList<Auction> allAuctions;
+    
+    private ObservableList<PriceRange> allPriceRanges;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configureAuctionsTable();
+        loadPriceRanges();
         loadAllAuctionCategories();
         loadAuctions();
     }
@@ -146,9 +153,9 @@ public class SearchAuctionController implements Initializable {
                 @Override
                 public void onSuccess(List<AuctionCategory> categories) {
                     Platform.runLater(() -> {
-                        auctionCategories = FXCollections.observableArrayList();
-                        auctionCategories.addAll(categories);
-                        cbCategories.setItems(auctionCategories);
+                        allAuctionCategories = FXCollections.observableArrayList();
+                        allAuctionCategories.addAll(categories);
+                        cbCategories.setItems(allAuctionCategories);
                         
                         cbCategories.setDisable(false);
                     });
@@ -218,8 +225,51 @@ public class SearchAuctionController implements Initializable {
             }
         );
     }
+    
+    private void loadPriceRanges() {
+        allPriceRanges = FXCollections.observableArrayList();
+        allPriceRanges.addAll(
+            new ArrayList<>(Arrays.asList(
+                new PriceRange("Menos de $100", Float.NEGATIVE_INFINITY, 100.0f),
+                new PriceRange("$100 a menos de $200", 100.0f, 200.0f),
+                new PriceRange("$200 a menos de $300", 200.0f, 300.0f),
+                new PriceRange("$300 a menos de $500", 300.0f, 500.0f),
+                new PriceRange("$500 a menos de $750", 500.0f, 750.0f),
+                new PriceRange("$750 a menos de $1000", 750.0f, 1000.0f),
+                new PriceRange("$1000 o más", 1000.0f, Float.POSITIVE_INFINITY)
+            ))
+        );
+        cbPriceRanges.setItems(allPriceRanges);
+        
+    }
 
     @FXML
     private void btnSearchClick(ActionEvent event) {
+        boolean validFilters = validateFiltersValues();
+        
+        if(!validFilters) {
+            showInvalidFiltersValuesError();
+        } else {
+            loadAuctions();
+        }
+    }
+    
+    private boolean validateFiltersValues() {
+        String limit = tfLimit.getText().trim();
+        String offset = tfOffset.getText().trim();
+        
+        boolean isValidLimit = limit.isEmpty() || ValidationToolkit.isNumeric(limit);
+        boolean isValidOffset = offset.isEmpty() || ValidationToolkit.isNumeric(offset);
+        
+        return isValidLimit && isValidOffset;
+    }
+    
+    private void showInvalidFiltersValuesError() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Filtros inválidos");
+        alert.setHeaderText(null);
+        alert.setContentText("Verifique que los valores ingresados en los campos"
+            + "offset y limit sean números enteros positivos");
+        alert.showAndWait();
     }
 }
