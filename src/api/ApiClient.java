@@ -12,6 +12,7 @@ public class ApiClient {
     private IAuthenticationService authenticationService;
     private IRegisterService registerService;
     private IAuctionCategoriesService auctionCategoriesService;
+    private IAuctionsService auctionsService;
 
     public static ApiClient getInstance() {
         return apiClient;
@@ -37,6 +38,14 @@ public class ApiClient {
             registerService = retrofit.create(IRegisterService.class);
         }
         return registerService;
+    }
+    
+    public IAuctionsService getAuctionsService() {
+        if (auctionsService == null) {
+            auctionsService = retrofit.create(IAuctionsService.class);
+        }
+
+        return auctionsService;
     }
     
     public IAuctionCategoriesService getAuctionCategoriesService() {
