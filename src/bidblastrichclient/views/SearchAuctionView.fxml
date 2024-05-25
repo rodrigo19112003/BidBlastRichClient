@@ -34,7 +34,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cbCategories" layoutX="450.0" layoutY="124.0" prefHeight="35.0" prefWidth="184.0" promptText="Seleccione una categoría" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5; -fx-padding: 4 0;" />
+      <ComboBox fx:id="cbCategories" disable="true" layoutX="450.0" layoutY="124.0" prefHeight="35.0" prefWidth="184.0" promptText="Seleccione una categoría" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5; -fx-padding: 4 0;" />
       <Label layoutX="450.0" layoutY="99.0" text="Filtrar por categorías">
          <font>
             <Font name="System Bold" size="16.0" />
