@@ -1,6 +1,7 @@
 package bidblastrichclient.controllers;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -19,7 +20,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import lib.ImageToolkit;
 import model.AuctionCategory;
@@ -33,6 +33,12 @@ import model.Offer;
 import model.User;
 import java.util.Date;
 import lib.DateToolkit;
+import model.PriceRange;
+import java.util.Arrays;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import lib.Navigation;
+import lib.ValidationToolkit;
 
 public class SearchAuctionController implements Initializable {
 
@@ -41,13 +47,11 @@ public class SearchAuctionController implements Initializable {
     @FXML
     private ComboBox<AuctionCategory> cbCategories;
     @FXML
-    private ComboBox<?> cbPriceRanges;
+    private ComboBox<PriceRange> cbPriceRanges;
     @FXML
     private TextField tfLimit;
     @FXML
     private TextField tfOffset;
-    @FXML
-    private Pane pnAuctionsList;
     @FXML
     private TableColumn colAuctionId;
     @FXML
@@ -62,14 +66,19 @@ public class SearchAuctionController implements Initializable {
     private TableColumn<Auction, String> colLastOfferAmount;
     @FXML
     private TableView<Auction> tvAuctions;
+    @FXML
+    private ImageView imgReturnToPreviousPage;
     
-    private ObservableList<AuctionCategory> auctionCategories;
+    private ObservableList<AuctionCategory> allAuctionCategories;
     
     private ObservableList<Auction> allAuctions;
+    
+    private ObservableList<PriceRange> allPriceRanges;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configureAuctionsTable();
+        loadPriceRanges();
         loadAllAuctionCategories();
         loadAuctions();
     }
@@ -146,9 +155,9 @@ public class SearchAuctionController implements Initializable {
                 @Override
                 public void onSuccess(List<AuctionCategory> categories) {
                     Platform.runLater(() -> {
-                        auctionCategories = FXCollections.observableArrayList();
-                        auctionCategories.addAll(categories);
-                        cbCategories.setItems(auctionCategories);
+                        allAuctionCategories = FXCollections.observableArrayList();
+                        allAuctionCategories.addAll(categories);
+                        cbCategories.setItems(allAuctionCategories);
                         
                         cbCategories.setDisable(false);
                     });
@@ -172,28 +181,15 @@ public class SearchAuctionController implements Initializable {
     }
     
     private void loadAuctions() {
-        int minimumPrice = 0, 
-            maximumPrice = Integer.MAX_VALUE,
-            limit = 10,
-            offset = 0;
-        String searchQuery = "",
-            categories = "";
-        /*PriceRange priceFilter = priceFilterSelected.getValue();
-        if(priceFilter != null) {
-            if(priceFilter.getMinimumAmount() != Float.NEGATIVE_INFINITY) {
-                minimumPrice = (int)priceFilter.getMinimumAmount();
-            }
-
-            if(priceFilter.getMaximumAmount() != Float.POSITIVE_INFINITY) {
-                maximumPrice = (int)priceFilter.getMaximumAmount();
-            }
-        }*/
+        int minimumPrice = getMinimumPriceFilterValue(), 
+            maximumPrice = getMaximumPriceFilterValue(),
+            limit = getLimitFilterValue(),
+            offset = getOffsetFilterValue();
+        String searchQuery = tfSearchQuery.getText().trim(),
+            categories = getCategoryFilterValue();
 
         new AuctionsRepository().getAuctionsList(
-            searchQuery, limit, offset,
-            //ApiFormatter.parseToPlainMultiValueParam(categoryFiltersSelected.getValue()),
-            categories,
-            minimumPrice, maximumPrice,
+            searchQuery, limit, offset, categories, minimumPrice, maximumPrice,
             new IProcessStatusListener<List<Auction>>() {
                 @Override
                 public void onSuccess(List<Auction> auctions) {
@@ -218,8 +214,120 @@ public class SearchAuctionController implements Initializable {
             }
         );
     }
+    
+    private int getMinimumPriceFilterValue() {
+        int minimumPrice = 0;
+        
+        PriceRange priceFilter = cbPriceRanges.getSelectionModel().getSelectedItem();
+        if(priceFilter != null) {
+            if(priceFilter.getMinimumAmount() != Float.NEGATIVE_INFINITY) {
+                minimumPrice = (int)priceFilter.getMinimumAmount();
+            }
+        }
+        
+        return minimumPrice;
+    }
+    
+    private int getMaximumPriceFilterValue() {
+        int maximumPrice = Integer.MAX_VALUE;
+        
+        PriceRange priceFilter = cbPriceRanges.getSelectionModel().getSelectedItem();
+        if(priceFilter != null) {
+            if(priceFilter.getMaximumAmount() != Float.POSITIVE_INFINITY) {
+                maximumPrice = (int)priceFilter.getMaximumAmount();
+            }
+        }
+        
+        return maximumPrice;
+    }
+    
+    private int getLimitFilterValue() {
+        int limit = 10;
+        
+        String limitValue = tfLimit.getText().trim();
+        if(ValidationToolkit.isNumeric(limitValue)) {
+            limit = Integer.parseInt(limitValue);
+        }
+        
+        return limit;
+    }
+    
+    private int getOffsetFilterValue() {
+        int offset = 0;
+        
+        String offsetValue = tfOffset.getText().trim();
+        if(ValidationToolkit.isNumeric(offsetValue)) {
+            offset = Integer.parseInt(offsetValue);
+        }
+        
+        return offset;
+    }
+    
+    private String getCategoryFilterValue() {
+        String categoryValue = "";
+        
+        AuctionCategory selectedCategory = cbCategories.getSelectionModel().getSelectedItem();
+        if(selectedCategory != null) {
+            categoryValue = String.valueOf(selectedCategory.getId());
+        }
+        
+        return categoryValue;
+    }
+    
+    private void loadPriceRanges() {
+        allPriceRanges = FXCollections.observableArrayList();
+        allPriceRanges.addAll(
+            new ArrayList<>(Arrays.asList(
+                new PriceRange("Menos de $100", Float.NEGATIVE_INFINITY, 100.0f),
+                new PriceRange("$100 a menos de $200", 100.0f, 200.0f),
+                new PriceRange("$200 a menos de $300", 200.0f, 300.0f),
+                new PriceRange("$300 a menos de $500", 300.0f, 500.0f),
+                new PriceRange("$500 a menos de $750", 500.0f, 750.0f),
+                new PriceRange("$750 a menos de $1000", 750.0f, 1000.0f),
+                new PriceRange("$1000 o más", 1000.0f, Float.POSITIVE_INFINITY)
+            ))
+        );
+        cbPriceRanges.setItems(allPriceRanges);
+    }
 
     @FXML
     private void btnSearchClick(ActionEvent event) {
+        boolean validFilters = validateFiltersValues();
+        
+        if(!validFilters) {
+            showInvalidFiltersValuesError();
+        } else {
+            loadAuctions();
+        }
+    }
+    
+    private boolean validateFiltersValues() {
+        String limit = tfLimit.getText().trim();
+        String offset = tfOffset.getText().trim();
+        
+        boolean isValidLimit = limit.isEmpty() 
+            || (ValidationToolkit.isNumeric(limit) && Integer.parseInt(limit) > 0);
+        boolean isValidOffset = offset.isEmpty() || ValidationToolkit.isNumeric(offset);
+        
+        return isValidLimit && isValidOffset;
+    }
+    
+    private void showInvalidFiltersValuesError() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Filtros inválidos");
+        alert.setHeaderText(null);
+        alert.setContentText("Verifique que los valores ingresados en los campos "
+            + "offset y limit sean números enteros no negativos. Tome en cuenta "
+            + "que el valor mínimo aceptado de limit es 1");
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void imgReturnToPreviousPageClick(MouseEvent event) {
+        Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/MainMenuView.fxml"));
+        baseStage.setTitle("Menu principal");
+        baseStage.show();
     }
 }
