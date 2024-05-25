@@ -108,7 +108,7 @@ public class LoginController implements Initializable {
                 baseStage.setScene(Navigation.startScene("views/ModeratorMenuView.fxml"));
                 baseStage.setTitle("Panel administrativo");
             } else {
-                baseStage.setScene(Navigation.startScene("views/MainMenuView.fxml"));
+                baseStage.setScene(Navigation.startScene("views/SalesStatisticsView.fxml"));
                 baseStage.setTitle("Menu principal");
             }
 

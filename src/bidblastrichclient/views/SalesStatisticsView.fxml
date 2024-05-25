@@ -9,8 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="bidblastrichclient.controllers.SalesStatisticsController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bidblastrichclient.controllers.SalesStatisticsController">
    <children>
       <Pane prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #00086A;">
          <children>
@@ -19,45 +18,70 @@
                   <Image url="@../resources/Arrow.png" />
                </image>
             </ImageView>
-            <Label layoutX="52.0" layoutY="19.0" text="Estadísticas de compras" textFill="WHITE">
+            <Label layoutX="52.0" layoutY="19.0" text="Estadísticas de ventas" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <DatePicker fx:id="dpFechaInicio" editable="false" layoutX="279.0" layoutY="103.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="112.0" />
-      <DatePicker fx:id="dpFechaFin" editable="false" layoutX="394.0" layoutY="103.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="112.0" />
+      <DatePicker fx:id="dpStartDate" editable="false" layoutX="279.0" layoutY="103.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="112.0" />
+      <DatePicker fx:id="dpEndDate" editable="false" layoutX="394.0" layoutY="103.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="112.0" />
       <Label layoutX="44.0" layoutY="103.0" text="Seleccione un rango de fechas">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <BarChart layoutX="51.0" layoutY="152.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="320.0" prefWidth="400.0">
+      <BarChart fx:id="bcSoldAuctions" layoutX="51.0" layoutY="170.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="352.0" prefWidth="400.0">
         <xAxis>
-          <CategoryAxis />
+            <CategoryAxis label="Subastas vendidas" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+            <NumberAxis label="Precio" />
         </yAxis>
       </BarChart>
-      <PieChart layoutX="451.0" layoutY="152.0" prefHeight="320.0" prefWidth="400.0" />
-      <Label layoutX="44.0" layoutY="490.0" text="Día de compras destacado: 29 de febrero 2024">
+      <PieChart fx:id="pcSalesAuctionsCategories" layoutX="451.0" layoutY="202.0" prefHeight="320.0" prefWidth="400.0" />
+      <Label layoutX="44.0" layoutY="518.0" text="Día de compras destacado:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="44.0" layoutY="517.0" text="¡Muchas felicidades! en este día lograste concretar 12 subastas, generando un gasto total de:">
+      <Label fx:id="lblTotalAuctions" layoutX="44.0" layoutY="536.0" text="¡Muchas felicidades! en este día lograste concretar 12 subastas, generando un gasto total de:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="702.0" layoutY="517.0" text="\$5,789 MXN">
+      <Label fx:id="lblAmount" layoutX="702.0" layoutY="536.0" text="\$5,789 MXN">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="44.0" layoutY="542.0" text="¡Sigue comprando en BidBlast!">
+      <Label layoutX="44.0" layoutY="554.0" text="¡Sigue comprando en BidBlast!">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnFilterDates" layoutX="532.0" layoutY="98.0" mnemonicParsing="false" onAction="#btnFilterDatesClick" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Filtrar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="52.0" layoutY="143.0" text="Total de ganacias obtenidas:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblProfitsEarned" layoutX="261.0" layoutY="143.0" text="\$">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblFeaturedDay" layoutX="240.0" layoutY="518.0" text="29 de febrero 2024">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="578.0" layoutY="143.0" text="Categorías de ventas">
          <font>
             <Font size="16.0" />
          </font>
