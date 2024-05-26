@@ -20,11 +20,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import lib.CurrencyToolkit;
 import lib.DateToolkit;
 import lib.ImageToolkit;
 import lib.Navigation;
@@ -43,7 +41,7 @@ public class CompletedAuctionsListController implements Initializable {
     @FXML
     private TableView<Auction> tvCompletedAuctions;
     @FXML
-    private TableColumn<?, ?> colAuctionTitle;
+    private TableColumn<Auction, String> colAuctionTitle;
     @FXML
     private TableColumn<Auction, Image> colAuctioneerAvatar;
     @FXML
