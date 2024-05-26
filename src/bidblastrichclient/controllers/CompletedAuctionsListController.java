@@ -18,6 +18,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -46,6 +48,10 @@ public class CompletedAuctionsListController implements Initializable {
     private TableColumn<Auction, Image> colAuctioneerAvatar;
     @FXML
     private TableColumn<Auction, String> colAuctioneerFullName;
+    @FXML
+    private TableColumn<Auction, String> colEmail;
+    @FXML
+    private TableColumn<Auction, String> colPhoneNumber;
     @FXML
     private TableColumn<Auction, Image> colAuctionImage;
     @FXML
@@ -80,11 +86,25 @@ public class CompletedAuctionsListController implements Initializable {
                 auctioneer != null ? auctioneer.getFullName() : "NA"
             );
         });
+        colEmail.setCellValueFactory(cellData -> {
+            String email = cellData.getValue().getAuctioneer().getEmail();
+            
+            return new SimpleStringProperty(
+                email != null ? email : "NA"
+            );
+        });
+        colPhoneNumber.setCellValueFactory(cellData -> {
+            String phoneNumber = cellData.getValue().getAuctioneer().getPhoneNumber();
+            
+            return new SimpleStringProperty(
+                phoneNumber != null ? phoneNumber : "NA"
+            );
+        });
         colPrice.setCellValueFactory(cellData -> {
             float price = cellData.getValue().getLastOffer().getAmount();
             
             return new SimpleStringProperty(
-                    CurrencyToolkit.parseToMXN(price)
+                    "$" + price
             );
         });
         configureAuctionesAvatarColumn();
@@ -230,12 +250,63 @@ public class CompletedAuctionsListController implements Initializable {
 
     @FXML
     private void imgCopyEmailClick(MouseEvent event) {
-        
+        Auction auction = tvCompletedAuctions.getSelectionModel().getSelectedItem();
+        if(auction != null){
+            String email = auction.getAuctioneer().getEmail();
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            ClipboardContent content = new ClipboardContent();
+            content.putString(email);
+            clipboard.setContent(content);
+            
+             Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Correo electrónico copiado");
+            alert.setHeaderText(null);
+            alert.setContentText("El correo electrónico: " + email + " se ha "
+                    + "copiado al portapapeles");
+            alert.showAndWait();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Seleccione una subasta");
+            alert.setHeaderText(null);
+            alert.setContentText("Seleccione una subasta de la lista para copiar"
+                    + " el correo electrónico del subastador");
+            alert.showAndWait();
+        }
     }
 
     @FXML
-    private void imgCopyPhoneNumberClick(ContextMenuEvent event) {
-        
+    private void imgCopyPhoneNumberClick(MouseEvent event) {
+        Auction auction = tvCompletedAuctions.getSelectionModel().getSelectedItem();
+        if(auction != null){
+            if (auction.getAuctioneer().getPhoneNumber() != null) {
+                String phoneNumber = auction.getAuctioneer().getPhoneNumber();
+                Clipboard clipboard = Clipboard.getSystemClipboard();
+                ClipboardContent content = new ClipboardContent();
+                content.putString(phoneNumber);
+                clipboard.setContent(content);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Número de teléfono copiado copiado");
+                alert.setHeaderText(null);
+                alert.setContentText("El número de teléfono: " + phoneNumber + " se "
+                        + "ha copiado al portapapeles");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("No tiene un número de teléfono");
+                alert.setHeaderText(null);
+                alert.setContentText("El subastador no tiene un número de teléfono"
+                        + " registrado");
+                alert.showAndWait();
+            }
+        }else{
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Seleccione una subasta");
+            alert.setHeaderText(null);
+            alert.setContentText("Seleccione una subasta de la lista para copiar"
+                    + " el número de teléfono del subastador");
+            alert.showAndWait();
+        }
     }
 
     @FXML

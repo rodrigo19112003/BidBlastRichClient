@@ -36,12 +36,14 @@
       </ImageView>
       <TableView fx:id="tvCompletedAuctions" layoutX="64.0" layoutY="201.0" prefHeight="344.0" prefWidth="772.0">
         <columns>
-          <TableColumn fx:id="colAuctioneerAvatar" prefWidth="137.0" text="Avatar del vendedor" />
-          <TableColumn fx:id="colAuctioneerFullName" prefWidth="151.0" text="Nombre del vendedor" />
-            <TableColumn fx:id="colAuctionTitle" prefWidth="183.0" text="Título del artículo" />
-            <TableColumn fx:id="colAuctionImage" prefWidth="117.0" text="Imagen del artículo" />
-            <TableColumn fx:id="colPurchaseDate" minWidth="0.0" prefWidth="109.0" text="Fecha de compra" />
-            <TableColumn fx:id="colPrice" prefWidth="74.0" text="Precio" />
+          <TableColumn fx:id="colAuctioneerAvatar" prefWidth="90.0" text="Avatar del vendedor" />
+          <TableColumn fx:id="colAuctioneerFullName" prefWidth="125.0" text="Nombre del vendedor" />
+            <TableColumn fx:id="colEmail" prefWidth="99.0" text="Correo electrónico" />
+            <TableColumn fx:id="colPhoneNumber" prefWidth="91.0" text="Número de teléfono" />
+            <TableColumn fx:id="colAuctionTitle" prefWidth="83.0" text="Título del artículo" />
+            <TableColumn fx:id="colAuctionImage" prefWidth="100.0" text="Imagen del artículo" />
+            <TableColumn fx:id="colPurchaseDate" minWidth="0.0" prefWidth="94.0" text="Fecha de compra" />
+            <TableColumn fx:id="colPrice" prefWidth="89.0" text="Precio" />
         </columns>
       </TableView>
       <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="760.0" layoutY="169.0" onMouseClicked="#imgCopyEmailClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
@@ -49,7 +51,7 @@
             <Image url="@../resources/Email.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="800.0" layoutY="168.0" onContextMenuRequested="#imgCopyPhoneNumberClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="800.0" layoutY="168.0" onMouseClicked="#imgCopyPhoneNumberClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
          <image>
             <Image url="@../resources/Phone.png" />
          </image>
