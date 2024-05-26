@@ -104,6 +104,7 @@ public class CreatedAuctionsListController implements Initializable {
     @FXML
     private TextField tfOffset;
     private ObservableList<Auction> createdAuctions;
+    private ObservableList<Auction> proposedAuctions;
     private ObservableList<Auction> soldAuctions;
     private static final String STATE_PROPOSED = "PROPUESTA";
     private static final String STATE_PUBLISHED = "PUBLICADA";
@@ -114,8 +115,74 @@ public class CreatedAuctionsListController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        configureProposedAuctionsTable();
         configureSoldAuctionsTable();
         loadCreatedAuctions();
+    }
+    
+    private void configureProposedAuctionsTable() {
+        colAuctionTitleOnProposed.setCellValueFactory(new PropertyValueFactory("title"));
+        colProposedTime.setCellValueFactory(cellData -> {
+            int proposedTime = cellData.getValue().getDaysAvailable();
+            
+            return new SimpleStringProperty(
+                "Propuesta para " + proposedTime + " días"
+            );
+        });
+        colBasePrice.setCellValueFactory(cellData -> {
+            float basePrice = cellData.getValue().getBasePrice();
+            
+            return new SimpleStringProperty(
+                    "$" + basePrice
+            );
+        });
+        colMinimumBid.setCellValueFactory(cellData -> {
+            float minimumBid = cellData.getValue().getMinimumBid();
+            
+            return new SimpleStringProperty(
+                "$" + minimumBid
+            );
+        });
+        configureAuctionImageOnProposedColumn();
+    }
+    
+    private void configureAuctionImageOnProposedColumn() {
+        colAuctionImageOnProposed.setCellValueFactory(cellData -> {
+            HypermediaFile defaultAuctionImage = 
+                cellData.getValue().getMediaFiles().isEmpty() 
+                    ? null 
+                    : cellData.getValue().getMediaFiles().get(0);
+            
+            if (defaultAuctionImage != null) {
+                Image jfxImage = 
+                    ImageToolkit.decodeBase64ToImage(defaultAuctionImage.getContent());
+                return new javafx.beans.property.SimpleObjectProperty<>(jfxImage);
+            }
+            return new javafx.beans.property.SimpleObjectProperty<>(null);
+        });
+
+        colAuctionImageOnProposed.setCellFactory(new Callback<TableColumn<Auction, Image>, TableCell<Auction, Image>>() {
+            @Override
+            public TableCell<Auction, Image> call(TableColumn<Auction, Image> param) {
+                return new TableCell<Auction, Image>() {
+                    private final ImageView imageView = new ImageView();
+
+                    @Override
+                    protected void updateItem(Image item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setGraphic(null);
+                        } else {
+                            imageView.setImage(item);
+                            imageView.setFitWidth(50);
+                            imageView.setFitHeight(50 * item.getHeight() / item.getWidth());
+                            setGraphic(imageView);
+                            setStyle("-fx-alignment: CENTER;");
+                        }
+                    }
+                };
+            }
+        });
     }
     
     private void configureSoldAuctionsTable() {
@@ -249,16 +316,21 @@ public class CreatedAuctionsListController implements Initializable {
                 public void onSuccess(List<Auction> auctions) {
                     Platform.runLater(() -> {
                         createdAuctions = FXCollections.observableArrayList();
+                        proposedAuctions = FXCollections.observableArrayList();
                         soldAuctions = FXCollections.observableArrayList();
                         createdAuctions.addAll(auctions);
                         for (Auction auction: createdAuctions) {
                             if (auction.getAuctionState().equals(STATE_CONCRETE) ||
                                     auction.getAuctionState().equals(STATE_FINISHED)) {
-                                soldAuctions.addAll(auction);
+                                soldAuctions.add(auction);
+                            }
+                            if (auction.getAuctionState().equals(STATE_PROPOSED)) {
+                                proposedAuctions.add(auction);
                             }
                         }
                         
                         tvSoldAuctions.setItems(soldAuctions);
+                        tvProposedAuctions.setItems(proposedAuctions);
                     });
                 }
 
@@ -372,7 +444,7 @@ public class CreatedAuctionsListController implements Initializable {
          Auction auction = tvSoldAuctions.getSelectionModel().getSelectedItem();
         if(auction != null){
             if (auction.getLastOffer().getCustomer().getPhoneNumber() != null) {
-                String phoneNumber = auction.getAuctioneer().getPhoneNumber();
+                String phoneNumber = auction.getLastOffer().getCustomer().getPhoneNumber();
                 Clipboard clipboard = Clipboard.getSystemClipboard();
                 ClipboardContent content = new ClipboardContent();
                 content.putString(phoneNumber);
@@ -406,5 +478,4 @@ public class CreatedAuctionsListController implements Initializable {
     private void btnSeeOffersMadeClick(ActionEvent event) {
         
     }
-    
 }
