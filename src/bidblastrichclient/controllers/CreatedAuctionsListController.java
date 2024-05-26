@@ -30,6 +30,7 @@ import lib.Navigation;
 import lib.ValidationToolkit;
 import model.Auction;
 import model.HypermediaFile;
+import model.Offer;
 import model.User;
 import repositories.AuctionsRepository;
 import repositories.IProcessStatusListener;
@@ -105,6 +106,7 @@ public class CreatedAuctionsListController implements Initializable {
     private TextField tfOffset;
     private ObservableList<Auction> createdAuctions;
     private ObservableList<Auction> proposedAuctions;
+    private ObservableList<Auction> publishedAuctions;
     private ObservableList<Auction> soldAuctions;
     private static final String STATE_PROPOSED = "PROPUESTA";
     private static final String STATE_PUBLISHED = "PUBLICADA";
@@ -116,6 +118,7 @@ public class CreatedAuctionsListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configureProposedAuctionsTable();
+        configurePublishedAuctionsTable();
         configureSoldAuctionsTable();
         loadCreatedAuctions();
     }
@@ -162,6 +165,81 @@ public class CreatedAuctionsListController implements Initializable {
         });
 
         colAuctionImageOnProposed.setCellFactory(new Callback<TableColumn<Auction, Image>, TableCell<Auction, Image>>() {
+            @Override
+            public TableCell<Auction, Image> call(TableColumn<Auction, Image> param) {
+                return new TableCell<Auction, Image>() {
+                    private final ImageView imageView = new ImageView();
+
+                    @Override
+                    protected void updateItem(Image item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setGraphic(null);
+                        } else {
+                            imageView.setImage(item);
+                            imageView.setFitWidth(50);
+                            imageView.setFitHeight(50 * item.getHeight() / item.getWidth());
+                            setGraphic(imageView);
+                            setStyle("-fx-alignment: CENTER;");
+                        }
+                    }
+                };
+            }
+        });
+    }
+    
+    private void configurePublishedAuctionsTable() {
+        colAuctionTitleOnPublished.setCellValueFactory(new PropertyValueFactory("title"));
+        colProposedTime.setCellValueFactory(cellData -> {
+            int proposedTime = cellData.getValue().getDaysAvailable();
+            
+            return new SimpleStringProperty(
+                "Propuesta para " + proposedTime + " días"
+            );
+        });
+        colTimeLeft.setCellValueFactory(cellData -> {
+            Date timeLeft = cellData.getValue().getClosesAt();
+            
+            return new SimpleStringProperty(
+                DateToolkit.parseToFullDateWithHour(timeLeft)
+            );
+        });
+        colLastOffer.setCellValueFactory(cellData -> {
+            Offer lastOffer = 
+                    cellData.getValue().getLastOffer() == null
+                    ? null
+                    : cellData.getValue().getLastOffer();
+            
+            float amountLastOffer;
+            if (lastOffer != null) {
+                amountLastOffer = lastOffer.getAmount();
+            } else {
+                amountLastOffer = -1;
+            }
+            
+            return new SimpleStringProperty(
+                amountLastOffer != -1 ? "$" + amountLastOffer : "No hay ofertas aún"
+            );
+        });
+        configureAuctionImageOnPublishedColumn();
+    }
+    
+    private void configureAuctionImageOnPublishedColumn() {
+        colAuctionImageOnPublished.setCellValueFactory(cellData -> {
+            HypermediaFile defaultAuctionImage = 
+                cellData.getValue().getMediaFiles().isEmpty() 
+                    ? null 
+                    : cellData.getValue().getMediaFiles().get(0);
+            
+            if (defaultAuctionImage != null) {
+                Image jfxImage = 
+                    ImageToolkit.decodeBase64ToImage(defaultAuctionImage.getContent());
+                return new javafx.beans.property.SimpleObjectProperty<>(jfxImage);
+            }
+            return new javafx.beans.property.SimpleObjectProperty<>(null);
+        });
+
+        colAuctionImageOnPublished.setCellFactory(new Callback<TableColumn<Auction, Image>, TableCell<Auction, Image>>() {
             @Override
             public TableCell<Auction, Image> call(TableColumn<Auction, Image> param) {
                 return new TableCell<Auction, Image>() {
@@ -317,6 +395,7 @@ public class CreatedAuctionsListController implements Initializable {
                     Platform.runLater(() -> {
                         createdAuctions = FXCollections.observableArrayList();
                         proposedAuctions = FXCollections.observableArrayList();
+                        publishedAuctions = FXCollections.observableArrayList();
                         soldAuctions = FXCollections.observableArrayList();
                         createdAuctions.addAll(auctions);
                         for (Auction auction: createdAuctions) {
@@ -327,10 +406,14 @@ public class CreatedAuctionsListController implements Initializable {
                             if (auction.getAuctionState().equals(STATE_PROPOSED)) {
                                 proposedAuctions.add(auction);
                             }
+                            if (auction.getAuctionState().equals(STATE_PUBLISHED)) {
+                                publishedAuctions.add(auction);
+                            }
                         }
                         
-                        tvSoldAuctions.setItems(soldAuctions);
                         tvProposedAuctions.setItems(proposedAuctions);
+                        tvPublishedAuctions.setItems(publishedAuctions);
+                        tvSoldAuctions.setItems(soldAuctions);
                     });
                 }
 

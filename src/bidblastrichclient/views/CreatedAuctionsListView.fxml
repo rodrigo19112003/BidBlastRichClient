@@ -67,7 +67,7 @@
                               <TableColumn fx:id="colAuctionImageOnPublished" prefWidth="175.0" text="Imagen del artículo" />
                               <TableColumn fx:id="colAuctionTitleOnPublished" prefWidth="248.0" text="Título del artículo" />
                               <TableColumn fx:id="colTimeLeft" prefWidth="183.0" text="Tiempo restante" />
-                              <TableColumn fx:id="colLastOffer" prefWidth="143.0" text="Última oferta" />
+                              <TableColumn fx:id="colLastOffer" prefWidth="146.0" text="Última oferta" />
                            </columns>
                         </TableView>
                         <Button layoutX="619.0" layoutY="7.0" mnemonicParsing="false" onAction="#btnSeeOffersMadeClick" style="-fx-background-color: transparent; -fx-border-radius: 5; -fx-border-color: #0014FF; -fx-cursor: hand;" text="Ver ofertas realizadas" textFill="#0014ff">
