@@ -70,7 +70,7 @@
                               <TableColumn fx:id="colLastOffer" prefWidth="143.0" text="Última oferta" />
                            </columns>
                         </TableView>
-                        <Button layoutX="619.0" layoutY="7.0" mnemonicParsing="false" onAction="#btnSeeOffersMade" style="-fx-background-color: transparent; -fx-border-radius: 5; -fx-border-color: #0014FF; -fx-cursor: hand;" text="Ver ofertas realizadas" textFill="#0014ff">
+                        <Button layoutX="619.0" layoutY="7.0" mnemonicParsing="false" onAction="#btnSeeOffersMadeClick" style="-fx-background-color: transparent; -fx-border-radius: 5; -fx-border-color: #0014FF; -fx-cursor: hand;" text="Ver ofertas realizadas" textFill="#0014ff">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
