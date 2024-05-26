@@ -34,6 +34,11 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void btnPurchasesClick(ActionEvent event) {
+        Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/CompletedAuctionsListView.fxml"));
+        baseStage.setTitle("Menu principal");
+        baseStage.show();
     }
 
     @FXML
