@@ -1,6 +1,7 @@
 package bidblastrichclient.controllers;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import lib.CurrencyToolkit;
 import lib.DateToolkit;
 import model.Auction;
@@ -52,6 +54,18 @@ public class SalesStatisticsController implements Initializable {
     private  final List<Float> salesDatesAmounts = new ArrayList<>();
     private String startDate;
     private String endDate;
+    @FXML
+    private Label lblDatesRangesTitle;
+    @FXML
+    private Label lblWithoutSalesStatisticsMessage;
+    @FXML
+    private Label lblFeaturedDayTitle;
+    @FXML
+    private Label lblBidBlastMessage;
+    @FXML
+    private Label lblProfitsEarnedTitle;
+    @FXML
+    private Label lblAuctionCategories;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,35 +80,51 @@ public class SalesStatisticsController implements Initializable {
                     @Override
                     public void onSuccess(List<Auction> auctions) {
                         Platform.runLater(() -> {
-                            salesAuctionsList = auctions;
                             enableFilters();
-                            calculateAndShowSalesStatistics();
-                            calculateAndShowCategoryStatistics();
-                            calculateAndShowFeaturedDay();
+                            if (auctions.size() != 0) {
+                                showStatisticsComponents();
+                                hideWithoutSalesStatisticsMessage();
+                                salesAuctionsList = auctions;
+                                calculateAndShowSalesStatistics();
+                                calculateAndShowCategoryStatistics();
+                                calculateAndShowFeaturedDay();
+                            } else {
+                                if (startDate == null && endDate == null) {
+                                    hideDatesRanges();
+                                } else {
+                                    changeWithoutSalesStatisticsMessage();
+                                }
+                                hideStatisticsComponents();
+                                showWithoutSalesStatisticsMessage();
+                            }
                         });
                     }
 
                     @Override
                     public void onError(ProcessErrorCodes errorCode) {
                         Platform.runLater(() -> {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Error de conexión");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Ocurrió un error al cargar las"
-                                + " estadísticas, inténtelo más tarde");
-                        alert.showAndWait();
-                    });
+                            hideDatesRanges();
+                            hideWithoutSalesStatisticsMessage();
+                            hideStatisticsComponents();
+                            Alert alert = new Alert(Alert.AlertType.WARNING);
+                            alert.setTitle("Error de conexión");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Ocurrió un error al cargar las"
+                                    + " estadísticas, inténtelo más tarde");
+                            alert.showAndWait();
+                        });
                     }
                 }
         );
     }
     
     private void calculateAndShowSalesStatistics(){
+        bcSoldAuctions.getData().clear();
         for (int i = 0; i < salesAuctionsList.size(); i++) {
             Auction auction = salesAuctionsList.get(i);
             profitsEarned += auction.getLastOffer().getAmount();
             XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName(trimString(auction.getTitle(), 12));
+            series.setName(trimString(auction.getTitle(), 8));
             series.getData().add(new XYChart.Data<>(
                 "", 
                 auction.getLastOffer().getAmount())
@@ -102,6 +132,18 @@ public class SalesStatisticsController implements Initializable {
             bcSoldAuctions.getData().add(series);
         }
         lblProfitsEarned.setText(CurrencyToolkit.parseToMXN(profitsEarned));
+        
+         for (XYChart.Series<String, Number> series : bcSoldAuctions.getData()) {
+            for (XYChart.Data<String, Number> data : series.getData()) {
+                Tooltip tooltip = new Tooltip("Precio: " + data.getYValue());
+                Tooltip.install(data.getNode(), tooltip);
+                data.getNode().setOnMouseEntered(
+                    event -> data.getNode().setStyle("-fx-opacity: 0.7;"));
+                data.getNode().setOnMouseExited(
+                    event -> data.getNode().setStyle("-fx-opacity: 1;"));
+            }
+        }
+
     }
     
     private String trimString(String text, int maxLength) {
@@ -113,6 +155,7 @@ public class SalesStatisticsController implements Initializable {
     }
     
     private void calculateAndShowCategoryStatistics() {
+        pcSalesAuctionsCategories.getData().clear();
         for (int i = 0; i < salesAuctionsList.size(); i++) {
             Auction auction = salesAuctionsList.get(i);
             if (!categories.contains(auction.getCategory().getTitle())) {
@@ -136,6 +179,13 @@ public class SalesStatisticsController implements Initializable {
                 categories.get(i), categoriesCount.get(i)
             );
             pcSalesAuctionsCategories.getData().add(slice);
+        }
+        
+        for (PieChart.Data data : pcSalesAuctionsCategories.getData()) {
+            Tooltip tooltip = new Tooltip(data.getName() + ": " + data.getPieValue());
+            Tooltip.install(data.getNode(), tooltip);
+            data.getNode().setOnMouseEntered(event -> data.getNode().setStyle("-fx-opacity: 0.7;"));
+            data.getNode().setOnMouseExited(event -> data.getNode().setStyle("-fx-opacity: 1;"));
         }
     }
     
@@ -182,6 +232,52 @@ public class SalesStatisticsController implements Initializable {
         lblAmount.setText(CurrencyToolkit.parseToMXN(totalAmount));
     }
     
+    private void hideWithoutSalesStatisticsMessage() {
+        lblWithoutSalesStatisticsMessage.setVisible(false);
+    }
+    
+    private void showWithoutSalesStatisticsMessage() {
+        lblWithoutSalesStatisticsMessage.setVisible(true);
+    }
+    
+    private void hideDatesRanges() {
+        lblDatesRangesTitle.setVisible(false);
+        dpStartDate.setVisible(false);
+        dpEndDate.setVisible(false);
+        btnFilterDates.setVisible(false);
+    }
+    
+    private void hideStatisticsComponents() {
+        bcSoldAuctions.setVisible(false);
+        pcSalesAuctionsCategories.setVisible(false);
+        lblFeaturedDayTitle.setVisible(false);
+        lblAmount.setVisible(false);
+        lblFeaturedDay.setVisible(false);
+        lblTotalAuctions.setVisible(false);
+        lblAuctionCategories.setVisible(false);
+        lblBidBlastMessage.setVisible(false);
+        lblProfitsEarned.setVisible(false);
+        lblProfitsEarnedTitle.setVisible(false);
+    }
+    
+    private void showStatisticsComponents() {
+        bcSoldAuctions.setVisible(true);
+        pcSalesAuctionsCategories.setVisible(true);
+        lblFeaturedDayTitle.setVisible(true);
+        lblAmount.setVisible(true);
+        lblFeaturedDay.setVisible(true);
+        lblTotalAuctions.setVisible(true);
+        lblAuctionCategories.setVisible(true);
+        lblBidBlastMessage.setVisible(true);
+        lblProfitsEarned.setVisible(true);
+        lblProfitsEarnedTitle.setVisible(true);
+    }
+    
+    private void changeWithoutSalesStatisticsMessage() {
+        lblWithoutSalesStatisticsMessage.setText("No existen ventas de subastas "
+                + "en el rango de fechas seleccionado");
+    }
+    
     private void enableFilters() {
         dpStartDate.setDisable(false);
         dpEndDate.setDisable(false);
@@ -196,6 +292,19 @@ public class SalesStatisticsController implements Initializable {
 
     @FXML
     private void btnFilterDatesClick(ActionEvent event) {
-        
+        if (dpStartDate.getValue() != null && dpEndDate.getValue() != null) {
+            LocalDate selectedStartDate = dpStartDate.getValue();
+            startDate = DateToolkit.parseISO8601FromLocalDate(selectedStartDate);
+            LocalDate selectedEndDate = dpEndDate.getValue().plusDays(1);
+            endDate = DateToolkit.parseISO8601FromLocalDate(selectedEndDate);
+            profitsEarned = 0;
+            categories.clear();
+            categoriesCount.clear();
+            salesAuctionsList.clear();
+            salesDates.clear();
+            salesDatesAmounts.clear();
+            salesDatesCount.clear();
+            loadSalesAuctions();
+        }
     }
 }
