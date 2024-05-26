@@ -129,7 +129,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tvRejectedAuctions" layoutX="9.0" layoutY="39.0" prefHeight="266.0" prefWidth="750.0">
+                        <TableView fx:id="tvRejectedAuctions" layoutX="9.0" layoutY="8.0" prefHeight="297.0" prefWidth="750.0">
                            <columns>
                               <TableColumn fx:id="colAuctionImageOnRejected" prefWidth="115.0" text="Imagen del artículo" />
                               <TableColumn fx:id="colAuctionTitleOnRejected" prefWidth="210.0" text="Título del artículo" />
