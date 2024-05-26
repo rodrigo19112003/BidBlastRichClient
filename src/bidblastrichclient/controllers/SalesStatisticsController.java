@@ -18,8 +18,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import lib.CurrencyToolkit;
 import lib.DateToolkit;
+import lib.Navigation;
 import model.Auction;
 import repositories.AuctionsRepository;
 import repositories.IProcessStatusListener;
@@ -306,5 +309,14 @@ public class SalesStatisticsController implements Initializable {
             salesDatesCount.clear();
             loadSalesAuctions();
         }
+    }
+
+    @FXML
+    private void imgReturnToPreviousPageClick(MouseEvent event) {
+        Stage baseStage = (Stage)pcSalesAuctionsCategories.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/CreatedAuctionsListView.fxml"));
+        baseStage.setTitle("Subastas Creadas");
+        baseStage.show();
     }
 }

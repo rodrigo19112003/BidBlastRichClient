@@ -67,7 +67,7 @@
                               <TableColumn fx:id="colAuctionImageOnPublished" prefWidth="175.0" text="Imagen del artículo" />
                               <TableColumn fx:id="colAuctionTitleOnPublished" prefWidth="248.0" text="Título del artículo" />
                               <TableColumn fx:id="colTimeLeft" prefWidth="183.0" text="Tiempo restante" />
-                              <TableColumn fx:id="colLastOffer" prefWidth="143.0" text="Última oferta" />
+                              <TableColumn fx:id="colLastOffer" prefWidth="146.0" text="Última oferta" />
                            </columns>
                         </TableView>
                         <Button layoutX="619.0" layoutY="7.0" mnemonicParsing="false" onAction="#btnSeeOffersMadeClick" style="-fx-background-color: transparent; -fx-border-radius: 5; -fx-border-color: #0014FF; -fx-cursor: hand;" text="Ver ofertas realizadas" textFill="#0014ff">
@@ -95,8 +95,8 @@
                         </ImageView>
                         <TableView fx:id="tvSoldAuctions" layoutX="6.0" layoutY="37.0" prefHeight="267.0" prefWidth="755.0">
                            <columns>
-                              <TableColumn fx:id="colAuctioneerAvatar" prefWidth="90.0" text="Avatar del comprador" />
-                              <TableColumn fx:id="colAuctioneerFullName" prefWidth="125.0" text="Nombre del comprador" />
+                              <TableColumn fx:id="colCustomerAvatar" prefWidth="90.0" text="Avatar del comprador" />
+                              <TableColumn fx:id="colCustomerFullName" prefWidth="125.0" text="Nombre del comprador" />
                               <TableColumn fx:id="colEmail" prefWidth="99.0" text="Correo electrónico" />
                               <TableColumn fx:id="colPhoneNumber" prefWidth="91.0" text="Número de teléfono" />
                               <TableColumn fx:id="colAuctionTitleOnSold" prefWidth="83.0" text="Título del artículo" />
@@ -129,7 +129,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tvRejectedAuctions" layoutX="9.0" layoutY="39.0" prefHeight="266.0" prefWidth="750.0">
+                        <TableView fx:id="tvRejectedAuctions" layoutX="9.0" layoutY="8.0" prefHeight="297.0" prefWidth="750.0">
                            <columns>
                               <TableColumn fx:id="colAuctionImageOnRejected" prefWidth="115.0" text="Imagen del artículo" />
                               <TableColumn fx:id="colAuctionTitleOnRejected" prefWidth="210.0" text="Título del artículo" />
