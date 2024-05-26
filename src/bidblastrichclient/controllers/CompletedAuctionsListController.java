@@ -105,7 +105,7 @@ public class CompletedAuctionsListController implements Initializable {
                     "$" + price
             );
         });
-        configureAuctionesAvatarColumn();
+        configureAuctioneerAvatarColumn();
         configureAuctionImageColumn();
     }
     
@@ -148,7 +148,7 @@ public class CompletedAuctionsListController implements Initializable {
         });
     }
     
-    private void configureAuctionesAvatarColumn() {
+    private void configureAuctioneerAvatarColumn() {
         colAuctioneerAvatar.setCellValueFactory(cellData -> {
             String auctioneerAvatar = 
                 cellData.getValue().getAuctioneer().getAvatar().isEmpty() 
@@ -163,7 +163,7 @@ public class CompletedAuctionsListController implements Initializable {
             return new javafx.beans.property.SimpleObjectProperty<>(null);
         });
 
-        colAuctionImage.setCellFactory(new Callback<TableColumn<Auction, Image>, TableCell<Auction, Image>>() {
+        colAuctioneerAvatar.setCellFactory(new Callback<TableColumn<Auction, Image>, TableCell<Auction, Image>>() {
             @Override
             public TableCell<Auction, Image> call(TableColumn<Auction, Image> param) {
                 return new TableCell<Auction, Image>() {
@@ -243,7 +243,34 @@ public class CompletedAuctionsListController implements Initializable {
 
     @FXML
     private void imgSearchAuctionClick(MouseEvent event) {
-        loadCompletedAuctions();
+        boolean validFilters = validateFiltersValues();
+        
+        if(!validFilters) {
+            showInvalidFiltersValuesError();
+        } else {
+            loadCompletedAuctions();
+        }
+    }
+    
+    private boolean validateFiltersValues() {
+        String limit = tfLimit.getText().trim();
+        String offset = tfOffset.getText().trim();
+        
+        boolean isValidLimit = limit.isEmpty() 
+            || (ValidationToolkit.isNumeric(limit) && Integer.parseInt(limit) > 0);
+        boolean isValidOffset = offset.isEmpty() || ValidationToolkit.isNumeric(offset);
+        
+        return isValidLimit && isValidOffset;
+    }
+    
+    private void showInvalidFiltersValuesError() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Filtros inválidos");
+        alert.setHeaderText(null);
+        alert.setContentText("Verifique que los valores ingresados en los campos "
+            + "offset y limit sean números enteros no negativos. Tome en cuenta "
+            + "que el valor mínimo aceptado de limit es 1");
+        alert.showAndWait();
     }
 
     @FXML

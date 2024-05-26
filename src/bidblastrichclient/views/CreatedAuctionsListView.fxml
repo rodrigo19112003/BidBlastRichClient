@@ -95,8 +95,8 @@
                         </ImageView>
                         <TableView fx:id="tvSoldAuctions" layoutX="6.0" layoutY="37.0" prefHeight="267.0" prefWidth="755.0">
                            <columns>
-                              <TableColumn fx:id="colAuctioneerAvatar" prefWidth="90.0" text="Avatar del comprador" />
-                              <TableColumn fx:id="colAuctioneerFullName" prefWidth="125.0" text="Nombre del comprador" />
+                              <TableColumn fx:id="colCustomerAvatar" prefWidth="90.0" text="Avatar del comprador" />
+                              <TableColumn fx:id="colCustomerFullName" prefWidth="125.0" text="Nombre del comprador" />
                               <TableColumn fx:id="colEmail" prefWidth="99.0" text="Correo electrónico" />
                               <TableColumn fx:id="colPhoneNumber" prefWidth="91.0" text="Número de teléfono" />
                               <TableColumn fx:id="colAuctionTitleOnSold" prefWidth="83.0" text="Título del artículo" />
