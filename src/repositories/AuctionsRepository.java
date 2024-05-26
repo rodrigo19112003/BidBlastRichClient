@@ -4,9 +4,11 @@ import api.ApiClient;
 import api.IAuctionsService;
 import api.responses.auctioncategories.AuctionCategoryJSONResponse;
 import api.responses.auctions.AuctionAuctioneerJSONResponse;
+import api.responses.auctions.AuctionCustomerJSONResponse;
 import api.responses.auctions.AuctionJSONResponse;
 import api.responses.auctions.AuctionLastOfferJSONResponse;
 import api.responses.auctions.AuctionMediaFileJSONResponse;
+import api.responses.auctions.AuctionReviewJSONResponse;
 import lib.DateToolkit;
 import lib.Session;
 import model.Auction;
@@ -17,6 +19,7 @@ import model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.AuctionReview;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -99,6 +102,105 @@ public class AuctionsRepository {
                     }
                 } else {
                     statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AuctionJSONResponse>> call, Throwable t) {
+                statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+            }
+        });
+    }
+    
+    public void getCreatedAuctionsList(
+            String searchQuery,
+            int limit,
+            int offset,
+            IProcessStatusListener<List<Auction>> statusListener) {
+        IAuctionsService auctionsService = ApiClient.getInstance().getAuctionsService();
+        String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
+
+        auctionsService.getCreatedAuctionsList(authHeader, searchQuery, limit, offset).enqueue(new Callback<List<AuctionJSONResponse>>() {
+            @Override
+            public void onResponse(Call<List<AuctionJSONResponse>> call, Response<List<AuctionJSONResponse>> response) {
+                if(response.isSuccessful()) {
+                    List<AuctionJSONResponse> body = response.body();
+
+                    if(body != null) {
+                        List<Auction> auctionsList = new ArrayList<>();
+
+                        for(AuctionJSONResponse auctionRes : body) {
+                            Auction auction = new Auction();
+
+                            auction.setId(auctionRes.getId());
+                            auction.setTitle(auctionRes.getTitle());
+                            auction.setUpdatedDate(DateToolkit.parseDateFromIS8601(auctionRes.getUpdatedDate()));
+                            auction.setAuctionState(auctionRes.getAuctionState());
+                            auction.setBasePrice(auctionRes.getBasePrice());
+                            auction.setMinimumBid(auctionRes.getMinimumBid());
+                            auction.setDaysAvailable(auctionRes.getDaysAvailable());
+                            auction.setClosesAt(DateToolkit.parseDateFromIS8601(auctionRes.getClosesAt()));
+
+                            AuctionLastOfferJSONResponse lastOfferRes = auctionRes.getLastOffer();
+                            if(lastOfferRes != null) {
+                                Offer lastOffer = new Offer();
+
+                                lastOffer.setId(lastOfferRes.getId());
+                                lastOffer.setAmount(lastOfferRes.getAmount());
+                                lastOffer.setCreationDate(DateToolkit.parseDateFromIS8601(lastOfferRes.getCreationDate()));
+
+                                AuctionCustomerJSONResponse customerRes = auctionRes.getLastOffer().getCustomer();
+                                if(customerRes != null) {
+                                    User customer = new User();
+                                    customer.setId(customerRes.getId());
+                                    customer.setFullName(customerRes.getFullName());
+                                    customer.setPhoneNumber(customerRes.getPhoneNumber());
+                                    customer.setEmail(customerRes.getEmail());
+                                    customer.setAvatar(customerRes.getAvatar());
+
+                                    lastOffer.setCustomer(customer);
+                                }
+
+                                auction.setLastOffer(lastOffer);
+                            }
+
+                            List<AuctionMediaFileJSONResponse> mediaFilesRes = auctionRes.getMediaFiles();
+                            if(mediaFilesRes != null) {
+                                List<HypermediaFile> mediaFiles = new ArrayList<>();
+
+                                for(AuctionMediaFileJSONResponse fileRes : mediaFilesRes) {
+                                    HypermediaFile file = new HypermediaFile();
+
+                                    file.setId(fileRes.getId());
+                                    file.setName(fileRes.getName());
+                                    file.setContent(fileRes.getContent());
+
+                                    mediaFiles.add(file);
+                                }
+
+                                auction.setMediaFiles(mediaFiles);
+                            }
+
+                            auctionsList.add(auction);
+
+                            AuctionReviewJSONResponse reviewRes = auctionRes.getReview();
+                            if(reviewRes != null) {
+                                AuctionReview review = new AuctionReview();
+
+                                review.setId(reviewRes.getId());
+                                review.setCreationDate(DateToolkit.parseDateFromIS8601(reviewRes.getCreationDate()));
+                                review.setComments(reviewRes.getComments());
+
+                                auction.setReview(review);
+                            }
+                        }
+
+                        statusListener.onSuccess(auctionsList);
+                    } else {
+                        statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+                    }
+                } else {
+                    statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
                 }
             }
 

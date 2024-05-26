@@ -19,10 +19,12 @@ public class Auction {
     private AuctionCategory category;
     private String state;
     private Date updatedDate;
+    private String auctionState;
+    private AuctionReview review;
 
     public Auction() { }
 
-    public Auction(int id, String title, String description, float basePrice, float minimumBid, Date approvalDate, Date closesAt, int daysAvailable, User auctioneer, List<HypermediaFile> mediaFiles, Offer lastOffer, AuctionCategory category, String state, Date updatedDate) {
+    public Auction(int id, String title, String description, float basePrice, float minimumBid, Date approvalDate, Date closesAt, int daysAvailable, User auctioneer, List<HypermediaFile> mediaFiles, Offer lastOffer, AuctionCategory category, String state, Date updatedDate, String auctionState, AuctionReview review) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -37,6 +39,8 @@ public class Auction {
         this.category = category;
         this.state = state;
         this.updatedDate = updatedDate;
+        this.auctionState = auctionState;
+        this.review = review;
     }
 
     public int getId() {
@@ -150,6 +154,24 @@ public class Auction {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
+
+    public String getAuctionState() {
+        return auctionState;
+    }
+
+    public void setAuctionState(String auctionState) {
+        this.auctionState = auctionState;
+    }
+
+    public AuctionReview getReview() {
+        return review;
+    }
+
+    public void setReview(AuctionReview review) {
+        this.review = review;
+    }
+    
+    
 
     @Override
     public boolean equals(Object o) {

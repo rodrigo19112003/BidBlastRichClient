@@ -2,7 +2,6 @@ package api.responses.auctions;
 
 import api.responses.auctioncategories.AuctionCategoryJSONResponse;
 
-import java.util.Date;
 import java.util.List;
 
 public class AuctionJSONResponse {
@@ -10,6 +9,10 @@ public class AuctionJSONResponse {
     private String title;
     private String closesAt;
     private String updatedDate;
+    private String auctionState;
+    private float basePrice;
+    private float minimumBid;
+    private int daysAvailable;
 
     private List<AuctionMediaFileJSONResponse> mediaFiles;
 
@@ -18,6 +21,8 @@ public class AuctionJSONResponse {
     private AuctionLastOfferJSONResponse lastOffer;
 
     private AuctionCategoryJSONResponse category;
+    
+    private AuctionReviewJSONResponse review;
 
     public AuctionJSONResponse() { }
 
@@ -92,5 +97,45 @@ public class AuctionJSONResponse {
 
     public void setCategory(AuctionCategoryJSONResponse category) {
         this.category = category;
+    }
+
+    public String getAuctionState() {
+        return auctionState;
+    }
+
+    public void setAuctionState(String auctionState) {
+        this.auctionState = auctionState;
+    }
+
+    public float getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(float basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public float getMinimumBid() {
+        return minimumBid;
+    }
+
+    public void setMinimumBid(float minimumBid) {
+        this.minimumBid = minimumBid;
+    }
+
+    public int getDaysAvailable() {
+        return daysAvailable;
+    }
+
+    public void setDaysAvailable(int daysAvailable) {
+        this.daysAvailable = daysAvailable;
+    }
+
+    public AuctionReviewJSONResponse getReview() {
+        return review;
+    }
+
+    public void setReview(AuctionReviewJSONResponse review) {
+        this.review = review;
     }
 }

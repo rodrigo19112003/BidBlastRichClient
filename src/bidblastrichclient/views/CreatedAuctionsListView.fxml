@@ -8,20 +8,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="bidblastrichclient.controllers.CreatedAuctionsListController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bidblastrichclient.controllers.CreatedAuctionsListController">
    <children>
-      <Button layoutX="650.0" layoutY="131.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="185.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Estadísticas de ventas" textFill="#ff5c00">
+      <Button layoutX="650.0" layoutY="154.0" mnemonicParsing="false" onAction="#btnConsultSalesStatisticsClick" prefHeight="37.0" prefWidth="185.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Estadísticas de ventas" textFill="#ff5c00">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Button>
-      <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="800.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+      <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="800.0" layoutY="89.0" onMouseClicked="#imgSearchAuctionClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
          <image>
             <Image url="@../resources/Search.png" />
          </image>
       </ImageView>
-      <TextField layoutX="65.0" layoutY="90.0" prefHeight="33.0" prefWidth="728.0" promptText="Buscar en ventas" style="-fx-border-color: black; -fx-background-color: withe; -fx-border-radius: 5;">
+      <TextField fx:id="tfAuctionToSearch" layoutX="65.0" layoutY="90.0" prefHeight="33.0" prefWidth="728.0" promptText="Buscar en ventas" style="-fx-border-color: black; -fx-background-color: withe; -fx-border-radius: 5;">
          <font>
             <Font size="15.0" />
          </font>
@@ -40,19 +39,19 @@
             </Label>
          </children>
       </Pane>
-      <TabPane layoutX="65.0" layoutY="168.0" prefHeight="389.0" prefWidth="767.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="65.0" layoutY="208.0" prefHeight="349.0" prefWidth="767.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
             <Tab text="Subastas propuestas">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="9.0" layoutY="9.0" prefHeight="327.0" prefWidth="750.0">
+                        <TableView fx:id="tvProposedAuctions" layoutX="9.0" layoutY="9.0" prefHeight="295.0" prefWidth="750.0">
                           <columns>
-                            <TableColumn prefWidth="134.0" text="Imagen del artículo" />
-                            <TableColumn prefWidth="192.0" text="Título del artículo" />
-                              <TableColumn prefWidth="144.0" text="Tiempo propuesto" />
-                              <TableColumn prefWidth="123.0" text="Precio base" />
-                              <TableColumn prefWidth="134.0" text="Puja mínima" />
+                            <TableColumn fx:id="colAuctionImageOnProposed" prefWidth="134.0" text="Imagen del artículo" />
+                            <TableColumn fx:id="colAuctionTitleOnProposed" prefWidth="192.0" text="Título del artículo" />
+                              <TableColumn fx:id="colProposedTime" prefWidth="144.0" text="Tiempo propuesto" />
+                              <TableColumn fx:id="colBasePrice" prefWidth="155.0" text="Precio base" />
+                              <TableColumn fx:id="colMinimumBid" prefWidth="124.0" text="Puja mínima" />
                           </columns>
                         </TableView>
                      </children>
@@ -63,15 +62,15 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="9.0" layoutY="39.0" prefHeight="297.0" prefWidth="750.0">
+                        <TableView fx:id="tvPublishedAuctions" layoutX="6.0" layoutY="39.0" prefHeight="266.0" prefWidth="753.0">
                            <columns>
-                              <TableColumn prefWidth="175.0" text="Imagen del artículo" />
-                              <TableColumn prefWidth="248.0" text="Título del artículo" />
-                              <TableColumn prefWidth="183.0" text="Tiempo restante" />
-                              <TableColumn prefWidth="143.0" text="Última oferta" />
+                              <TableColumn fx:id="colAuctionImageOnPublished" prefWidth="175.0" text="Imagen del artículo" />
+                              <TableColumn fx:id="colAuctionTitleOnPublished" prefWidth="248.0" text="Título del artículo" />
+                              <TableColumn fx:id="colTimeLeft" prefWidth="183.0" text="Tiempo restante" />
+                              <TableColumn fx:id="colLastOffer" prefWidth="143.0" text="Última oferta" />
                            </columns>
                         </TableView>
-                        <Button fx:id="btnBlockPurchaser" layoutX="619.0" layoutY="7.0" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-border-radius: 5; -fx-border-color: #0014FF; -fx-cursor: hand;" text="Ver ofertas realizadas" textFill="#0014ff">
+                        <Button layoutX="619.0" layoutY="7.0" mnemonicParsing="false" onAction="#btnSeeOffersMadeClick" style="-fx-background-color: transparent; -fx-border-radius: 5; -fx-border-color: #0014FF; -fx-cursor: hand;" text="Ver ofertas realizadas" textFill="#0014ff">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -84,24 +83,26 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="694.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="694.0" layoutY="4.0" onMouseClicked="#imgCopyEmailClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                            <image>
                               <Image url="@../resources/Email.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="728.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="728.0" layoutY="4.0" onMouseClicked="#imgCopyPhoneNumberClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                            <image>
                               <Image url="@../resources/Phone.png" />
                            </image>
                         </ImageView>
-                        <TableView layoutX="9.0" layoutY="39.0" prefHeight="297.0" prefWidth="750.0">
+                        <TableView fx:id="tvSoldAuctions" layoutX="6.0" layoutY="37.0" prefHeight="267.0" prefWidth="755.0">
                            <columns>
-                              <TableColumn prefWidth="116.0" text="Avatar del comprador" />
-                              <TableColumn prefWidth="129.0" text="Nombre del comprador" />
-                              <TableColumn prefWidth="134.0" text="Imagen del artículo" />
-                              <TableColumn prefWidth="167.0" text="Título del artículo" />
-                              <TableColumn prefWidth="126.0" text="Fecha de compra" />
-                              <TableColumn prefWidth="77.0" text="Precio" />
+                              <TableColumn fx:id="colAuctioneerAvatar" prefWidth="90.0" text="Avatar del comprador" />
+                              <TableColumn fx:id="colAuctioneerFullName" prefWidth="125.0" text="Nombre del comprador" />
+                              <TableColumn fx:id="colEmail" prefWidth="99.0" text="Correo electrónico" />
+                              <TableColumn fx:id="colPhoneNumber" prefWidth="91.0" text="Número de teléfono" />
+                              <TableColumn fx:id="colAuctionTitleOnSold" prefWidth="83.0" text="Título del artículo" />
+                              <TableColumn fx:id="colAuctionImageOnSold" prefWidth="100.0" text="Imagen del artículo" />
+                              <TableColumn fx:id="colSaleDate" minWidth="0.0" prefWidth="94.0" text="Fecha de venta" />
+                              <TableColumn fx:id="colPrice" prefWidth="72.0" text="Precio" />
                            </columns>
                         </TableView>
                      </children>
@@ -112,12 +113,12 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="9.0" layoutY="8.0" prefHeight="327.0" prefWidth="750.0">
+                        <TableView fx:id="tvClosedAuctions" layoutX="9.0" layoutY="8.0" prefHeight="296.0" prefWidth="750.0">
                            <columns>
-                              <TableColumn prefWidth="175.0" text="Imagen del artículo" />
-                              <TableColumn prefWidth="248.0" text="Título del artículo" />
-                              <TableColumn prefWidth="183.0" text="Fecha de cierre" />
-                              <TableColumn prefWidth="143.0" text="Estado" />
+                              <TableColumn fx:id="colAuctionImageOnClosed" prefWidth="175.0" text="Imagen del artículo" />
+                              <TableColumn fx:id="colAuctionTitleOnClosed" prefWidth="248.0" text="Título del artículo" />
+                              <TableColumn fx:id="colDeadline" prefWidth="183.0" text="Fecha de cierre" />
+                              <TableColumn fx:id="colStateMessage" prefWidth="143.0" text="Estado" />
                            </columns>
                         </TableView>
                      </children>
@@ -128,12 +129,12 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="9.0" layoutY="39.0" prefHeight="297.0" prefWidth="750.0">
+                        <TableView fx:id="tvRejectedAuctions" layoutX="9.0" layoutY="39.0" prefHeight="266.0" prefWidth="750.0">
                            <columns>
-                              <TableColumn prefWidth="115.0" text="Imagen del artículo" />
-                              <TableColumn prefWidth="210.0" text="Título del artículo" />
-                              <TableColumn prefWidth="135.0" text="Estado" />
-                              <TableColumn prefWidth="289.0" text="Motivo del rechazo" />
+                              <TableColumn fx:id="colAuctionImageOnRejected" prefWidth="115.0" text="Imagen del artículo" />
+                              <TableColumn fx:id="colAuctionTitleOnRejected" prefWidth="210.0" text="Título del artículo" />
+                              <TableColumn fx:id="colRejectionDate" prefWidth="135.0" text="Fecha de rechazo" />
+                              <TableColumn fx:id="colComments" prefWidth="289.0" text="Motivo del rechazo" />
                            </columns>
                         </TableView>
                      </children>
@@ -142,5 +143,25 @@
             </Tab>
         </tabs>
       </TabPane>
+      <Label layoutX="65.0" layoutY="131.0" text="Limit">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfLimit" layoutX="65.0" layoutY="156.0" prefHeight="33.0" prefWidth="266.0" promptText="Cantidad de subastas a recuperar" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="tfOffset" layoutX="339.0" layoutY="156.0" prefHeight="33.0" prefWidth="266.0" promptText="Cantidad de subastas a omitir" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="339.0" layoutY="131.0" text="Offset">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
