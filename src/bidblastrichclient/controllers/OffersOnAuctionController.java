@@ -22,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -57,6 +58,10 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
     private Label lblTimeLeft;
     @FXML
     private HBox hbImageCarrusel;
+    @FXML
+    private TextField tfOffset;
+    @FXML
+    private TextField tfLimit;
     
     private MediaPlayer mediaPlayer;
     private final List<byte[]> videoFragments = new ArrayList<>();;
@@ -246,5 +251,9 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
 
     @FXML
     private void btnBlockPurchaserClick(ActionEvent event) {
+    }
+
+    @FXML
+    private void btnLoadOffersClick(ActionEvent event) {
     }
 }
