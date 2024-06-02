@@ -294,6 +294,59 @@ public class AuctionsRepository {
             }
         });
     }
+    
+    public void getAuctionById(int idAuction, IProcessStatusListener<Auction> statusListener) {
+        IAuctionsService auctionsService = ApiClient.getInstance().getAuctionsService();
+        String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
+        auctionsService.getAuctionById(authHeader, idAuction).enqueue(new Callback<AuctionJSONResponse> () {
+            @Override
+            public void onResponse(Call<AuctionJSONResponse> call, Response<AuctionJSONResponse> response) {
+                if (response.isSuccessful()) {
+                    AuctionJSONResponse body = response.body();
+                    
+                    if (body != null) {
+                        Auction auction = new Auction();
+                        
+                        auction.setId(body.getId());
+                        auction.setTitle(body.getTitle());
+                        auction.setClosesAt(DateToolkit.parseDateFromIS8601(body.getClosesAt()));
+                        auction.setDescription(body.getDescription());
+                        auction.setBasePrice(body.getBasePrice());
+                        auction.setMinimumBid(body.getMinimumBid());
+                        auction.setItemCondition(body.getItemCondition());
+                        
+                        List<AuctionMediaFileJSONResponse> mediaFilesRes = body.getMediaFiles();
+                        if(mediaFilesRes != null) {
+                                List<HypermediaFile> mediaFiles = new ArrayList<>();
+
+                                for(AuctionMediaFileJSONResponse fileRes : mediaFilesRes) {
+                                    HypermediaFile file = new HypermediaFile();
+
+                                    file.setId(fileRes.getId());
+                                    file.setName(fileRes.getName());
+                                    file.setContent(fileRes.getContent());
+
+                                    mediaFiles.add(file);
+                                }
+
+                                auction.setMediaFiles(mediaFiles);
+                            }
+                        
+                        statusListener.onSuccess(auction);
+                    } else {
+                        statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+                    }
+                } else {
+                    statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuctionJSONResponse> call, Throwable t) {
+                 statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+            }
+        });
+    }
 
     public void getUserSalesAuctionsList(
             String startDate,

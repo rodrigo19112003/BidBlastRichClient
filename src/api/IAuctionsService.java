@@ -21,6 +21,12 @@ public interface IAuctionsService {
         @Query("minimumPrice") int minimumPrice,
         @Query("maximumPrice") int maximumPrice
     );
+    
+    @GET("auctions/{idAuction}")
+    Call<AuctionJSONResponse> getAuctionById(
+        @Header("Authorization") String authHeader,
+        @Path("idAuction") int idAuction
+    );
 
     @GET("users/completed-auctions")
     Call<List<AuctionJSONResponse>> getCompletedAuctionsList(
