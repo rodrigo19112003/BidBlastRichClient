@@ -27,14 +27,14 @@
          </children>
       </Pane>
       <Separator layoutX="345.0" layoutY="75.0" orientation="VERTICAL" prefHeight="522.0" prefWidth="6.0" />
-      <MediaView fx:id="mvVideoPlayer" fitHeight="250.0" fitWidth="306.0" layoutX="18.0" layoutY="101.0" />
-      <ImageView fitHeight="250.0" fitWidth="306.0" layoutX="18.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="70.0" fitWidth="60.0" layoutX="51.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="70.0" fitWidth="60.0" layoutX="171.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="70.0" fitWidth="60.0" layoutX="111.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="70.0" fitWidth="60.0" layoutX="231.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="lblAuctionTitle" layoutX="51.0" layoutY="480.0" text="Apple IPhone 15 (256 GB) - Azul" />
-      <Label fx:id="lblTimeLeft" layoutX="51.0" layoutY="507.0" text="Quedan 2 días, 20 horas, y 10 minutos">
+      <StackPane layoutX="23.0" layoutY="101.0" prefHeight="210.0" prefWidth="310.0">
+         <children>
+            <ImageView fx:id="imgMainHypermediaFile" fitHeight="250.0" fitWidth="306.0" pickOnBounds="true" preserveRatio="true" />
+            <MediaView fx:id="mvVideoPlayer" fitHeight="250.0" fitWidth="306.0" />
+         </children>
+      </StackPane>
+      <Label fx:id="lblAuctionTitle" alignment="CENTER" layoutX="19.0" layoutY="517.0" prefHeight="27.0" prefWidth="306.0" text="Apple IPhone 15 (256 GB) - Azul" />
+      <Label fx:id="lblTimeLeft" alignment="CENTER" layoutX="19.0" layoutY="544.0" prefHeight="21.0" prefWidth="306.0" text="Quedan 2 días, 20 horas, y 10 minutos">
          <font>
             <Font size="15.0" />
          </font>
@@ -56,5 +56,6 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
+      <HBox fx:id="hbImageCarrusel" layoutX="18.0" layoutY="365.0" prefHeight="100.0" prefWidth="306.0" style="-fx-cursor: hand;" />
    </children>
 </AnchorPane>

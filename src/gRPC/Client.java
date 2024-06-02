@@ -30,9 +30,6 @@ public class Client {
             @Override
             public void onNext(VideoChunkResponse value) {
                 byte[] videoChunk = value.getData().toByteArray();
-                if(videoChunk != null){
-                    System.out.println("NO VIENE NULO");
-                }
                 if(streamListener != null){
                     Platform.runLater(() -> streamListener.onVideoChunkReceived(videoChunk));
                 }

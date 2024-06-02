@@ -8,22 +8,36 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Font;
+import lib.DateToolkit;
+import lib.ImageToolkit;
+import model.Auction;
+import model.HypermediaFile;
 import model.Offer;
+import repositories.AuctionsRepository;
+import repositories.IProcessStatusListener;
+import repositories.ProcessErrorCodes;
 
 public class OffersOnAuctionController implements Initializable, VideoStreamListener {
 
@@ -41,17 +55,116 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
     private Label lblAuctionTitle;
     @FXML
     private Label lblTimeLeft;
+    @FXML
+    private HBox hbImageCarrusel;
     
     private MediaPlayer mediaPlayer;
     private final List<byte[]> videoFragments = new ArrayList<>();;
     private int currentFragmentIndex = 0;
     private Client client;
+    private int idAuction;
+    @FXML
+    private ImageView imgMainHypermediaFile;
+    List<HypermediaFile> hypermediaFiles;
 
    @Override
     public void initialize(URL url, ResourceBundle rb) {
-        client = new Client(this);
-        int videoId = 2;
-        client.streamVideo(videoId);
+        loadAuction();
+    }
+    
+    public void setIdAuction(int idAuction){
+        this.idAuction = idAuction;
+    }
+    
+    private void loadAuction(){
+        idAuction = 7;
+        new AuctionsRepository().getAuctionById(
+            idAuction,
+            new IProcessStatusListener<Auction>() {
+                @Override
+                public void onSuccess(Auction auction) {
+                    Platform.runLater(() -> {
+                        lblAuctionTitle.setFont(new Font("Sytem", 18));
+                        lblAuctionTitle.setText(auction.getTitle());
+                        lblTimeLeft.setText("Se cierra el " + DateToolkit.parseToFullDateWithHour(auction.getClosesAt()));
+                        hypermediaFiles = auction.getMediaFiles();
+                        loadImagesOnCarrusel();
+                    });
+                }
+
+                @Override
+                public void onError(ProcessErrorCodes errorCode) {
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Error de conexión");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Ocurrió un error al cargar la "
+                            + "subasta, por favor intente más tarde");
+                        alert.showAndWait();
+                    });
+                }
+            }
+        );
+    }
+    
+    private void loadImagesOnCarrusel(){
+        List<Map.Entry<Image, Integer>> images = new ArrayList<>();
+        
+        for (HypermediaFile file: hypermediaFiles) {
+            String content = file.getContent();
+            if (!content.isEmpty()) {
+                Image image = ImageToolkit.decodeBase64ToImage(content);
+                images.add(new AbstractMap.SimpleEntry<>(image, file.getId()));
+            } else {
+                File imageFile = new File("src/bidblastrichclient/resources/Video.JPG");
+                Image image = new Image(imageFile.toURI().toString());
+                images.add(new AbstractMap.SimpleEntry<>(image, file.getId()));
+            }
+        }
+        
+        for (Map.Entry<Image, Integer> image : images) {
+            ImageView thumbnail = new ImageView(image.getKey());
+            thumbnail.setFitWidth(80);
+            thumbnail.setFitHeight(60);
+            thumbnail.setOnMouseClicked(event -> showFileInMainView(image));
+            hbImageCarrusel.getChildren().add(thumbnail);
+        }
+
+        if (!images.isEmpty()) {
+            showFileInMainView(images.get(0));
+        }
+    }
+    
+    private void showFileInMainView(Map.Entry<Image, Integer> image) {
+        imgMainHypermediaFile.setVisible(false);
+        mvVideoPlayer.setVisible(false);
+        String content = "";
+        
+        for (HypermediaFile file : hypermediaFiles) {
+            if (file.getId() == image.getValue()) {
+                content = file.getContent();
+            }
+        }
+        
+        if (!content.isEmpty()) {
+            if (Client.getChannelStatus() && client != null) {
+                videoFragments.clear();
+                client.shutdown();
+                client = null;
+            }
+            if (mediaPlayer != null && 
+                    mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
+                mediaPlayer.stop();
+                mediaPlayer = null;
+            }
+            imgMainHypermediaFile.setVisible(true);
+            imgMainHypermediaFile.setImage(image.getKey());
+            imgMainHypermediaFile.setPreserveRatio(true);
+        } else {
+            mvVideoPlayer.setVisible(true);
+            client = new Client(this);
+            client.streamVideo(image.getValue());
+        }
     }
 
     @Override
@@ -72,7 +185,7 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
     @Override
     public void onVideoFetchComplete() {
         Platform.runLater(() -> {
-            System.out.println("Transmisión de video completada");
+            System.out.println("Transmision de video completada");
         });
     }
 
