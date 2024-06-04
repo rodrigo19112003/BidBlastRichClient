@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,8 +30,10 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import lib.DateToolkit;
 import lib.ImageToolkit;
+import lib.Navigation;
 import model.Auction;
 import model.HypermediaFile;
 import model.Offer;
@@ -74,15 +75,15 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
 
    @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadAuction();
+        
     }
     
     public void setIdAuction(int idAuction){
         this.idAuction = idAuction;
+        loadAuction();
     }
     
     private void loadAuction(){
-        idAuction = 7;
         new AuctionsRepository().getAuctionById(
             idAuction,
             new IProcessStatusListener<Auction>() {
@@ -121,7 +122,7 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
                 Image image = ImageToolkit.decodeBase64ToImage(content);
                 images.add(new AbstractMap.SimpleEntry<>(image, file.getId()));
             } else {
-                File imageFile = new File("src/bidblastrichclient/resources/Video.JPG");
+                File imageFile = new File("src/bidblastrichclient/resources/Video.png");
                 Image image = new Image(imageFile.toURI().toString());
                 images.add(new AbstractMap.SimpleEntry<>(image, file.getId()));
             }
@@ -247,6 +248,11 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
 
     @FXML
     private void imgReturnToPreviousPageClick(MouseEvent event) {
+        Stage baseStage = (Stage) tfLimit.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/CreatedAuctionsListView.fxml"));
+        baseStage.setTitle("Ofertas sobre subasta");
+        baseStage.show();
     }
 
     @FXML

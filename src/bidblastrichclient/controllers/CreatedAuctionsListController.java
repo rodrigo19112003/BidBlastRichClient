@@ -1,5 +1,6 @@
 package bidblastrichclient.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +11,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -687,6 +691,47 @@ public class CreatedAuctionsListController implements Initializable {
 
     @FXML
     private void btnSeeOffersMadeClick(ActionEvent event) {
-        //TODO
+        Auction auction = tvPublishedAuctions.getSelectionModel().getSelectedItem();
+        if (auction != null) {
+            if (auction.getLastOffer() != null) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/bidblastrichclient/views/OffersOnAuctionView.fxml"));
+                    Parent root = loader.load();
+                    OffersOnAuctionController controller = loader.getController();
+
+                    controller.setIdAuction(auction.getId());
+                    Stage baseStage = (Stage) tfAuctionToSearch.getScene().getWindow();
+                    baseStage.setScene(new Scene(root));
+                    baseStage.setTitle("Ofertas sobre subasta");
+                    baseStage.show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Subasta sin ofertas");
+                alert.setHeaderText(null);
+                alert.setContentText("La subasta seleccionada no tienen ninguna oferta "
+                        + "aún");
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Seleccione una subasta");
+            alert.setHeaderText(null);
+            alert.setContentText("Seleccione una subasta de la lista para ver las "
+                    + "ofertas que se le han realizado");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void imgReturnToPreviousPageClick(MouseEvent event) {
+        Stage baseStage = (Stage) tfAuctionToSearch.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/MainMenuView.fxml"));
+        baseStage.setTitle("Ofertas sobre subasta");
+        baseStage.show();
     }
 }
