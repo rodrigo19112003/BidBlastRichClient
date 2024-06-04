@@ -49,4 +49,10 @@ public class ValidationToolkit {
         
         return isNumeric;
     }
+    public static boolean isValidPassword(String password) {
+        boolean hasUppercase = password.matches(".*[A-Z].*");
+        boolean hasNumber = password.matches(".*\\d.*");
+        boolean validLength = password.length() >= 10 && password.length() <= 15;
+        return hasUppercase && hasNumber && validLength;
+    }
 }
