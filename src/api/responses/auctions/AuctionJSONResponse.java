@@ -10,9 +10,11 @@ public class AuctionJSONResponse {
     private String closesAt;
     private String updatedDate;
     private String auctionState;
+    private String description;
     private float basePrice;
     private float minimumBid;
     private int daysAvailable;
+    private String itemCondition;
 
     private List<AuctionMediaFileJSONResponse> mediaFiles;
 
@@ -55,6 +57,14 @@ public class AuctionJSONResponse {
         return closesAt;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setClosesAt(String closesAt) {
         this.closesAt = closesAt;
     }
@@ -89,6 +99,14 @@ public class AuctionJSONResponse {
 
     public void setUpdatedDate(String updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public String getItemCondition() {
+        return itemCondition;
+    }
+
+    public void setItemCondition(String itemCondition) {
+        this.itemCondition = itemCondition;
     }
 
     public AuctionCategoryJSONResponse getCategory() {

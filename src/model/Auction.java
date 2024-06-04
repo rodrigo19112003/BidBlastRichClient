@@ -19,6 +19,7 @@ public class Auction {
     private AuctionCategory category;
     private String state;
     private Date updatedDate;
+    private String itemCondition;
     private String auctionState;
     private AuctionReview review;
 
@@ -153,6 +154,14 @@ public class Auction {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public String getItemCondition() {
+        return itemCondition;
+    }
+
+    public void setItemCondition(String itemCondition) {
+        this.itemCondition = itemCondition;
     }
 
     public String getAuctionState() {
