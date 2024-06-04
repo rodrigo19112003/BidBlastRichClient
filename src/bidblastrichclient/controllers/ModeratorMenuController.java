@@ -5,8 +5,14 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import lib.Navigation;
 
 public class ModeratorMenuController implements Initializable {
+
+    @FXML
+    private ImageView imgReturnToPreviousPage;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -19,5 +25,10 @@ public class ModeratorMenuController implements Initializable {
 
     @FXML
     private void btnAuctionCategoriesListClick(ActionEvent event) {
+        Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/ProductCategoryView.fxml"));
+        baseStage.setTitle("Categorias de producto");
+        baseStage.show();
     }
 }

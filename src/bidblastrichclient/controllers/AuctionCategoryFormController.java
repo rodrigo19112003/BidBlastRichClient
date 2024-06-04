@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import lib.Navigation;
 import lib.ValidationToolkit;
 import model.AuctionCategory;
 import repositories.AuctionCategoriesRepository;
@@ -102,12 +104,20 @@ public class AuctionCategoryFormController implements Initializable {
 
     @FXML
     private void btnGoToAuctionCategoriesListClick(MouseEvent event) {
-        // TODO Redirección a la lista de categorías
+        Stage baseStage = (Stage) tfDescription.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/ProductCategoryView.fxml"));
+        baseStage.setTitle("Modificar categoría de producto");
+        baseStage.show();
     }
 
     @FXML
     private void btnCancelModifyAuctionCategoryClick(ActionEvent event) {
-        // TODO Redirección a la lista de categorías
+        Stage baseStage = (Stage) tfDescription.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/ProductCategoryView.fxml"));
+        baseStage.setTitle("Modificar categoría de producto");
+        baseStage.show();
     }
 
     @FXML
@@ -168,6 +178,10 @@ public class AuctionCategoryFormController implements Initializable {
     }
     
     private void goToAuctionCategoriesList() {
-        // TODO
+        Stage baseStage = (Stage) tfDescription.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/ProductCategoryView.fxml"));
+        baseStage.setTitle("Modificar categoría de producto");
+        baseStage.show();
     }
 }
