@@ -41,9 +41,10 @@
       </Label>
       <TableView fx:id="tvOffersMade" layoutX="373.0" layoutY="216.0" prefHeight="341.0" prefWidth="478.0">
         <columns>
-          <TableColumn fx:id="colAvatar" prefWidth="134.0" text="Avatar del comprador" />
-          <TableColumn fx:id="colPurchaserName" prefWidth="207.0" text="Nombre del comprador" />
-            <TableColumn fx:id="colOffer" prefWidth="136.0" text="Oferta realizada" />
+          <TableColumn fx:id="colAvatar" prefWidth="92.0" text="Avatar del comprador" />
+          <TableColumn fx:id="colPurchaserName" prefWidth="145.0" text="Nombre del comprador" />
+            <TableColumn fx:id="colCreationDate" prefWidth="118.0" text="Fecha" />
+            <TableColumn fx:id="colOffer" prefWidth="122.0" text="Oferta realizada" />
         </columns>
       </TableView>
       <Label layoutX="373.0" layoutY="185.0" text="Últimas ofertas realizadas">

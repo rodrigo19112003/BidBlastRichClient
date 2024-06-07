@@ -1,6 +1,7 @@
 package api;
 
 import api.responses.auctions.AuctionJSONResponse;
+import api.responses.auctions.AuctionLastOfferJSONResponse;
 
 import java.util.List;
 
@@ -26,6 +27,14 @@ public interface IAuctionsService {
     Call<AuctionJSONResponse> getAuctionById(
         @Header("Authorization") String authHeader,
         @Path("idAuction") int idAuction
+    );
+    
+    @GET("auctions/{idAuction}/offers")
+    Call<List<AuctionLastOfferJSONResponse>> getUserAuctionOffersByAuctionId(
+        @Header("Authorization") String authHeader,
+        @Path("idAuction") int idAuction,
+        @Query("limit") int limit,
+        @Query("offset") int offset
     );
 
     @GET("users/completed-auctions")

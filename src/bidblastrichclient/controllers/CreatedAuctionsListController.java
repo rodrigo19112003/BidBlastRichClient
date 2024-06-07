@@ -298,7 +298,7 @@ public class CreatedAuctionsListController implements Initializable {
             String phoneNumber = cellData.getValue().getLastOffer().getCustomer().getPhoneNumber();
             
             return new SimpleStringProperty(
-                phoneNumber != null ? phoneNumber : "NA"
+                phoneNumber != null && !phoneNumber.isEmpty() ? phoneNumber : "NA"
             );
         });
         colPrice.setCellValueFactory(cellData -> {
@@ -658,7 +658,8 @@ public class CreatedAuctionsListController implements Initializable {
     private void imgCopyPhoneNumberClick(MouseEvent event) {
          Auction auction = tvSoldAuctions.getSelectionModel().getSelectedItem();
         if(auction != null){
-            if (auction.getLastOffer().getCustomer().getPhoneNumber() != null) {
+            if (auction.getLastOffer().getCustomer().getPhoneNumber() != null &&
+                    !auction.getLastOffer().getCustomer().getPhoneNumber().isEmpty()) {
                 String phoneNumber = auction.getLastOffer().getCustomer().getPhoneNumber();
                 Clipboard clipboard = Clipboard.getSystemClipboard();
                 ClipboardContent content = new ClipboardContent();
