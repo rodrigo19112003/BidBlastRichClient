@@ -1,13 +1,16 @@
 package api;
 
+import api.requests.auctions.BlockedProfileBody;
 import api.responses.auctions.AuctionJSONResponse;
 import api.responses.auctions.AuctionLastOfferJSONResponse;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -35,6 +38,13 @@ public interface IAuctionsService {
         @Path("idAuction") int idAuction,
         @Query("limit") int limit,
         @Query("offset") int offset
+    );
+    
+    @POST("auctions/{idAuction}/user-blocking")
+    Call<Void> blockUserInAnAuctionAndDeleteHisOffers(
+        @Header("Authorization") String authHeader,
+        @Path("idAuction") int idAuction,
+        @Body BlockedProfileBody idProfile
     );
 
     @GET("users/completed-auctions")
