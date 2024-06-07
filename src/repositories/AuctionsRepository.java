@@ -2,6 +2,7 @@ package repositories;
 
 import api.ApiClient;
 import api.IAuctionsService;
+import api.requests.auctions.BlockedProfileBody;
 import api.responses.auctioncategories.AuctionCategoryJSONResponse;
 import api.responses.auctions.AuctionAuctioneerJSONResponse;
 import api.responses.auctions.AuctionCustomerJSONResponse;
@@ -336,13 +337,35 @@ public class AuctionsRepository {
                         statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
                     }
                 } else {
-                    System.out.println("DIO ERROR");
                     statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
                 }
             }
 
             @Override
             public void onFailure(Call<List<AuctionLastOfferJSONResponse>> call, Throwable t) {
+                statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+            }
+        });
+    }
+    
+    public void blockUserInAnAuctionAndDeleteHisOffers(
+        int idAuction,
+        int idProfile, 
+        IEmptyProcessStatusListener statusListener) {
+        IAuctionsService auctionsService = ApiClient.getInstance().getAuctionsService();
+        String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
+        auctionsService.blockUserInAnAuctionAndDeleteHisOffers(authHeader, idAuction, new BlockedProfileBody(idProfile)).enqueue(new Callback<Void> () {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    statusListener.onSuccess();
+                } else {
+                    statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
                 statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
             }
         });

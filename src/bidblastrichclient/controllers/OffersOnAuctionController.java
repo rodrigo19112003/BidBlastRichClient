@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,6 +23,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -46,6 +52,7 @@ import model.HypermediaFile;
 import model.Offer;
 import model.User;
 import repositories.AuctionsRepository;
+import repositories.IEmptyProcessStatusListener;
 import repositories.IProcessStatusListener;
 import repositories.ProcessErrorCodes;
 
@@ -219,6 +226,37 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
         );
     }
     
+    private void blockUser(int idProfile) {
+        new AuctionsRepository().blockUserInAnAuctionAndDeleteHisOffers(
+            idAuction, idProfile,
+            new IEmptyProcessStatusListener() {
+                @Override
+                public void onSuccess() {
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Usuario bloqueado con éxito");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Se bloqueó al usuario de forma "
+                                + "exitosa");
+                        alert.showAndWait();
+                        loadOffers();
+                    });
+                }
+
+                @Override
+                public void onError(ProcessErrorCodes errorCode) {
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Error de conexión");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Ocurrió un error al bloquear el usuario");
+                        alert.showAndWait();
+                    });
+                }
+            }
+        );
+    }
+    
     private int getLimitFilterValue() {
         int limit = 10;
         
@@ -239,6 +277,27 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
         }
         
         return offset;
+    }
+    
+    private boolean validateFiltersValues() {
+        String limit = tfLimit.getText().trim();
+        String offset = tfOffset.getText().trim();
+        
+        boolean isValidLimit = limit.isEmpty() 
+            || (ValidationToolkit.isNumeric(limit) && Integer.parseInt(limit) > 0);
+        boolean isValidOffset = offset.isEmpty() || ValidationToolkit.isNumeric(offset);
+        
+        return isValidLimit && isValidOffset;
+    }
+    
+    private void showInvalidFiltersValuesError() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Filtros inválidos");
+        alert.setHeaderText(null);
+        alert.setContentText("Verifique que los valores ingresados en los campos "
+            + "offset y limit sean números enteros no negativos. Tome en cuenta "
+            + "que el valor mínimo aceptado de limit es 1");
+        alert.showAndWait();
     }
     
     private void loadImagesOnCarrusel(){
@@ -385,11 +444,36 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
 
     @FXML
     private void btnBlockPurchaserClick(ActionEvent event) {
-        
+        Offer offer = tvOffersMade.getSelectionModel().getSelectedItem();
+        if (offer != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmación de bloqueo de usuario");
+            alert.setHeaderText(null);
+            alert.setContentText("¿Estás seguro de que deseas bloquear al usuario?, se "
+                    + "eliminarán sus ofertas y ya no podrá ofertar en esta subasta.");
+            Optional<ButtonType> result = alert.showAndWait();
+            
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                blockUser(offer.getCustomer().getId());
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Seleccione una oferta");
+            alert.setHeaderText(null);
+            alert.setContentText("Seleccione una oferta de la lista para bloquear"
+                    + " al usuario que la realizó");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     private void btnLoadOffersClick(ActionEvent event) {
-        loadOffers();
+        boolean validFilters = validateFiltersValues();
+        
+        if(!validFilters) {
+            showInvalidFiltersValuesError();
+        } else {
+            loadOffers();
+        }
     }
 }
