@@ -10,15 +10,20 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -31,12 +36,15 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import lib.DateToolkit;
 import lib.ImageToolkit;
 import lib.Navigation;
+import lib.ValidationToolkit;
 import model.Auction;
 import model.HypermediaFile;
 import model.Offer;
+import model.User;
 import repositories.AuctionsRepository;
 import repositories.IProcessStatusListener;
 import repositories.ProcessErrorCodes;
@@ -51,6 +59,8 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
     private TableColumn<Offer, Image> colAvatar;
     @FXML
     private TableColumn<Offer, String> colPurchaserName;
+    @FXML
+    private TableColumn<Offer, String> colCreationDate;
     @FXML
     private TableColumn<Offer, String> colOffer;
     @FXML
@@ -71,16 +81,82 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
     private int idAuction;
     @FXML
     private ImageView imgMainHypermediaFile;
-    List<HypermediaFile> hypermediaFiles;
+    private List<HypermediaFile> hypermediaFiles;
+    private ObservableList<Offer> offersList;
 
    @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        configureOffersTable();
     }
     
     public void setIdAuction(int idAuction){
         this.idAuction = idAuction;
         loadAuction();
+        loadOffers();
+    }
+    
+    private void configureOffersTable() {
+        colPurchaserName.setCellValueFactory(cellData -> {
+            User customer = cellData.getValue().getCustomer();
+            
+            return new SimpleStringProperty(
+                customer != null ? customer.getFullName() : "NA"
+            );
+        });
+        colCreationDate.setCellValueFactory(cellData -> {
+            Date purchaseDate = cellData.getValue().getCreationDate();
+            
+            return new SimpleStringProperty(
+                DateToolkit.parseToFullDateWithHour(purchaseDate)
+            );
+        });
+        colOffer.setCellValueFactory(cellData -> {
+            float offer = cellData.getValue().getAmount();
+            
+            return new SimpleStringProperty(
+                    "$" + offer
+            );
+        });
+        configureCustomerAvatarColumn();
+    }
+    
+    private void configureCustomerAvatarColumn() {
+        colAvatar.setCellValueFactory(cellData -> {
+            String customerAvatar = 
+                cellData.getValue().getCustomer().getAvatar() == null 
+                    ? null 
+                    : cellData.getValue().getCustomer().getAvatar();
+            
+            if (customerAvatar != null) {
+                Image jfxImage = 
+                    ImageToolkit.decodeBase64ToImage(customerAvatar);
+                return new javafx.beans.property.SimpleObjectProperty<>(jfxImage);
+            }
+            return new javafx.beans.property.SimpleObjectProperty<>(null);
+        });
+
+        colAvatar.setCellFactory(new Callback<TableColumn<Offer, Image>, TableCell<Offer, Image>>() {
+            @Override
+            public TableCell<Offer, Image> call(TableColumn<Offer, Image> param) {
+                return new TableCell<Offer, Image>() {
+                    private final ImageView imageView = new ImageView();
+
+                    @Override
+                    protected void updateItem(Image item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setGraphic(null);
+                        } else {
+                            imageView.setImage(item);
+                            imageView.setFitWidth(30);
+                            imageView.setFitHeight(30 * item.getHeight() / item.getWidth());
+                            setGraphic(imageView);
+                            setStyle("-fx-alignment: CENTER;");
+                        }
+                    }
+                };
+            }
+        });
     }
     
     private void loadAuction(){
@@ -111,6 +187,58 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
                 }
             }
         );
+    }
+    
+    private void loadOffers() {
+        int limit = getLimitFilterValue(),
+            offset = getOffsetFilterValue();
+        new AuctionsRepository().getUserAuctionOffersByAuctionId(
+            idAuction, limit, offset,
+            new IProcessStatusListener<List<Offer>>() {
+                @Override
+                public void onSuccess(List<Offer> offers) {
+                    Platform.runLater(() -> {
+                        offersList = FXCollections.observableArrayList();
+                        offersList.addAll(offers);
+                        tvOffersMade.setItems(offersList);
+                    });
+                }
+
+                @Override
+                public void onError(ProcessErrorCodes errorCode) {
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Error de conexión");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Ocurrió un error al cargar las "
+                            + "ofertas, por favor intente más tarde");
+                        alert.showAndWait();
+                    });
+                }
+            }
+        );
+    }
+    
+    private int getLimitFilterValue() {
+        int limit = 10;
+        
+        String limitValue = tfLimit.getText().trim();
+        if(ValidationToolkit.isNumeric(limitValue)) {
+            limit = Integer.parseInt(limitValue);
+        }
+        
+        return limit;
+    }
+    
+    private int getOffsetFilterValue() {
+        int offset = 0;
+        
+        String offsetValue = tfOffset.getText().trim();
+        if(ValidationToolkit.isNumeric(offsetValue)) {
+            offset = Integer.parseInt(offsetValue);
+        }
+        
+        return offset;
     }
     
     private void loadImagesOnCarrusel(){
@@ -257,9 +385,11 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
 
     @FXML
     private void btnBlockPurchaserClick(ActionEvent event) {
+        
     }
 
     @FXML
     private void btnLoadOffersClick(ActionEvent event) {
+        loadOffers();
     }
 }

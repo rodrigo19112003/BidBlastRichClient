@@ -295,6 +295,59 @@ public class AuctionsRepository {
         });
     }
     
+    public void getUserAuctionOffersByAuctionId(
+        int idAuction, 
+        int limit,
+        int offset,
+        IProcessStatusListener<List<Offer>> statusListener) {
+        IAuctionsService auctionsService = ApiClient.getInstance().getAuctionsService();
+        String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
+        auctionsService.getUserAuctionOffersByAuctionId(authHeader, idAuction, limit, offset).enqueue(new Callback<List<AuctionLastOfferJSONResponse>> () {
+            @Override
+            public void onResponse(Call<List<AuctionLastOfferJSONResponse>> call, Response<List<AuctionLastOfferJSONResponse>> response) {
+                if (response.isSuccessful()) {
+                    List<AuctionLastOfferJSONResponse> body = response.body();
+                    
+                    if (body != null) {
+                        List<Offer> offersList = new ArrayList<>();
+                        
+                        for (AuctionLastOfferJSONResponse offerRes : body) {
+                            Offer offer = new Offer();
+                            
+                            offer.setId(offerRes.getId());
+                            offer.setAmount(offerRes.getAmount());
+                            offer.setCreationDate(DateToolkit.parseDateFromIS8601(offerRes.getCreationDate()));
+                            
+                            if (offerRes.getCustomer() != null) {
+                                User customer = new User();
+                                
+                                customer.setId(offerRes.getCustomer().getId());
+                                customer.setFullName(offerRes.getCustomer().getFullName());
+                                customer.setAvatar(offerRes.getCustomer().getAvatar());
+                                
+                                offer.setCustomer(customer);
+                            }
+                            
+                            offersList.add(offer);
+                        }
+                        
+                        statusListener.onSuccess(offersList);
+                    } else {
+                        statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+                    }
+                } else {
+                    System.out.println("DIO ERROR");
+                    statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AuctionLastOfferJSONResponse>> call, Throwable t) {
+                statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+            }
+        });
+    }
+    
     public void getAuctionById(int idAuction, IProcessStatusListener<Auction> statusListener) {
         IAuctionsService auctionsService = ApiClient.getInstance().getAuctionsService();
         String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
