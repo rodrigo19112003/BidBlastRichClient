@@ -23,11 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -372,6 +368,11 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
     public void onVideoFetchError(Throwable error) {
         Platform.runLater(() -> {
             System.out.println("Error al obtener el fragmento de video: " + error.getMessage());
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error al cargar el video");
+            alert.setHeaderText(null);
+            alert.setContentText("No se pudo cargar el video, inténtalo de nuevo");
+            alert.showAndWait();
         });
     }
 
@@ -435,6 +436,16 @@ public class OffersOnAuctionController implements Initializable, VideoStreamList
 
     @FXML
     private void imgReturnToPreviousPageClick(MouseEvent event) {
+        if (Client.getChannelStatus() && client != null) {
+            videoFragments.clear();
+            client.shutdown();
+            client = null;
+        }
+        if (mediaPlayer != null && 
+                mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
+            mediaPlayer.stop();
+            mediaPlayer = null;
+        }
         Stage baseStage = (Stage) tfLimit.getScene().getWindow();
 
         baseStage.setScene(Navigation.startScene("views/CreatedAuctionsListView.fxml"));

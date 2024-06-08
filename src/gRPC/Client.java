@@ -38,6 +38,7 @@ public class Client {
             @Override
             public void onError(Throwable t) {
                 Platform.runLater(() -> streamListener.onVideoFetchError(t));
+                channel.shutdownNow();
             }
 
             @Override
@@ -52,6 +53,6 @@ public class Client {
     }
 
     public void shutdown() {
-        channel.shutdown();
+        channel.shutdownNow();
     }
 }
