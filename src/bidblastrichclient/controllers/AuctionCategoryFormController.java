@@ -130,7 +130,6 @@ public class AuctionCategoryFormController implements Initializable {
     @FXML
     private void btnSaveAuctionCategoryClick(ActionEvent event) {
         hideErrorMessages();
-        isEdition = true;
         if (verifyTextFields()) {
             if (isEdition) {
                 modifyAuctionCategory();
@@ -143,16 +142,41 @@ public class AuctionCategoryFormController implements Initializable {
     }
     
     private void registerAuctionCategory() {
-        // TODO
+        new AuctionCategoriesRepository().registerAuctionCategory(
+            new AuctionCategoryBody(
+                tfTitle.getText(),
+                tfDescription.getText(),
+                tfKeywords.getText()
+            ),
+            new IEmptyProcessStatusListener() {
+                @Override
+                public void onSuccess() {
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Categoría registrada exitosamente");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Se registró la información de la "
+                                + "categoría de forma correcta");
+                        alert.showAndWait();
+                        redirectToPreviousPage();
+                    });
+                }
+
+                @Override
+                public void onError(ProcessErrorCodes errorCode) {
+                    showLoginError(errorCode);
+                }
+            }
+        );
     }
     
     private void modifyAuctionCategory() {
         new AuctionCategoriesRepository().updateAuctionCategory(
            idAuctionCategory,
             new AuctionCategoryBody(
-                    tfTitle.getText(),
-                    tfDescription.getText(),
-                    tfKeywords.getText()
+                tfTitle.getText(),
+                tfDescription.getText(),
+                tfKeywords.getText()
             ),
             new IEmptyProcessStatusListener() {
                 @Override
@@ -184,7 +208,7 @@ public class AuctionCategoryFormController implements Initializable {
                     errorMessage = "Titulo de categoría ya registrado";
                     break;
                 default:
-                    errorMessage = "Por el momento no es guardar la información "
+                    errorMessage = "Por el momento no se puede guardar la información "
                             + "de la categoría, por favor inténtelo más tarde";
             }
         

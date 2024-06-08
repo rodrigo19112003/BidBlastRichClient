@@ -54,6 +54,33 @@ public class AuctionCategoriesRepository {
             }
         });
     }
+    
+    public void registerAuctionCategory(
+        AuctionCategoryBody auctionCategoryBody,
+        IEmptyProcessStatusListener statusListener) {
+        IAuctionCategoriesService categoriesService = ApiClient.getInstance().getAuctionCategoriesService();
+        String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
+        
+        categoriesService.registerAuctionCategory(authHeader, auctionCategoryBody).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.isSuccessful()){
+                    statusListener.onSuccess();
+                }else{
+                    if(response.code() == 400) {
+                        statusListener.onError(ProcessErrorCodes.REQUEST_FORMAT_ERROR);
+                    } else {
+                        statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+            }
+        });
+    }
 
     public void updateAuctionCategory(
         int idAuctionCategory,
