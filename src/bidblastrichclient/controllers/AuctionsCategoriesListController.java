@@ -24,12 +24,12 @@ import repositories.AuctionCategoriesRepository;
 import repositories.IProcessStatusListener;
 import repositories.ProcessErrorCodes;
 
-public class ProductCategoryController implements Initializable {
+public class AuctionsCategoriesListController implements Initializable {
 
     @FXML
     private ImageView imgReturnToPreviousPage;
     @FXML
-    private TableView<AuctionCategory> tvAuctions;
+    private TableView<AuctionCategory> tvAuctionCategories;
     @FXML
     private TableColumn<AuctionCategory, String> colCategoryTitle;
     @FXML
@@ -49,7 +49,7 @@ public class ProductCategoryController implements Initializable {
         repository.getAuctionCategories(new IProcessStatusListener<List<AuctionCategory>>() {
             @Override
             public void onSuccess(List<AuctionCategory> auctionCategories) {
-                Platform.runLater(() -> tvAuctions.getItems().setAll(auctionCategories));
+                Platform.runLater(() -> tvAuctionCategories.getItems().setAll(auctionCategories));
             }
 
             @Override
@@ -71,24 +71,53 @@ public class ProductCategoryController implements Initializable {
         Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
 
         baseStage.setScene(Navigation.startScene("views/ModeratorMenuView.fxml"));
-        baseStage.setTitle("Categorias de producto");
+        baseStage.setTitle("Categorias de subastas");
         baseStage.show();
     }
 
     @FXML
-    private void btnNewCategoryClick(ActionEvent event) {
-        Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
-        baseStage.setScene(Navigation.startScene("views/AuctionCategoryFormView.fxml"));
-        baseStage.setTitle("Modificar categoría de producto");
-        baseStage.show();
+    private void btnNewCategoryClick(ActionEvent event) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/bidblastrichclient/views/AuctionCategoryFormView.fxml"));
+            Parent root = loader.load();
+            AuctionCategoryFormController controller = loader.getController();
+
+            controller.setAuctionCategoryInformation(null, false);
+            Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+            baseStage.setScene(new Scene(root));
+            baseStage.setTitle("Registrar categoría de subastas");
+            baseStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     private void btnEditClick(ActionEvent event) {
-        Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+        AuctionCategory category = tvAuctionCategories.getSelectionModel().getSelectedItem();
+        
+        if (category != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/bidblastrichclient/views/AuctionCategoryFormView.fxml"));
+                Parent root = loader.load();
+                AuctionCategoryFormController controller = loader.getController();
 
-        baseStage.setScene(Navigation.startScene("views/AuctionCategoryFormView.fxml"));
-        baseStage.setTitle("Modificar categoría de producto");
-        baseStage.show();
+                controller.setAuctionCategoryInformation(category, true);
+                Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+                baseStage.setScene(new Scene(root));
+                baseStage.setTitle("Modificar categoría de subastas");
+                baseStage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Seleccione una categoría");
+            alert.setHeaderText(null);
+            alert.setContentText("Seleccione una categoría de la lista para poder "
+                    + "editarla");
+            alert.showAndWait();
+        }
     }
-    
 }

@@ -27,8 +27,8 @@ public class ModeratorMenuController implements Initializable {
     private void btnAuctionCategoriesListClick(ActionEvent event) {
         Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
 
-        baseStage.setScene(Navigation.startScene("views/ProductCategoryView.fxml"));
-        baseStage.setTitle("Categorias de producto");
+        baseStage.setScene(Navigation.startScene("views/AuctionsCategoriesListView.fxml"));
+        baseStage.setTitle("Categorias de subastas");
         baseStage.show();
     }
 }
