@@ -25,7 +25,7 @@
          </font></Button>
       <Pane prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #00086A;">
          <children>
-            <ImageView fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="24.0" onDragDetected="#btnGoToAuctionCategoriesListClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+            <ImageView fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="24.0" onMouseClicked="#imgReturnToPreviousPageClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../resources/Arrow.png" />
                </image>

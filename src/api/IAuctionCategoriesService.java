@@ -19,7 +19,7 @@ public interface IAuctionCategoriesService {
     );
 
     @PUT("auction-categories/{id}")
-    Call<UpdatedAuctionCategoryJSONResponse> updateAuctionCategory(
+    Call<Void> updateAuctionCategory(
         @Header("Authorization") String authHeader,
         @Path("id") int idAuctionCategory,
         @Body AuctionCategoryBody auctionCategoryBody
