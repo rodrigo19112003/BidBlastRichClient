@@ -2,6 +2,7 @@ package bidblastrichclient.controllers;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -24,9 +26,10 @@ import lib.ImageToolkit;
 import lib.Navigation;
 import lib.ValidationToolkit;
 import model.User;
+import repositories.IEmptyProcessStatusListener;
 import repositories.IProcessStatusListener;
 import repositories.ProcessErrorCodes;
-import repositories.UserRepository;
+import repositories.UsersRepository;
 
 public class UsersListController implements Initializable {
 
@@ -89,7 +92,7 @@ public class UsersListController implements Initializable {
             );
         });
         colPossibilityOfElimination.setCellValueFactory(cellData -> {
-            boolean isRemovable = cellData.getValue().isIsRemovable();
+            boolean isRemovable = cellData.getValue().getIsRemovable();
             
             return new SimpleStringProperty(
                 isRemovable ? "Se puede eliminar" : "No se puede eliminar"
@@ -142,7 +145,7 @@ public class UsersListController implements Initializable {
         int limit = getLimitFilterValue(),
             offset = getOffsetFilterValue();
         String searchQuery = tfUserToSearch.getText().trim();
-        new UserRepository().getUsersList(
+        new UsersRepository().getUsersList(
             searchQuery, limit, offset,
             new IProcessStatusListener<List<User>>() {
                 @Override
@@ -167,6 +170,52 @@ public class UsersListController implements Initializable {
                 }
             }
         );
+    }
+    
+    private void deleteUser(int idProfile) {
+        new UsersRepository().deleteUser(
+            idProfile, 
+            new IEmptyProcessStatusListener() {
+                @Override
+                public void onSuccess() {
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Usuario eliminado con éxito");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Se eliminó al usuario de forma "
+                                + "exitosa");
+                        alert.showAndWait();
+                        loadUsers();
+                    });
+                }
+
+                @Override
+                public void onError(ProcessErrorCodes errorCode) {
+                    showLoginError(errorCode);
+                }
+        });
+    }
+    
+    private void showLoginError(ProcessErrorCodes errorStatus) {
+        Platform.runLater(() -> {
+            String errorMessage;
+            switch(errorStatus) {
+                case REQUEST_FORMAT_ERROR:
+                    errorMessage = "El usuario ya no puede ser eliminado, porque "
+                            + "cambio su actividad en el sistema o porque ya fue "
+                            + "eliminado ";
+                    break;
+                default:
+                    errorMessage = "Por el momento no se puede eliminar al usuario, "
+                            + "por favor inténtelo más tarde";
+            }
+        
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error al eliminar al usuario");
+            alert.setHeaderText(null);
+            alert.setContentText(errorMessage);
+            alert.showAndWait();
+        });
     }
     
     private int getLimitFilterValue() {
@@ -232,6 +281,32 @@ public class UsersListController implements Initializable {
 
     @FXML
     private void btnDeleteUserClick(ActionEvent event) {
-        
+        User user = tvUsers.getSelectionModel().getSelectedItem();
+        if (user != null) {
+            if (user.getIsRemovable()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmación de eliminación de usuario");
+                alert.setHeaderText(null);
+                alert.setContentText("¿Estás seguro de que deseas eliminar al "
+                        + "usuario del sistema?, ya no tendrá acceso");
+                Optional<ButtonType> result = alert.showAndWait();
+
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    deleteUser(user.getId());
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("No se puede eliminar este usuario");
+                alert.setHeaderText(null);
+                alert.setContentText("El usuario seleccionado no se puede eliminar");
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Seleccione un usuario");
+            alert.setHeaderText(null);
+            alert.setContentText("Seleccione un usuario de la lista para eliminarlo");
+            alert.showAndWait();
+        }
     }
 }

@@ -13,10 +13,10 @@ import java.util.List;
 import lib.Session;
 import model.User;
 
-public class UserRepository {
+public class UsersRepository {
     private final IUserService registerService;
 
-    public UserRepository() {
+    public UsersRepository() {
         registerService = ApiClient.getInstance().getUserService();
     }
     
@@ -86,6 +86,33 @@ public class UserRepository {
             @Override
             public void onFailure(Call<UserRegisterJSONResponse> call, Throwable t) {
                 creationListener.onError(ProcessErrorCodes.FATAL_ERROR);
+            }
+        });
+    }
+    
+    public void deleteUser(
+        int idProfile,
+        IEmptyProcessStatusListener statusListener) {
+        IUserService usersService = ApiClient.getInstance().getUserService();
+        String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
+        
+        usersService.deleteUser(authHeader, idProfile).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    statusListener.onSuccess();
+                }else{
+                    if(response.code() == 400) {
+                        statusListener.onError(ProcessErrorCodes.REQUEST_FORMAT_ERROR);
+                    } else {
+                        statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
             }
         });
     }

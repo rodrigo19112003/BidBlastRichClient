@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import lib.Navigation;
 import lib.ValidationToolkit;
-import repositories.UserRepository;
+import repositories.UsersRepository;
 import repositories.IEmptyProcessStatusListener;
 import repositories.ProcessErrorCodes;
 
@@ -54,7 +54,7 @@ public class SignUpController implements Initializable {
     @FXML
     private Button btnRegister;
 
-    private UserRepository accountRepository;
+    private UsersRepository accountRepository;
     private String avatarBase64;
     @FXML
     private Label lblPasswordRules;
@@ -63,7 +63,7 @@ public class SignUpController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        accountRepository = new UserRepository();
+        accountRepository = new UsersRepository();
         lblFullNameError.setVisible(false);
         lblEmailError.setVisible(false);
         lblPasswordError.setVisible(false);

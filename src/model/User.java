@@ -70,7 +70,7 @@ public class User {
         this.roles = roles;
     }
 
-    public boolean isIsRemovable() {
+    public boolean getIsRemovable() {
         return isRemovable;
     }
 
