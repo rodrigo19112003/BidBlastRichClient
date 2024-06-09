@@ -10,7 +10,7 @@ public class ApiClient {
     public static final String API_BASE_URL = "http://localhost:3000/api/";
     private final Retrofit retrofit;
     private IAuthenticationService authenticationService;
-    private IRegisterService registerService;
+    private IUserService userService;
     private IAuctionCategoriesService auctionCategoriesService;
     private IAuctionsService auctionsService;
 
@@ -33,11 +33,11 @@ public class ApiClient {
         return authenticationService;
     }
     
-    public IRegisterService getRegisterService() {
-        if (registerService == null) {
-            registerService = retrofit.create(IRegisterService.class);
+    public IUserService getUserService() {
+        if (userService == null) {
+            userService = retrofit.create(IUserService.class);
         }
-        return registerService;
+        return userService;
     }
     
     public IAuctionsService getAuctionsService() {

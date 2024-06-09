@@ -3,10 +3,14 @@ package bidblastrichclient.controllers;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -18,7 +22,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import lib.ImageToolkit;
 import lib.Navigation;
+import lib.ValidationToolkit;
 import model.User;
+import repositories.IProcessStatusListener;
+import repositories.ProcessErrorCodes;
+import repositories.UserRepository;
 
 public class UsersListController implements Initializable {
 
@@ -42,10 +50,12 @@ public class UsersListController implements Initializable {
     private TableColumn<User, String> colPossibilityOfElimination;
     @FXML
     private TextField tfUserToSearch;
+    private ObservableList<User> usersList;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        configureUsersTable();
+        loadUsers();
     }    
 
     private void configureUsersTable() {
@@ -128,6 +138,80 @@ public class UsersListController implements Initializable {
         });
     }
     
+    private void loadUsers() {
+        int limit = getLimitFilterValue(),
+            offset = getOffsetFilterValue();
+        String searchQuery = tfUserToSearch.getText().trim();
+        new UserRepository().getUsersList(
+            searchQuery, limit, offset,
+            new IProcessStatusListener<List<User>>() {
+                @Override
+                public void onSuccess(List<User> users) {
+                    Platform.runLater(() -> {
+                        usersList = FXCollections.observableArrayList();
+                        usersList.addAll(users);
+                        tvUsers.setItems(usersList);
+                    });
+                }
+
+                @Override
+                public void onError(ProcessErrorCodes errorCode) {
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Error de conexión");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Ocurrió un error al cargar los "
+                            + "usuarios del sistema, por favor intente más tarde");
+                        alert.showAndWait();
+                    });
+                }
+            }
+        );
+    }
+    
+    private int getLimitFilterValue() {
+        int limit = 10;
+        
+        String limitValue = tfLimit.getText().trim();
+        if(ValidationToolkit.isNumeric(limitValue)) {
+            limit = Integer.parseInt(limitValue);
+        }
+        
+        return limit;
+    }
+    
+    private int getOffsetFilterValue() {
+        int offset = 0;
+        
+        String offsetValue = tfOffset.getText().trim();
+        if(ValidationToolkit.isNumeric(offsetValue)) {
+            offset = Integer.parseInt(offsetValue);
+        }
+        
+        return offset;
+    }
+    
+    private boolean validateFiltersValues() {
+        String limit = tfLimit.getText().trim();
+        String offset = tfOffset.getText().trim();
+        
+        boolean isValidLimit = limit.isEmpty() 
+            || (ValidationToolkit.isNumeric(limit) && Integer.parseInt(limit) > 0);
+        boolean isValidOffset = offset.isEmpty() || ValidationToolkit.isNumeric(offset);
+        
+        return isValidLimit && isValidOffset;
+    }
+    
+    private void showInvalidFiltersValuesError() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Filtros inválidos");
+        alert.setHeaderText(null);
+        alert.setContentText("Verifique que los valores ingresados en los campos "
+            + "offset y limit sean números enteros no negativos. Tome en cuenta "
+            + "que el valor mínimo aceptado de limit es 1");
+        alert.showAndWait();
+    }
+    
     @FXML
     private void imgReturnToPreviousPageClick(MouseEvent event) {
         Stage baseStage = (Stage) tfLimit.getScene().getWindow();
@@ -137,12 +221,17 @@ public class UsersListController implements Initializable {
 
     @FXML
     private void imgSearchUserClick(MouseEvent event) {
+        boolean validFilters = validateFiltersValues();
         
+        if(!validFilters) {
+            showInvalidFiltersValuesError();
+        } else {
+            loadUsers();
+        }
     }
 
     @FXML
     private void btnDeleteUserClick(ActionEvent event) {
         
     }
-    
 }

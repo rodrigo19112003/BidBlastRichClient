@@ -140,7 +140,10 @@ public class AuctionsRepository {
                             auction.setBasePrice(auctionRes.getBasePrice());
                             auction.setMinimumBid(auctionRes.getMinimumBid());
                             auction.setDaysAvailable(auctionRes.getDaysAvailable());
-                            auction.setClosesAt(DateToolkit.parseDateFromIS8601(auctionRes.getClosesAt()));
+                            
+                            if (auctionRes.getClosesAt() != null) {
+                                auction.setClosesAt(DateToolkit.parseDateFromIS8601(auctionRes.getClosesAt()));
+                            }
 
                             AuctionLastOfferJSONResponse lastOfferRes = auctionRes.getLastOffer();
                             if(lastOfferRes != null) {
@@ -182,8 +185,6 @@ public class AuctionsRepository {
                                 auction.setMediaFiles(mediaFiles);
                             }
 
-                            auctionsList.add(auction);
-
                             AuctionReviewJSONResponse reviewRes = auctionRes.getReview();
                             if(reviewRes != null) {
                                 AuctionReview review = new AuctionReview();
@@ -194,6 +195,8 @@ public class AuctionsRepository {
 
                                 auction.setReview(review);
                             }
+
+                            auctionsList.add(auction);
                         }
 
                         statusListener.onSuccess(auctionsList);

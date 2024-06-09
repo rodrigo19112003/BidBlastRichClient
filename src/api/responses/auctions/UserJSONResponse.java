@@ -1,11 +1,14 @@
 package api.responses.auctions;
 
+import java.util.List;
+
 public class UserJSONResponse {
     private int id;
     private String fullName;
     private String phoneNumber;
     private String email;
     private String avatar;
+    private List<String> roles;
     private boolean isRemovable;
 
     public UserJSONResponse() {
@@ -62,6 +65,14 @@ public class UserJSONResponse {
 
     public boolean isIsRemovable() {
         return isRemovable;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
     public void setIsRemovable(boolean isRemovable) {

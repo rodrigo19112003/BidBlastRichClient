@@ -1,4 +1,4 @@
-package api.requests.register;
+package api.requests.user;
 
 public class UserRegisterBody {
     private String fullName;
