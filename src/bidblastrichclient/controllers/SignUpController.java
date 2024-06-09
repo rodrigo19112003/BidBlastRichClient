@@ -1,6 +1,6 @@
 package bidblastrichclient.controllers;
 
-import api.requests.register.UserRegisterBody;
+import api.requests.user.UserRegisterBody;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import lib.Navigation;
 import lib.ValidationToolkit;
-import repositories.AccountRepository;
+import repositories.UsersRepository;
 import repositories.IEmptyProcessStatusListener;
 import repositories.ProcessErrorCodes;
 
@@ -54,7 +54,7 @@ public class SignUpController implements Initializable {
     @FXML
     private Button btnRegister;
 
-    private AccountRepository accountRepository;
+    private UsersRepository accountRepository;
     private String avatarBase64;
     @FXML
     private Label lblPasswordRules;
@@ -63,7 +63,7 @@ public class SignUpController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        accountRepository = new AccountRepository();
+        accountRepository = new UsersRepository();
         lblFullNameError.setVisible(false);
         lblEmailError.setVisible(false);
         lblPasswordError.setVisible(false);
@@ -159,7 +159,7 @@ public class SignUpController implements Initializable {
         if (validateFields(fullName, email, password, confirmPassword)) {
             UserRegisterBody body = new UserRegisterBody(fullName, email, phoneNumber, avatarBase64, password);
 
-            accountRepository.createAccount(body, new IEmptyProcessStatusListener() {
+            accountRepository.createUser(body, new IEmptyProcessStatusListener() {
                 @Override
                 public void onSuccess() {
                     System.out.println("Account created successfully!");

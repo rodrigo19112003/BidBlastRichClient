@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bidblastrichclient.controllers.UsersListController">
+   <children>
+      <Pane prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #00086A;">
+         <children>
+            <ImageView fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="24.0" onMouseClicked="#imgReturnToPreviousPageClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../resources/Arrow.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="52.0" layoutY="19.0" text="Usuarios" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <TextField fx:id="tfUserToSearch" layoutX="65.0" layoutY="101.0" prefHeight="33.0" prefWidth="728.0" promptText="Buscar en usuarios" style="-fx-border-color: black; -fx-background-color: withe; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="800.0" layoutY="100.0" onMouseClicked="#imgSearchUserClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+         <image>
+            <Image url="@../resources/Search.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="65.0" layoutY="139.0" text="Limit">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfLimit" layoutX="65.0" layoutY="164.0" prefHeight="33.0" prefWidth="266.0" promptText="Cantidad de usuarios a recuperar" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="339.0" layoutY="139.0" text="Offset">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfOffset" layoutX="339.0" layoutY="164.0" prefHeight="33.0" prefWidth="266.0" promptText="Cantidad de usuarios a omitir" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Button layoutX="695.0" layoutY="163.0" mnemonicParsing="false" onAction="#btnDeleteUserClick" prefHeight="35.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-border-radius: 5; -fx-border-color: #0014FF; -fx-cursor: hand;" text="Eliminar usuario" textFill="#0014ff">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <TableView fx:id="tvUsers" layoutX="64.0" layoutY="212.0" prefHeight="344.0" prefWidth="772.0">
+         <columns>
+            <TableColumn fx:id="colUserAvatar" prefWidth="90.0" text="Avatar del vendedor" />
+            <TableColumn fx:id="colFullName" prefWidth="160.0" text="Nombre del vendedor" />
+            <TableColumn fx:id="colEmail" prefWidth="183.0" text="Correo electrónico" />
+            <TableColumn fx:id="colPhoneNumber" prefWidth="126.0" text="Número de teléfono" />
+            <TableColumn fx:id="colRole" minWidth="0.0" prefWidth="98.0" text="Rol" />
+            <TableColumn fx:id="colPossibilityOfElimination" minWidth="0.0" prefWidth="114.0" text="Posibilidad de eliminación" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

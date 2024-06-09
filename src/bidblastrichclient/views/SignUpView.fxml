@@ -11,7 +11,7 @@
 
 <ScrollPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bidblastrichclient.controllers.SignUpController">
     <content>
-        <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;">
+        <AnchorPane id="AnchorPane" prefHeight="688.0" prefWidth="880.0" style="-fx-background-color: white;">
             <children>
                 <TextField fx:id="tfFullName" layoutX="222.0" layoutY="448.0" prefHeight="33.0" prefWidth="509.0" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5;">
                     <font>
