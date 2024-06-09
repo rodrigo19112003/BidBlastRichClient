@@ -102,11 +102,15 @@ public class LoginController implements Initializable {
     private void redirectToMenu() {
         Platform.runLater(() -> {
             String MODERATOR_ROLE = "MODERATOR";
+            String ADMINISTRATOR_ROLE = "ADMINISTRATOR";
             Stage baseStage = (Stage) tfEmail.getScene().getWindow();
 
             if(Session.getInstance().getUser().getRoles().contains(MODERATOR_ROLE)) {
                 baseStage.setScene(Navigation.startScene("views/ModeratorMenuView.fxml"));
                 baseStage.setTitle("Panel administrativo");
+            } else if (Session.getInstance().getUser().getRoles().contains(ADMINISTRATOR_ROLE)) {
+                baseStage.setScene(Navigation.startScene("views/UsersListView.fxml"));
+                baseStage.setTitle("Lista de usuarios");
             } else {
                 baseStage.setScene(Navigation.startScene("views/MainMenuView.fxml"));
                 baseStage.setTitle("Menu principal");
