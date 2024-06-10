@@ -1,13 +1,19 @@
 package bidblastrichclient.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lib.Navigation;
+import lib.Session;
 
 public class MainMenuController implements Initializable {
 
@@ -47,6 +53,33 @@ public class MainMenuController implements Initializable {
 
         baseStage.setScene(Navigation.startScene("views/CreatedAuctionsListView.fxml"));
         baseStage.setTitle("Subastas vendidas");
+        baseStage.show();
+    }
+
+    @FXML
+    private void btnModifyUserClick(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/bidblastrichclient/views/UserFormView.fxml"));
+            Parent root = loader.load();
+            UserFormController controller = loader.getController();
+
+            controller.setUserInformation(Session.getInstance().getUser(), true);
+            Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+            baseStage.setScene(new Scene(root));
+            baseStage.setTitle("Modificar usuario");
+            baseStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void imgReturnToPreviousPageClick(MouseEvent event) {
+        Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+        
+        baseStage.setScene(Navigation.startScene("views/LoginView.fxml"));
+        baseStage.setTitle("Inicio de sesión");
         baseStage.show();
     }
 }

@@ -86,12 +86,17 @@
             <Font size="10.0" />
          </font>
       </Label>
-      <Label fx:id="lblDescriptionError" layoutX="62.0" layoutY="319.0" text="Ingrese una descripción para la categoría de no más de 250 palabras" textFill="#ff1700">
+      <Label fx:id="lblDescriptionError" layoutX="62.0" layoutY="319.0" text="Ingrese una descripción para la categoría" textFill="#ff1700">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label fx:id="lblKeywordsError" layoutX="63.0" layoutY="453.0" text="Ingrese al menos tres palabras clave" textFill="#ff1700">
+      <Label fx:id="lblKeywordsError" layoutX="63.0" layoutY="453.0" text="Ingrese al menos 3 palabras clave" textFill="#ff1700">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label layoutX="628.0" layoutY="352.0" text="Mínimo 3 palabras clave separadas por comas">
          <font>
             <Font size="10.0" />
          </font>

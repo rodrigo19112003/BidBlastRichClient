@@ -49,6 +49,7 @@ public class AuctionCategoryFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         hideErrorMessages();
+        applyRestrictionsOnFields();
     }    
     
     public void setAuctionCategoryInformation(AuctionCategory category, boolean isEdition) {
@@ -82,12 +83,24 @@ public class AuctionCategoryFormController implements Initializable {
         lblKeywordsError.setVisible(false);
     }
     
+    private void applyRestrictionsOnFields() {
+        setFieldMaxLength(tfTitle, 60);
+    }
+    
+    private void setFieldMaxLength(TextField textField, int maxLength) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > maxLength) {
+                textField.setText(newValue.substring(0, maxLength));
+            }
+        });
+    }
+    
     private boolean verifyTextFields() {
         boolean areValid = 
-                !tfTitle.getText().isEmpty() &&
-                !tfDescription.getText().isEmpty() &&
-                !tfKeywords.getText().isEmpty() &&
-                ValidationToolkit.areValidKeywords(tfKeywords.getText());
+                !tfTitle.getText().trim().isEmpty() &&
+                !tfDescription.getText().trim().isEmpty() &&
+                !tfKeywords.getText().trim().isEmpty() &&
+                ValidationToolkit.areValidKeywords(tfKeywords.getText().trim());
         
         return areValid;
     }
@@ -131,10 +144,19 @@ public class AuctionCategoryFormController implements Initializable {
     private void btnSaveAuctionCategoryClick(ActionEvent event) {
         hideErrorMessages();
         if (verifyTextFields()) {
-            if (isEdition) {
-                modifyAuctionCategory();
-            } else {
-                registerAuctionCategory();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmación de guardado de información");
+            alert.setHeaderText(null);
+            alert.setContentText("¿Estás seguro de que deseas guardar la información "
+                    + "ingresada?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (isEdition) {
+                    modifyAuctionCategory();
+                } else {
+                    registerAuctionCategory();
+                }
             }
         } else {
             showTextFieldsErrorsMessage();
@@ -144,9 +166,9 @@ public class AuctionCategoryFormController implements Initializable {
     private void registerAuctionCategory() {
         new AuctionCategoriesRepository().registerAuctionCategory(
             new AuctionCategoryBody(
-                tfTitle.getText(),
-                tfDescription.getText(),
-                tfKeywords.getText()
+                tfTitle.getText().trim(),
+                tfDescription.getText().trim(),
+                tfKeywords.getText().trim()
             ),
             new IEmptyProcessStatusListener() {
                 @Override

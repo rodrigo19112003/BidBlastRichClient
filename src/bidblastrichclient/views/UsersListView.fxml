@@ -62,7 +62,7 @@
       <TableView fx:id="tvUsers" layoutX="64.0" layoutY="212.0" prefHeight="344.0" prefWidth="772.0">
          <columns>
             <TableColumn fx:id="colUserAvatar" prefWidth="90.0" text="Avatar del vendedor" />
-            <TableColumn fx:id="colFullName" prefWidth="160.0" text="Nombre del vendedor" />
+            <TableColumn fx:id="colFullName" prefWidth="160.0" text="Nombre del usuario" />
             <TableColumn fx:id="colEmail" prefWidth="183.0" text="Correo electrónico" />
             <TableColumn fx:id="colPhoneNumber" prefWidth="126.0" text="Número de teléfono" />
             <TableColumn fx:id="colRole" minWidth="0.0" prefWidth="98.0" text="Rol" />

@@ -1,12 +1,16 @@
 package bidblastrichclient.controllers;
 
 import api.requests.authentication.UserCredentialsBody;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -158,10 +162,19 @@ public class LoginController implements Initializable {
 
     @FXML
     private void btnRegisterClick(ActionEvent event) {
-        Stage baseStage = (Stage) tfEmail.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/bidblastrichclient/views/UserFormView.fxml"));
+            Parent root = loader.load();
+            UserFormController controller = loader.getController();
 
-        baseStage.setScene(Navigation.startScene("views/SignUpView.fxml"));
-        baseStage.setTitle("Registro de cuenta");
-        baseStage.show();
+            controller.setUserInformation(null, false);
+            Stage baseStage = (Stage) tfEmail.getScene().getWindow();
+            baseStage.setScene(new Scene(root));
+            baseStage.setTitle("Crear usuario");
+            baseStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
