@@ -160,7 +160,7 @@ public class LoginController implements Initializable {
     private void btnRegisterClick(ActionEvent event) {
         Stage baseStage = (Stage) tfEmail.getScene().getWindow();
 
-        baseStage.setScene(Navigation.startScene("views/SignUpView.fxml"));
+        baseStage.setScene(Navigation.startScene("views/UserFormView.fxml"));
         baseStage.setTitle("Registro de cuenta");
         baseStage.show();
     }

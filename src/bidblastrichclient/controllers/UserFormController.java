@@ -19,13 +19,15 @@ import java.net.URL;
 import java.util.Base64;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import lib.ImageToolkit;
 import lib.Navigation;
 import lib.ValidationToolkit;
+import model.User;
 import repositories.UsersRepository;
 import repositories.IEmptyProcessStatusListener;
 import repositories.ProcessErrorCodes;
 
-public class SignUpController implements Initializable {
+public class UserFormController implements Initializable {
 
     @FXML
     private TextField tfFullName;
@@ -58,6 +60,11 @@ public class SignUpController implements Initializable {
     private Label lblPasswordRules;
     @FXML
     private Label lblConfirmPassword;
+    private String fullName;
+    private String phoneNumber;
+    private String email;
+    private String avatar;
+    private boolean isEdition;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -86,6 +93,30 @@ public class SignUpController implements Initializable {
         setFieldMaxLength(tfPassword, 15);
         setFieldMaxLength(tfConfirmPassword, 15);
         setFieldMaxLength(tfPhoneNumber, 10);
+    }
+    
+    public void setUserInformation(User user, boolean isEdition) {
+        if (user != null) {
+            this.fullName = user.getFullName();
+            this.email = user.getEmail();
+            this.phoneNumber = user.getPhoneNumber();
+            this.avatar = user.getAvatar();
+            this.isEdition = isEdition;
+        }
+        
+        if (isEdition) {
+            loadUserInformationOnView();
+        } else {
+            
+        }
+    }
+    
+    private void loadUserInformationOnView() {
+        tfFullName.setText(fullName);
+        tfEmail.setText(email);
+        tfPhoneNumber.setText(phoneNumber != null ? phoneNumber : "");
+        Image image = ImageToolkit.decodeBase64ToImage(avatar);
+        imvAvatar.setImage(image);
     }
 
     private void showPasswordRules() {
@@ -183,7 +214,6 @@ public class SignUpController implements Initializable {
 
             if (isValidImageSize(selectedFile)) {
                 avatarBase64 = convertImageToBase64(selectedFile);
-                avatarBase64 = "UNE8RUNC29U83NRCUNWCQWNUECIQURWICNQUROICQUWCRNCIOWUQRCQOIRINUQCIORUCOINQUROUCQOURNOICQ";
             } else {
                 showAlert("La imagen seleccionada es demasiado grande.");
             }
@@ -340,4 +370,3 @@ public class SignUpController implements Initializable {
         redirectToLogin();
     }
 }
-
