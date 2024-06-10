@@ -77,7 +77,9 @@ public class MainMenuController implements Initializable {
     @FXML
     private void imgReturnToPreviousPageClick(MouseEvent event) {
         Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+        
         baseStage.setScene(Navigation.startScene("views/LoginView.fxml"));
         baseStage.setTitle("Inicio de sesión");
+        baseStage.show();
     }
 }

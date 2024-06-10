@@ -128,10 +128,9 @@ public class UserFormController implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
-            Image image = new Image(selectedFile.toURI().toString());
-            imvAvatar.setImage(image);
-
             if (isValidImageSize(selectedFile)) {
+                Image image = new Image(selectedFile.toURI().toString());
+                imvAvatar.setImage(image);
                 avatarBase64 = convertImageToBase64(selectedFile);
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -254,7 +253,7 @@ public class UserFormController implements Initializable {
                             alert.setContentText("Se registró tu información de "
                                     + "forma correcta, ya puedes iniciar sesión");
                             alert.showAndWait();
-                            redirectToPreviousPage();
+                            redirectToPreviousPage(false);
                         });
                     }
 
@@ -285,9 +284,10 @@ public class UserFormController implements Initializable {
                             alert.setTitle("Se auctualizó tu información");
                             alert.setHeaderText(null);
                             alert.setContentText("Se auctualizó tu información de "
-                                    + "forma correcta");
+                                    + "forma correcta, será redirigido al inicio "
+                                    + "de sesión para que vuelva a ingresar");
                             alert.showAndWait();
-                            redirectToPreviousPage();
+                            redirectToPreviousPage(true);
                         });
                     }
 
@@ -300,10 +300,10 @@ public class UserFormController implements Initializable {
         }
     }
     
-    private void redirectToPreviousPage() {
+    private void redirectToPreviousPage(boolean isUpdated) {
         Stage baseStage = (Stage) tfFullName.getScene().getWindow();
 
-        if (isEdition) {
+        if (isEdition && !isUpdated) {
             baseStage.setScene(Navigation.startScene("views/MainMenuView.fxml"));
             baseStage.setTitle("Menú principal");
             baseStage.show();
@@ -367,7 +367,7 @@ public class UserFormController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            redirectToPreviousPage();
+            redirectToPreviousPage(false);
         }
     }
 }

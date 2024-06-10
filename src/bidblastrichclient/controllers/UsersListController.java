@@ -266,6 +266,7 @@ public class UsersListController implements Initializable {
         Stage baseStage = (Stage) tfLimit.getScene().getWindow();
         baseStage.setScene(Navigation.startScene("views/LoginView.fxml"));
         baseStage.setTitle("Inicio de sesión");
+        baseStage.show();
     }
 
     @FXML
