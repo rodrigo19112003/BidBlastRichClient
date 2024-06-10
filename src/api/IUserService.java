@@ -10,6 +10,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -30,6 +31,12 @@ public interface IUserService {
     
     @POST("users/")
     Call<Void> createUser(
+        @Body UserRegisterBody body
+    );
+    
+    @PUT("users/")
+    Call<Void> updateUser(
+        @Header("Authorization") String authHeader,
         @Body UserRegisterBody body
     );
 }

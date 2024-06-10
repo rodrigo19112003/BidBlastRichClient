@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -17,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Base64;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import lib.ImageToolkit;
@@ -28,7 +28,6 @@ import repositories.IEmptyProcessStatusListener;
 import repositories.ProcessErrorCodes;
 
 public class UserFormController implements Initializable {
-
     @FXML
     private TextField tfFullName;
     @FXML
@@ -50,16 +49,14 @@ public class UserFormController implements Initializable {
     @FXML
     private ImageView imvAvatar;
     @FXML
-    private ImageView eyeIconPassword;
+    private Button btnSaveTitle;
     @FXML
-    private ImageView eyeIconConfirmPassword;
+    private Label lblCreateUserTitle;
     @FXML
-    private Button btnRegister;
-    private String avatarBase64;
-    @FXML
-    private Label lblPasswordRules;
+    private Label lblPhoneNumberError;
     @FXML
     private Label lblConfirmPassword;
+    private String avatarBase64;
     private String fullName;
     private String phoneNumber;
     private String email;
@@ -68,31 +65,8 @@ public class UserFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        lblFullNameError.setVisible(false);
-        lblEmailError.setVisible(false);
-        lblPasswordError.setVisible(false);
-        lblConfirmPasswordError.setVisible(false);
-        lblPasswordRules.setVisible(false);
-
-        tfPassword.setOnMouseClicked(event -> showPasswordRules());
-        tfPassword.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                hidePasswordRules();
-            }
-        });
-        tfPassword.textProperty().addListener((observable, oldValue, newValue) -> updatePasswordRules(newValue));
-
-        tfPhoneNumber.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                tfPhoneNumber.setText(newValue.replaceAll("[^\\d]", ""));
-            }
-        });
-
-        setFieldMaxLength(tfFullName, 80);
-        setFieldMaxLength(tfEmail, 60);
-        setFieldMaxLength(tfPassword, 15);
-        setFieldMaxLength(tfConfirmPassword, 15);
-        setFieldMaxLength(tfPhoneNumber, 10);
+        hideErrorMessages();
+        applyRestrictionsOnFields();
     }
     
     public void setUserInformation(User user, boolean isEdition) {
@@ -106,8 +80,11 @@ public class UserFormController implements Initializable {
         
         if (isEdition) {
             loadUserInformationOnView();
+            lblCreateUserTitle.setText("Edita tu información");
+            btnSaveTitle.setText("Actualizar");
         } else {
-            
+            lblCreateUserTitle.setText("¡Crea una cuenta!");
+            btnSaveTitle.setText("Registrarme");
         }
     }
     
@@ -117,55 +94,21 @@ public class UserFormController implements Initializable {
         tfPhoneNumber.setText(phoneNumber != null ? phoneNumber : "");
         Image image = ImageToolkit.decodeBase64ToImage(avatar);
         imvAvatar.setImage(image);
+        avatarBase64 = avatar;
     }
-
-    private void showPasswordRules() {
-        lblPasswordRules.setVisible(true);
-        moveElementsDown();
+    
+    private void hideErrorMessages() {
+        lblFullNameError.setVisible(false);
+        lblEmailError.setVisible(false);
+        lblPhoneNumberError.setVisible(false);
+        lblPasswordError.setVisible(false);
+        lblConfirmPasswordError.setVisible(false);
     }
-
-    private void hidePasswordRules() {
-        lblPasswordRules.setVisible(false);
-        moveElementsUp();
-    }
-
-    private void updatePasswordRules(String password) {
-        String rules = "• Al menos una letra mayúscula\n" +
-                       "• Al menos un número\n" +
-                       "• Extensión entre 10 y 15 caracteres";
-
-        boolean containsUpperCase = password.matches(".*[A-Z].*");
-        boolean containsNumber = password.matches(".*\\d.*");
-        boolean correctLength = password.length() >= 10 && password.length() <= 15;
-
-        rules = updateRuleState(rules, containsUpperCase, "• Al menos una letra mayúscula", "✔ Al menos una letra mayúscula");
-        rules = updateRuleState(rules, containsNumber, "• Al menos un número", "✔ Al menos un número");
-        rules = updateRuleState(rules, correctLength, "• Extensión entre 10 y 15 caracteres", "✔ Extensión entre 10 y 15 caracteres");
-
-        lblPasswordRules.setText(rules);
-    }
-
-    private String updateRuleState(String rules, boolean isValid, String originalText, String updatedText) {
-        if (isValid) {
-            return rules.replace(originalText, updatedText);
-        }
-        return rules;
-    }
-
-    private void moveElementsDown() {
-        lblConfirmPassword.setLayoutY(lblConfirmPassword.getLayoutY() + 50);
-        tfConfirmPassword.setLayoutY(tfConfirmPassword.getLayoutY() + 50);
-        eyeIconConfirmPassword.setLayoutY(eyeIconConfirmPassword.getLayoutY() + 50);
-        lblConfirmPasswordError.setLayoutY(lblConfirmPasswordError.getLayoutY() + 50);
-        btnRegister.setLayoutY(btnRegister.getLayoutY() + 50);
-    }
-
-    private void moveElementsUp() {
-        lblConfirmPassword.setLayoutY(lblConfirmPassword.getLayoutY() - 50);
-        tfConfirmPassword.setLayoutY(tfConfirmPassword.getLayoutY() - 50);
-        eyeIconConfirmPassword.setLayoutY(eyeIconConfirmPassword.getLayoutY() - 50);
-        lblConfirmPasswordError.setLayoutY(lblConfirmPasswordError.getLayoutY() - 50);
-        btnRegister.setLayoutY(btnRegister.getLayoutY() - 50);
+    
+    private void applyRestrictionsOnFields() {
+        setFieldMaxLength(tfFullName, 255);
+        setFieldMaxLength(tfEmail, 60);
+        setFieldMaxLength(tfPhoneNumber, 10);
     }
 
     private void setFieldMaxLength(TextField textField, int maxLength) {
@@ -177,35 +120,11 @@ public class UserFormController implements Initializable {
     }
 
     @FXML
-    private void btnRegisterNewAccountClick(MouseEvent event) {
-        String fullName = tfFullName.getText();
-        String email = tfEmail.getText();
-        String phoneNumber = tfPhoneNumber.getText();
-        String password = tfPassword.getText();
-        String confirmPassword = tfConfirmPassword.getText();
-
-        if (validateFields(fullName, email, password, confirmPassword)) {
-            UserRegisterBody body = new UserRegisterBody(fullName, email, phoneNumber, avatarBase64, password);
-            new UsersRepository().createUser(
-                body, 
-                new IEmptyProcessStatusListener() {
-                    @Override
-                    public void onSuccess() {
-                        Platform.runLater(() -> showConfirmationDialog());
-                    }
-
-                    @Override
-                    public void onError(ProcessErrorCodes errorStatus) {
-                        showSignUpError(errorStatus);
-                    }
-            });
-        }
-    }
-
-    @FXML
     private void btnChooseAvatarClick(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
+        fileChooser.getExtensionFilters()
+                .add(new FileChooser
+                        .ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
@@ -215,65 +134,85 @@ public class UserFormController implements Initializable {
             if (isValidImageSize(selectedFile)) {
                 avatarBase64 = convertImageToBase64(selectedFile);
             } else {
-                showAlert("La imagen seleccionada es demasiado grande.");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Imagen demasiado grande");
+                alert.setHeaderText(null);
+                alert.setContentText("La imagen supera los 500 kb permitidos");
+                alert.showAndWait();
             }
         }
     }
 
-    private boolean validateFields(String fullName, String email, String password, String confirmPassword) {
-        boolean isValid = true;
-
-        if (fullName.isEmpty()) {
-            tfFullName.setStyle("-fx-border-color: #ff1700; -fx-border-radius: 5;");
-            lblFullNameError.setText("El nombre completo es obligatorio.");
+    private boolean verifyTextFields() {
+        boolean areValid = false;
+        
+        if (isEdition) {
+            areValid = 
+                !tfFullName.getText().trim().isEmpty()&&
+                !tfEmail.getText().trim().isEmpty() &&
+                ValidationToolkit.isValidEmail(tfEmail.getText());
+            if (!tfPassword.getText().trim().isEmpty()) {
+                areValid = areValid && 
+                    ValidationToolkit.isValidPassword(tfPassword.getText().trim()) &&
+                    tfPassword.getText().trim().equals(tfConfirmPassword.getText().trim());
+            }
+        } else {
+            areValid = 
+                !tfFullName.getText().trim().isEmpty()&&
+                !tfEmail.getText().trim().isEmpty() &&
+                ValidationToolkit.isValidEmail(tfEmail.getText()) &&
+                !tfPassword.getText().trim().isEmpty() &&
+                ValidationToolkit.isValidPassword(tfPassword.getText().trim()) &&
+                tfPassword.getText().trim().equals(tfConfirmPassword.getText().trim());
+        }
+        
+        if (!tfPhoneNumber.getText().trim().isEmpty()) {
+            areValid = areValid && ValidationToolkit.isNumeric(tfPhoneNumber.getText().trim());
+        }        
+        
+        return areValid;
+    }
+    
+    private void showTextFieldsErrorsMessage() {
+        if (tfFullName.getText().trim().isEmpty()) {
             lblFullNameError.setVisible(true);
-            isValid = false;
-        } else {
-            tfFullName.setStyle(null);
-            lblFullNameError.setVisible(false);
         }
-
-        if (email.isEmpty() || !ValidationToolkit.isValidEmail(email)) {
-            tfEmail.setStyle("-fx-border-color: #ff1700; -fx-border-radius: 5;");
-            lblEmailError.setText("El correo electrónico no es válido.");
+        if (tfEmail.getText().trim().isEmpty() || 
+                !ValidationToolkit.isValidEmail(tfEmail.getText().trim())) {
             lblEmailError.setVisible(true);
-            isValid = false;
-        } else {
-            tfEmail.setStyle(null);
-            lblEmailError.setVisible(false);
         }
-
-        if (password.isEmpty()) {
-            tfPassword.setStyle("-fx-border-color: #ff1700; -fx-border-radius: 5;");
-            lblPasswordError.setText("La contraseña es obligatoria.");
-            lblPasswordError.setVisible(true);
-            isValid = false;
-        } else if (!ValidationToolkit.isValidPassword(password)) {
-            tfPassword.setStyle("-fx-border-color: #ff1700; -fx-border-radius: 5;");
-            lblPasswordError.setText("La contraseña no es válida.");
-            lblPasswordError.setVisible(true);
-            isValid = false;
-        } else {
-            tfPassword.setStyle(null);
-            lblPasswordError.setVisible(false);
+        if (!tfPhoneNumber.getText().trim().isEmpty() && 
+                !ValidationToolkit.isNumeric(tfPhoneNumber.getText().trim())) {
+            lblPhoneNumberError.setVisible(true);
         }
-
-        if (confirmPassword.isEmpty()) {
-            tfConfirmPassword.setStyle("-fx-border-color: #ff1700; -fx-border-radius: 5;");
-            lblConfirmPasswordError.setText("Confirmar la contraseña es obligatorio.");
-            lblConfirmPasswordError.setVisible(true);
-            isValid = false;
-        } else if (!password.equals(confirmPassword)) {
-            tfConfirmPassword.setStyle("-fx-border-color: #ff1700; -fx-border-radius: 5;");
-            lblConfirmPasswordError.setText("Las contraseñas no coinciden.");
-            lblConfirmPasswordError.setVisible(true);
-            isValid = false;
+        if (isEdition) {
+            if (!tfPassword.getText().trim().isEmpty() &&
+                    !ValidationToolkit.isValidPassword(tfPassword.getText().trim())) {
+                lblPasswordError.setVisible(true);
+                if (!tfPassword.getText().trim().equals(tfConfirmPassword.getText().trim())) {
+                    lblConfirmPasswordError.setText("Confirme su contraseña, debe ser la misma");
+                    lblConfirmPassword.setVisible(true);
+                }
+            }
+            if (!tfConfirmPassword.getText().trim().isEmpty() &&
+                    tfPassword.getText().trim().isEmpty()) {
+                lblConfirmPasswordError.setText("Ha hecho una confirmación de contraseña "
+                        + "para una inexistente");
+                lblConfirmPassword.setVisible(true);
+            }
         } else {
-            tfConfirmPassword.setStyle(null);
-            lblConfirmPasswordError.setVisible(false);
+            if (tfPassword.getText().trim().isEmpty() ||
+                    !ValidationToolkit.isValidPassword(tfPassword.getText().trim())) {
+                lblPasswordError.setVisible(true);
+            }
+            if (tfConfirmPassword.getText().trim().isEmpty() ||
+                    !ValidationToolkit.isValidPassword(tfConfirmPassword.getText().trim())) {
+                lblConfirmPasswordError.setVisible(true);
+            }
+            if (!tfConfirmPassword.getText().trim().equals(tfPassword.getText().trim())) {
+                lblConfirmPasswordError.setVisible(true);
+            }
         }
-
-        return isValid;
     }
 
     private boolean isValidImageSize(File imageFile) {
@@ -294,41 +233,85 @@ public class UserFormController implements Initializable {
         }
         return null;
     }
+    
+    private void createUser() {
+        if (verifyTextFields()) {
+            new UsersRepository().createUser(
+                new UserRegisterBody(
+                    tfFullName.getText().trim(),
+                    tfEmail.getText().trim(),
+                    tfPhoneNumber.getText().trim(),
+                    avatarBase64,
+                    tfPassword.getText().trim()
+                ), 
+                new IEmptyProcessStatusListener() {
+                    @Override
+                    public void onSuccess() {
+                        Platform.runLater(() -> {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Se creó tu cuenta en BidBlast");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Se registró tu información de "
+                                    + "forma correcta, ya puedes iniciar sesión");
+                            alert.showAndWait();
+                            redirectToPreviousPage();
+                        });
+                    }
 
-    private void togglePasswordVisibility(PasswordField passwordField) {
-        if (passwordField.getText().isEmpty()) {
-            return;
+                    @Override
+                    public void onError(ProcessErrorCodes errorStatus) {
+                        showSignUpError(errorStatus);
+                    }
+                }
+            );
         }
-        TextField textField = new TextField(passwordField.getText());
-        textField.setStyle(passwordField.getStyle());
-        textField.setPrefHeight(passwordField.getPrefHeight());
-        textField.setPrefWidth(passwordField.getPrefWidth());
-        textField.setFont(passwordField.getFont());
-
-        AnchorPane parent = (AnchorPane) passwordField.getParent();
-        int index = parent.getChildren().indexOf(passwordField);
-        parent.getChildren().remove(passwordField);
-        parent.getChildren().add(index, textField);
-
-        textField.setOnMouseClicked(event -> togglePasswordVisibilityBack(textField, passwordField));
     }
+    
+    private void updateUser(){
+        if (verifyTextFields()) {
+            new UsersRepository().updateUser(
+                new UserRegisterBody(
+                    tfFullName.getText().trim(),
+                    tfEmail.getText().trim(),
+                    tfPhoneNumber.getText().trim().isEmpty() ? null : tfPhoneNumber.getText().trim(),
+                    avatarBase64,
+                    tfPassword.getText().trim().isEmpty() ? null : tfPassword.getText().trim()
+                ), 
+                new IEmptyProcessStatusListener() {
+                    @Override
+                    public void onSuccess() {
+                        Platform.runLater(() -> {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Se auctualizó tu información");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Se auctualizó tu información de "
+                                    + "forma correcta");
+                            alert.showAndWait();
+                            redirectToPreviousPage();
+                        });
+                    }
 
-    private void togglePasswordVisibilityBack(TextField textField, PasswordField passwordField) {
-        passwordField.setText(textField.getText());
-        AnchorPane parent = (AnchorPane) textField.getParent();
-        int index = parent.getChildren().indexOf(textField);
-        parent.getChildren().remove(textField);
-        parent.getChildren().add(index, passwordField);
+                    @Override
+                    public void onError(ProcessErrorCodes errorStatus) {
+                        showSignUpError(errorStatus);
+                    }
+                }
+            );
+        }
     }
+    
+    private void redirectToPreviousPage() {
+        Stage baseStage = (Stage) tfFullName.getScene().getWindow();
 
-    private void showConfirmationDialog() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Registro exitoso");
-        alert.setHeaderText(null);
-        alert.setContentText("Tu cuenta ha sido creada exitosamente, inicia sesión para comenzar en el mundo de las subastas.");
-        alert.showAndWait();
-
-        Platform.runLater(this::redirectToLogin);
+        if (isEdition) {
+            baseStage.setScene(Navigation.startScene("views/MainMenuView.fxml"));
+            baseStage.setTitle("Menú principal");
+            baseStage.show();
+        } else {
+            baseStage.setScene(Navigation.startScene("views/LoginView.fxml"));
+            baseStage.setTitle("Inicio de sesión");
+            baseStage.show();
+        }
     }
 
     private void showSignUpError(ProcessErrorCodes errorStatus) {
@@ -351,22 +334,40 @@ public class UserFormController implements Initializable {
         });
     }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Advertencia");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-    private void redirectToLogin() {
-        Stage baseStage = (Stage) tfEmail.getScene().getWindow();
-        baseStage.setScene(Navigation.startScene("views/LoginView.fxml"));
-        baseStage.setTitle("Iniciar sesión");
-        baseStage.show();
+    @FXML
+    private void btnSaveUserClick(ActionEvent event) {
+        hideErrorMessages();
+        if (verifyTextFields()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmación de guardado de información");
+            alert.setHeaderText(null);
+            alert.setContentText("¿Estás seguro de que deseas guardar la información "
+                    + "ingresada?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (isEdition) {
+                    updateUser();
+                } else {
+                    createUser();
+                }
+            }
+        } else {
+            showTextFieldsErrorsMessage();
+        }
     }
 
     @FXML
-    private void btnReturnLogInClick(MouseEvent event) {
-        redirectToLogin();
+    private void imgReturnToPreviousPageClick(MouseEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación de regreso a ventana previa");
+        alert.setHeaderText(null);
+        alert.setContentText("¿Estás seguro de que deseas regresar a la ventana "
+                + "previa?, los cambios no se guardarán y se perderán");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            redirectToPreviousPage();
+        }
     }
 }

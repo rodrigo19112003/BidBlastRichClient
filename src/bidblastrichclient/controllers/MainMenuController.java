@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lib.Navigation;
 import lib.Session;
@@ -71,5 +72,12 @@ public class MainMenuController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void imgReturnToPreviousPageClick(MouseEvent event) {
+        Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+        baseStage.setScene(Navigation.startScene("views/LoginView.fxml"));
+        baseStage.setTitle("Inicio de sesión");
     }
 }
