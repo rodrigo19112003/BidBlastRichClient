@@ -29,5 +29,7 @@ public interface IUserService {
     );
     
     @POST("users/")
-     Call<UserRegisterJSONResponse> createUser(@Body UserRegisterBody body);
+    Call<Void> createUser(
+        @Body UserRegisterBody body
+    );
 }

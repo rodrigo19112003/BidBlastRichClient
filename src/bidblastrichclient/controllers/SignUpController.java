@@ -53,8 +53,6 @@ public class SignUpController implements Initializable {
     private ImageView eyeIconConfirmPassword;
     @FXML
     private Button btnRegister;
-
-    private UsersRepository accountRepository;
     private String avatarBase64;
     @FXML
     private Label lblPasswordRules;
@@ -63,7 +61,6 @@ public class SignUpController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        accountRepository = new UsersRepository();
         lblFullNameError.setVisible(false);
         lblEmailError.setVisible(false);
         lblPasswordError.setVisible(false);
@@ -158,19 +155,18 @@ public class SignUpController implements Initializable {
 
         if (validateFields(fullName, email, password, confirmPassword)) {
             UserRegisterBody body = new UserRegisterBody(fullName, email, phoneNumber, avatarBase64, password);
+            new UsersRepository().createUser(
+                body, 
+                new IEmptyProcessStatusListener() {
+                    @Override
+                    public void onSuccess() {
+                        Platform.runLater(() -> showConfirmationDialog());
+                    }
 
-            accountRepository.createUser(body, new IEmptyProcessStatusListener() {
-                @Override
-                public void onSuccess() {
-                    System.out.println("Account created successfully!");
-                    Platform.runLater(() -> showConfirmationDialog());
-                }
-
-                @Override
-                public void onError(ProcessErrorCodes errorStatus) {
-                    System.err.println("Error creating account: " + errorStatus);
-                    Platform.runLater(() -> showSignUpError(errorStatus));
-                }
+                    @Override
+                    public void onError(ProcessErrorCodes errorStatus) {
+                        showSignUpError(errorStatus);
+                    }
             });
         }
     }
@@ -187,6 +183,7 @@ public class SignUpController implements Initializable {
 
             if (isValidImageSize(selectedFile)) {
                 avatarBase64 = convertImageToBase64(selectedFile);
+                avatarBase64 = "UNE8RUNC29U83NRCUNWCQWNUECIQURWICNQUROICQUWCRNCIOWUQRCQOIRINUQCIORUCOINQUROUCQOURNOICQ";
             } else {
                 showAlert("La imagen seleccionada es demasiado grande.");
             }
@@ -304,19 +301,24 @@ public class SignUpController implements Initializable {
         Platform.runLater(this::redirectToLogin);
     }
 
-    private void showSignUpError(ProcessErrorCodes errorCode) {
-        String errorMessage = "";
-        switch (errorCode) {
-            case REQUEST_FORMAT_ERROR:
-                errorMessage = "El correo electrónico ingresado, ya se encuentra en uso.";
-                break;
-            case FATAL_ERROR:
-                errorMessage = "No fue posible crear la cuenta, intente más tarde.";
-                break;
-            default:
-                errorMessage = "No fue posible crear la cuenta, intente más tarde.";
-        }
-        showAlert(errorMessage);
+    private void showSignUpError(ProcessErrorCodes errorStatus) {
+        Platform.runLater(() -> {
+            String errorMessage;
+            switch(errorStatus) {
+                case REQUEST_FORMAT_ERROR:
+                    errorMessage = "El email ya se encuentra en uso";
+                    break;
+                default:
+                    errorMessage = "Por el momento no se puede registrar, "
+                            + "por favor inténtelo más tarde";
+            }
+        
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error al registrarse");
+            alert.setHeaderText(null);
+            alert.setContentText(errorMessage);
+            alert.showAndWait();
+        });
     }
 
     private void showAlert(String message) {

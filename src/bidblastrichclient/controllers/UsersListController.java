@@ -191,12 +191,12 @@ public class UsersListController implements Initializable {
 
                 @Override
                 public void onError(ProcessErrorCodes errorCode) {
-                    showLoginError(errorCode);
+                    showGetUsersListError(errorCode);
                 }
         });
     }
     
-    private void showLoginError(ProcessErrorCodes errorStatus) {
+    private void showGetUsersListError(ProcessErrorCodes errorStatus) {
         Platform.runLater(() -> {
             String errorMessage;
             switch(errorStatus) {

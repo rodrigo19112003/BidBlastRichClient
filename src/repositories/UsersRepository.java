@@ -14,12 +14,6 @@ import lib.Session;
 import model.User;
 
 public class UsersRepository {
-    private final IUserService registerService;
-
-    public UsersRepository() {
-        registerService = ApiClient.getInstance().getUserService();
-    }
-    
     public void getUsersList(String searchQuery,
             int limit,
             int offset,
@@ -66,26 +60,28 @@ public class UsersRepository {
         });
     }
 
-    public void createUser(UserRegisterBody body, IEmptyProcessStatusListener creationListener) {
-        registerService.createUser(body).enqueue(new Callback<UserRegisterJSONResponse>() {
+    public void createUser(
+        UserRegisterBody userBody, 
+        IEmptyProcessStatusListener statusListener) {
+        IUserService usersService = ApiClient.getInstance().getUserService();
+        usersService.createUser(userBody).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<UserRegisterJSONResponse> call, Response<UserRegisterJSONResponse> response) {
-                if (response.isSuccessful()) {
-                    UserRegisterJSONResponse responseBody = response.body();
-                    if (responseBody != null && responseBody.getAccount() != null) {
-                        creationListener.onSuccess();
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    statusListener.onSuccess();
+                }else{
+                    if(response.code() == 400) {
+                        statusListener.onError(ProcessErrorCodes.REQUEST_FORMAT_ERROR);
                     } else {
-                        System.err.println("Response body or account is null");
-                        creationListener.onError(ProcessErrorCodes.REQUEST_FORMAT_ERROR);
+                        System.out.println(response.code());
+                        statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
                     }
-                } else {
-                    creationListener.onError(ProcessErrorCodes.REQUEST_FORMAT_ERROR);
                 }
             }
 
             @Override
-            public void onFailure(Call<UserRegisterJSONResponse> call, Throwable t) {
-                creationListener.onError(ProcessErrorCodes.FATAL_ERROR);
+            public void onFailure(Call<Void> call, Throwable t) {
+                statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
             }
         });
     }
