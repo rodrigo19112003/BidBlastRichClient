@@ -2,6 +2,7 @@ package bidblastrichclient.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -19,10 +21,21 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private ImageView imgReturnToPreviousPage;
+    @FXML
+    private Button btnSales;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        showAuctioneerOptions();
+    }
+    
+    private void showAuctioneerOptions() {
+        List<String> userRoles = Session.getInstance().getUser().getRoles();
+        String AUCTIONEER_ROLE = "AUCTIONEER";
         
+        if(userRoles.contains(AUCTIONEER_ROLE)) {
+            btnSales.setDisable(false);
+        }
     }
 
     @FXML
