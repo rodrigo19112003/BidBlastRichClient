@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="bidblastrichclient.controllers.MakeOfferController">
+   <children>
+      <Pane prefHeight="73.0" prefWidth="915.0" style="-fx-background-color: #00086A;">
+         <children>
+            <ImageView fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="24.0" onMouseClicked="#imgReturnToPreviousPageClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../resources/Arrow.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="52.0" layoutY="19.0" text="Artículo en subasta" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <HBox fx:id="hbImageCarrusel" layoutX="28.0" layoutY="375.0" prefHeight="100.0" prefWidth="306.0" style="-fx-cursor: hand;" />
+      <Label fx:id="lblTimeLeft" alignment="CENTER" layoutX="28.0" layoutY="485.0" prefHeight="21.0" prefWidth="306.0" text="Quedan 2 días, 20 horas, y 10 minutos">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAuctionTitle" alignment="TOP_CENTER" layoutX="15.0" layoutY="506.0" prefHeight="87.0" prefWidth="332.0" style="-fx-wrap-text: true;" text="Apple IPhone 15 (256 GB) -Azul" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <StackPane layoutX="26.0" layoutY="112.0" prefHeight="210.0" prefWidth="310.0">
+         <children>
+            <ImageView fx:id="imgMainHypermediaFile" fitHeight="250.0" fitWidth="306.0" pickOnBounds="true" preserveRatio="true" />
+            <MediaView fx:id="mvVideoPlayer" fitHeight="250.0" fitWidth="306.0" />
+         </children>
+      </StackPane>
+      <Separator layoutX="355.0" layoutY="85.0" orientation="VERTICAL" prefHeight="522.0" prefWidth="6.0" />
+      <Label fx:id="lblPriceTitle" alignment="TOP_LEFT" layoutX="376.0" layoutY="85.0" prefHeight="21.0" prefWidth="306.0" text="Última oferta">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAuctionPrice" alignment="TOP_LEFT" layoutX="376.0" layoutY="102.0" prefHeight="21.0" prefWidth="306.0" text="Última oferta" textFill="#0014ff">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_LEFT" layoutX="376.0" layoutY="149.0" prefHeight="21.0" prefWidth="306.0" text="Acerca del artículo">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPriceTitle11" alignment="TOP_LEFT" layoutX="376.0" layoutY="170.0" prefHeight="162.0" prefWidth="501.0" style="-fx-wrap-text: true;" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum nunc augue, et eleifend quam vestibulum vitae. Nulla sollicitudin molestie leo id rutrum. Sed condimentum eleifend libero quis lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam lobortis turpis nec pretium posuere. Nullam sodales efficitur nibh commodo ornare. Curabitur eget gravida magna. Pellentesque ac urna ut ligula dignissim porttitor. Pellentesque non turpis in leo faucibus bibendum. Duis a aliquam sem. Maecenas et nisi id tellus blandit tristique." textFill="#454545">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_LEFT" layoutX="376.0" layoutY="352.0" prefHeight="21.0" prefWidth="306.0" text="Tu oferta">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblMinimumBidText" alignment="TOP_LEFT" layoutX="376.0" layoutY="375.0" prefHeight="25.0" prefWidth="321.0" text="El subastador estableció una puja mínima de">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblMinimumBidValue" alignment="TOP_LEFT" layoutX="697.0" layoutY="375.0" prefHeight="25.0" prefWidth="204.0" text="\$100MXN">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Button defaultButton="true" layoutX="752.0" layoutY="407.0" mnemonicParsing="false" onAction="#btnMakeOfferClick" prefHeight="37.0" prefWidth="125.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Hacer oferta" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <TextField fx:id="tfOffer" layoutX="375.0" layoutY="407.0" prefHeight="37.0" prefWidth="370.0" promptText="Tu nueva oferta" style="-fx-border-color: black; -fx-background-color: white; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label fx:id="lblOfferError" layoutX="375.0" layoutY="450.0" prefHeight="15.0" prefWidth="501.0" text="Su subasta debe ser mayor a la última oferta" textFill="#ff1700" visible="false" />
+   </children>
+</AnchorPane>
