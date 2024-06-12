@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bidblastrichclient.controllers.EvaluateItemViewController">
+   <children>
+      <Pane prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #00086A;">
+         <children>
+            <ImageView fx:id="imgReturnToPreviousPage" fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="24.0" onMouseClicked="#imgReturnToPreviousPageClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../resources/Arrow.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="52.0" layoutY="19.0" text="Evaluar subasta" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <HBox fx:id="hbImageCarrusel" layoutX="33.0" layoutY="428.0" prefHeight="100.0" prefWidth="306.0" style="-fx-cursor: hand;" />
+      <MediaView fx:id="mvVideoPlayer" fitHeight="250.0" fitWidth="306.0" layoutX="33.0" layoutY="165.0" />
+      <Separator layoutX="355.0" layoutY="85.0" orientation="VERTICAL" prefHeight="522.0" prefWidth="6.0" />
+      <Label fx:id="lblAuctionTitle" alignment="CENTER" layoutX="380.0" layoutY="104.0" prefHeight="27.0" prefWidth="306.0" text="Apple IPhone 15 (256 GB) - Azul">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAuctionTitle2" alignment="CENTER" layoutX="380.0" layoutY="147.0" prefHeight="27.0" prefWidth="82.0" text="Precio base" />
+      <Label fx:id="lblAuctionBasePrice" alignment="CENTER" layoutX="480.0" layoutY="147.0" prefHeight="27.0" prefWidth="62.0" text="25000" textFill="#0014ff">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAuctionTitle11" alignment="CENTER" layoutX="462.0" layoutY="147.0" prefHeight="27.0" prefWidth="24.0" text="\$" textFill="#0014ff">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAuctionTitle12" alignment="CENTER" layoutX="542.0" layoutY="147.0" prefHeight="27.0" prefWidth="44.0" text="MXN" textFill="#0014ff">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAuctionTitle21" alignment="CENTER" layoutX="383.0" layoutY="174.0" prefHeight="27.0" prefWidth="194.0" text="Días de apertura de subasta:" />
+      <Label fx:id="lblAuctionTitle211" alignment="CENTER" layoutX="383.0" layoutY="201.0" prefHeight="27.0" prefWidth="131.0" text="Estado del artículo:" />
+      <Label fx:id="lblAuctionTitle2111" alignment="CENTER" layoutX="383.0" layoutY="228.0" prefHeight="27.0" prefWidth="168.0" text="Puja mínima establecida:" />
+      <Label fx:id="lblAuctionDaysAvailable" alignment="CENTER" layoutX="568.0" layoutY="174.0" prefHeight="27.0" prefWidth="53.0" text="5">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAuctionState" alignment="CENTER" layoutX="511.0" layoutY="201.0" prefHeight="27.0" prefWidth="82.0" text="Nuevo">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAuctionTitle131" alignment="CENTER" layoutX="552.0" layoutY="228.0" prefHeight="27.0" prefWidth="24.0" text="\$">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblMiniumBid" alignment="CENTER" layoutX="564.0" layoutY="228.0" prefHeight="27.0" prefWidth="44.0" text="150">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAuctionTitle13111" alignment="CENTER" layoutX="599.0" layoutY="228.0" prefHeight="27.0" prefWidth="44.0" text="MXN">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAuctionTitle21111" alignment="CENTER" layoutX="386.0" layoutY="268.0" prefHeight="27.0" prefWidth="82.0" text="Categoría:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbxCategory" layoutX="386.0" layoutY="304.0" prefHeight="31.0" prefWidth="333.0" />
+      <Button layoutX="724.0" layoutY="301.0" mnemonicParsing="false" onAction="#btnChooseCategoryClick" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Nueva categoría" textFill="#ff5c00">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label fx:id="lblAuctionTitle211111" alignment="CENTER" layoutX="386.0" layoutY="356.0" prefHeight="27.0" prefWidth="94.0" text="Descripción:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAuctionDescription" alignment="TOP_LEFT" layoutX="390.0" layoutY="383.0" prefHeight="111.0" prefWidth="480.0" text="EL PEROOSKSDHJHDHGFHGDFHJGDFHGFJ" textAlignment="JUSTIFY" wrapText="true" />
+      <Button defaultButton="true" layoutX="730.0" layoutY="529.0" mnemonicParsing="false" onAction="#btnAproveClick" prefHeight="37.0" prefWidth="135.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Aprobar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="578.0" layoutY="529.0" mnemonicParsing="false" onAction="#btnDenyClick" prefHeight="37.0" prefWidth="131.0" style="-fx-background-color: transparent; -fx-border-radius: 5; -fx-border-color: #0014FF; -fx-cursor: hand;" text="Denegar" textFill="#0014ff">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label fx:id="lblAuctionTitle211112" alignment="CENTER" layoutX="33.0" layoutY="91.0" prefHeight="27.0" prefWidth="82.0" text="Subastas:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbxAuctions" layoutX="33.0" layoutY="119.0" prefHeight="31.0" prefWidth="306.0" />
+   </children>
+</AnchorPane>
