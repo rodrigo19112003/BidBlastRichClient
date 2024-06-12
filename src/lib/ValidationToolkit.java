@@ -49,11 +49,27 @@ public class ValidationToolkit {
         
         return isNumeric;
     }
+    
     public static boolean isValidPassword(String password) {
         boolean hasUppercase = password.matches(".*[A-Z].*");
         boolean hasNumber = password.matches(".*\\d.*");
         boolean hasSpecialChar = password.matches(".*[!@#$%^&*()\\-+=¿?_].*");
         boolean validLength = password.length() >= 8;
         return hasUppercase && hasNumber && hasSpecialChar && validLength;
+    }
+    
+    public static boolean isPositiveFloat(String text) {
+        boolean isFloat = false;
+        
+        if (text != null) {
+            String floatPattern = "^([0-9]+([.][0-9])?|[.][0-9])$";
+            
+            Pattern pattern = Pattern.compile(floatPattern);
+            Matcher matcher = pattern.matcher(text);
+
+            isFloat = matcher.matches();
+        }
+        
+        return isFloat;
     }
 }
