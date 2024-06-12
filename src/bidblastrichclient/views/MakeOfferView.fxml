@@ -43,7 +43,7 @@
          </children>
       </StackPane>
       <Separator layoutX="355.0" layoutY="85.0" orientation="VERTICAL" prefHeight="522.0" prefWidth="6.0" />
-      <Label fx:id="lblPriceTitle" alignment="TOP_LEFT" layoutX="376.0" layoutY="85.0" prefHeight="21.0" prefWidth="306.0" text="Última oferta">
+      <Label fx:id="lblPriceTitle" alignment="TOP_LEFT" layoutX="376.0" layoutY="85.0" prefHeight="21.0" prefWidth="306.0" text="Precio base">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -58,7 +58,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblPriceTitle11" alignment="TOP_LEFT" layoutX="376.0" layoutY="170.0" prefHeight="162.0" prefWidth="501.0" style="-fx-wrap-text: true;" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum nunc augue, et eleifend quam vestibulum vitae. Nulla sollicitudin molestie leo id rutrum. Sed condimentum eleifend libero quis lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam lobortis turpis nec pretium posuere. Nullam sodales efficitur nibh commodo ornare. Curabitur eget gravida magna. Pellentesque ac urna ut ligula dignissim porttitor. Pellentesque non turpis in leo faucibus bibendum. Duis a aliquam sem. Maecenas et nisi id tellus blandit tristique." textFill="#454545">
+      <Label fx:id="lblAuctionDescription" alignment="TOP_LEFT" layoutX="376.0" layoutY="170.0" prefHeight="162.0" prefWidth="501.0" style="-fx-wrap-text: true;" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum nunc augue, et eleifend quam vestibulum vitae. Nulla sollicitudin molestie leo id rutrum. Sed condimentum eleifend libero quis lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam lobortis turpis nec pretium posuere. Nullam sodales efficitur nibh commodo ornare. Curabitur eget gravida magna. Pellentesque ac urna ut ligula dignissim porttitor. Pellentesque non turpis in leo faucibus bibendum. Duis a aliquam sem. Maecenas et nisi id tellus blandit tristique." textFill="#454545">
          <font>
             <Font size="14.0" />
          </font>
@@ -68,12 +68,12 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblMinimumBidText" alignment="TOP_LEFT" layoutX="376.0" layoutY="375.0" prefHeight="25.0" prefWidth="321.0" text="El subastador estableció una puja mínima de">
+      <Label fx:id="lblMinimumBidText" alignment="TOP_LEFT" layoutX="376.0" layoutY="375.0" prefHeight="25.0" prefWidth="321.0" text="No hay una puja mínima establecida">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lblMinimumBidValue" alignment="TOP_LEFT" layoutX="697.0" layoutY="375.0" prefHeight="25.0" prefWidth="204.0" text="\$100MXN">
+      <Label fx:id="lblMinimumBidValue" alignment="TOP_LEFT" layoutX="697.0" layoutY="375.0" prefHeight="25.0" prefWidth="204.0" text="\$100MXN" visible="false">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
