@@ -1,6 +1,8 @@
 package bidblastrichclient.controllers;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -13,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -20,10 +23,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import lib.ImageToolkit;
 import lib.Navigation;
+import lib.Session;
 import lib.ValidationToolkit;
 import model.User;
 import repositories.IEmptyProcessStatusListener;
@@ -54,12 +60,38 @@ public class UsersListController implements Initializable {
     @FXML
     private TextField tfUserToSearch;
     private ObservableList<User> usersList;
+    @FXML
+    private Label lblUserName;
+    @FXML
+    private Circle crclUserAvatar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configureUsersTable();
         loadUsers();
-    }    
+        showUserProfileInformation();
+    }
+    
+    private void showUserProfileInformation() {
+        User user = Session.getInstance().getUser();
+        
+        lblUserName.setText(user.getFullName());
+        showUserAvatar(user);
+    }
+    
+    private void showUserAvatar(User user) {
+        String avatarBase64 = user.getAvatar();
+        Image avatarImage;
+        
+        if (avatarBase64 != null && !avatarBase64.isEmpty()) {
+            byte[] decodedBytes = Base64.getDecoder().decode(avatarBase64);
+            avatarImage = new Image(new ByteArrayInputStream(decodedBytes));
+        } else {
+            avatarImage = new Image(getClass().getResourceAsStream("/bidblastrichclient/resources/Avatar.png"));
+        }
+        
+        crclUserAvatar.setFill(new ImagePattern(avatarImage));
+    }
 
     private void configureUsersTable() {
         colFullName.setCellValueFactory(cellData -> {
