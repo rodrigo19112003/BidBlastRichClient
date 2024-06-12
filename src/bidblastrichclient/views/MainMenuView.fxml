@@ -23,6 +23,17 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
+            <Circle fx:id="crclUserAvatar" fill="DODGERBLUE" layoutX="623.0" layoutY="37.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" />
+            <Label fx:id="lblUserName" layoutX="654.0" layoutY="15.0" prefHeight="28.0" prefWidth="232.0" text="Andrés Manuel López Obrador" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblUserRole" layoutX="654.0" layoutY="32.0" prefHeight="28.0" prefWidth="232.0" text="Cliente" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Button defaultButton="true" layoutX="30.0" layoutY="144.0" mnemonicParsing="false" onAction="#btnSearchAuctionClick" prefHeight="37.0" prefWidth="155.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Buscar subasta" textFill="WHITE">
@@ -60,7 +71,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button defaultButton="true" layoutX="30.0" layoutY="506.0" mnemonicParsing="false" onAction="#btnModifyUserClick" prefHeight="37.0" prefWidth="155.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Editar mi usuario" textFill="WHITE">
+      <Button defaultButton="true" layoutX="30.0" layoutY="506.0" mnemonicParsing="false" onAction="#btnModifyUserClick" prefHeight="37.0" prefWidth="155.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Editar mi perfil" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
