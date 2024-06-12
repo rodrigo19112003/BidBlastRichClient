@@ -78,7 +78,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <TableView fx:id="tvAuctions" layoutY="29.0" prefHeight="288.0" prefWidth="832.0">
+            <TableView fx:id="tvAuctions" layoutY="36.0" prefHeight="281.0" prefWidth="832.0">
               <columns>
                 <TableColumn fx:id="colAuctionId" prefWidth="34.0" text="ID" />
                 <TableColumn fx:id="colAuctionTitle" prefWidth="204.0" text="Título" />
@@ -88,6 +88,11 @@
                   <TableColumn fx:id="colLastOfferAmount" prefWidth="82.0" text="Última oferta" />
               </columns>
             </TableView>
+            <Button layoutX="743.0" layoutY="-1.0" mnemonicParsing="false" onAction="#btnMakeOfferClick" style="-fx-background-color: transparent; -fx-border-radius: 5; -fx-border-color: #0014FF; -fx-cursor: hand;" text="Hacer oferta" textFill="#0014ff">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>

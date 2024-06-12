@@ -25,7 +25,7 @@
          </font></Button>
       <Pane prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #00086A;">
          <children>
-            <ImageView fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="24.0" onDragDetected="#btnGoToAuctionCategoriesListClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+            <ImageView fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="24.0" onMouseClicked="#imgReturnToPreviousPageClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../resources/Arrow.png" />
                </image>
@@ -86,12 +86,17 @@
             <Font size="10.0" />
          </font>
       </Label>
-      <Label fx:id="lblDescriptionError" layoutX="62.0" layoutY="319.0" text="Ingrese una descripción para la categoría de no más de 250 palabras" textFill="#ff1700">
+      <Label fx:id="lblDescriptionError" layoutX="62.0" layoutY="319.0" text="Ingrese una descripción para la categoría" textFill="#ff1700">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label fx:id="lblKeywordsError" layoutX="63.0" layoutY="453.0" text="Ingrese al menos tres palabras clave" textFill="#ff1700">
+      <Label fx:id="lblKeywordsError" layoutX="63.0" layoutY="453.0" text="Ingrese al menos 3 palabras clave" textFill="#ff1700">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label layoutX="628.0" layoutY="352.0" text="Mínimo 3 palabras clave separadas por comas">
          <font>
             <Font size="10.0" />
          </font>

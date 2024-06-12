@@ -627,7 +627,6 @@ public class CreatedAuctionsListController implements Initializable {
         alert.showAndWait();
     }
 
-
     @FXML
     private void imgCopyEmailClick(MouseEvent event) {
         Auction auction = tvSoldAuctions.getSelectionModel().getSelectedItem();

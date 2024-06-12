@@ -140,7 +140,10 @@ public class AuctionsRepository {
                             auction.setBasePrice(auctionRes.getBasePrice());
                             auction.setMinimumBid(auctionRes.getMinimumBid());
                             auction.setDaysAvailable(auctionRes.getDaysAvailable());
-                            auction.setClosesAt(DateToolkit.parseDateFromIS8601(auctionRes.getClosesAt()));
+                            
+                            if (auctionRes.getClosesAt() != null) {
+                                auction.setClosesAt(DateToolkit.parseDateFromIS8601(auctionRes.getClosesAt()));
+                            }
 
                             AuctionLastOfferJSONResponse lastOfferRes = auctionRes.getLastOffer();
                             if(lastOfferRes != null) {
@@ -182,8 +185,6 @@ public class AuctionsRepository {
                                 auction.setMediaFiles(mediaFiles);
                             }
 
-                            auctionsList.add(auction);
-
                             AuctionReviewJSONResponse reviewRes = auctionRes.getReview();
                             if(reviewRes != null) {
                                 AuctionReview review = new AuctionReview();
@@ -194,6 +195,8 @@ public class AuctionsRepository {
 
                                 auction.setReview(review);
                             }
+
+                            auctionsList.add(auction);
                         }
 
                         statusListener.onSuccess(auctionsList);
@@ -393,20 +396,30 @@ public class AuctionsRepository {
                         
                         List<AuctionMediaFileJSONResponse> mediaFilesRes = body.getMediaFiles();
                         if(mediaFilesRes != null) {
-                                List<HypermediaFile> mediaFiles = new ArrayList<>();
+                            List<HypermediaFile> mediaFiles = new ArrayList<>();
 
-                                for(AuctionMediaFileJSONResponse fileRes : mediaFilesRes) {
-                                    HypermediaFile file = new HypermediaFile();
+                            for(AuctionMediaFileJSONResponse fileRes : mediaFilesRes) {
+                                HypermediaFile file = new HypermediaFile();
 
-                                    file.setId(fileRes.getId());
-                                    file.setName(fileRes.getName());
-                                    file.setContent(fileRes.getContent());
+                                file.setId(fileRes.getId());
+                                file.setName(fileRes.getName());
+                                file.setContent(fileRes.getContent());
 
-                                    mediaFiles.add(file);
-                                }
-
-                                auction.setMediaFiles(mediaFiles);
+                                mediaFiles.add(file);
                             }
+
+                            auction.setMediaFiles(mediaFiles);
+                        }
+                        
+                        AuctionLastOfferJSONResponse lastOffer = body.getLastOffer();
+                        if(lastOffer != null) {
+                            Offer offer = new Offer();
+                            offer.setId(lastOffer.getId());
+                            offer.setAmount(lastOffer.getAmount());
+                            offer.setCreationDate(DateToolkit.parseDateFromIS8601(lastOffer.getCreationDate()));
+                            
+                            auction.setLastOffer(offer);
+                        }
                         
                         statusListener.onSuccess(auction);
                     } else {
