@@ -1,5 +1,6 @@
 package bidblastrichclient.controllers;
 
+import api.requests.offers.OfferCreationBody;
 import gRPC.Client;
 import gRPC.VideoStreamListener;
 import java.io.ByteArrayInputStream;
@@ -36,8 +37,11 @@ import lib.ValidationToolkit;
 import model.Auction;
 import model.HypermediaFile;
 import repositories.AuctionsRepository;
+import repositories.IEmptyProcessWithBusinessErrorListener;
 import repositories.IProcessStatusListener;
+import repositories.OffersRepository;
 import repositories.ProcessErrorCodes;
+import repositories.businesserrors.CreateOfferCodes;
 
 public class MakeOfferController implements Initializable, VideoStreamListener {
 
@@ -326,7 +330,75 @@ public class MakeOfferController implements Initializable, VideoStreamListener {
     }
     
     private void makeOffer() {
+        String rawOffer = tfOffer.getText().trim();
         
+        new OffersRepository().createOffer(
+            new OfferCreationBody(idAuction, Float.parseFloat(rawOffer)), 
+            new IEmptyProcessWithBusinessErrorListener<CreateOfferCodes>() {
+                @Override
+                public void onSuccess() {
+                    showSuccessOfferCreationMessage();
+                }
+
+                @Override
+                public void onError(CreateOfferCodes errorCode) {
+                    showOfferCreationError(errorCode);
+                }
+            });
+    }
+    
+    private void showSuccessOfferCreationMessage() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Oferta realizada");
+            alert.setHeaderText(null);
+            alert.setContentText("Su oferta ha sido realizada correctamente");
+            alert.showAndWait();
+            
+            String rawOffer = tfOffer.getText().trim();
+            lblPriceTitle.setText("Última oferta");
+            lblAuctionPrice.setText(CurrencyToolkit.parseToMXN(Float.parseFloat(rawOffer)));
+            tfOffer.setText("");
+        });
+    }
+    
+    private void showOfferCreationError(CreateOfferCodes errorCode) {
+        Platform.runLater(() -> {
+            String errorTitle, errorMessage;
+            
+            switch(errorCode) {
+                case OFFER_OVERCOMED:
+                    errorTitle = "¡Hay una oferta mayor!";
+                    errorMessage = "Parece ser que ya hay una oferta más alta a "
+                        + "la suya, recargue la ventana para verla";
+                    break;
+                case AUCTION_FINISHED:
+                    errorTitle = "Tiempo agotado";
+                    errorMessage = "La subasta ha cerrado, por lo que no se "
+                        + "aceptan más ofertas";
+                    break;
+                case AUCTION_BLOCKED:
+                    errorTitle = "Bloqueado";
+                    errorMessage = "No tienes más permisos para realizar ofertas "
+                        + "sobre esta subasta, lo sentimos mucho";
+                    break;
+                case EARLY_OFFER:
+                    errorTitle = "¡No tan rápido!";
+                    errorMessage = "Recuerda que debes esperar al menos 10 "
+                        + "minutos desde tu última oferta para realizar una nueva";
+                    break;
+                default:
+                    errorTitle = "Ocurrió un error";
+                    errorMessage = "Ocurrió un error al crear la oferta, "
+                        + "por favor intente en otro momento";
+            }
+            
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle(errorTitle);
+            alert.setHeaderText(null);
+            alert.setContentText(errorMessage);
+            alert.showAndWait();
+        });
     }
     
     private boolean validateOfferAmount() {

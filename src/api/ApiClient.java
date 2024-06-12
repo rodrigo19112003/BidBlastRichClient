@@ -13,6 +13,7 @@ public class ApiClient {
     private IUserService userService;
     private IAuctionCategoriesService auctionCategoriesService;
     private IAuctionsService auctionsService;
+    private IOffersService offersService;
 
     public static ApiClient getInstance() {
         return apiClient;
@@ -54,5 +55,13 @@ public class ApiClient {
         }
 
         return auctionCategoriesService;
+    }
+    
+    public IOffersService getOffersService() {
+        if (offersService == null) {
+            offersService = retrofit.create(IOffersService.class);
+        }
+
+        return offersService;
     }
 }
