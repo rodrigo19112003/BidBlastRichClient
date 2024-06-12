@@ -32,6 +32,7 @@ import lib.CurrencyToolkit;
 import lib.DateToolkit;
 import lib.ImageToolkit;
 import lib.Navigation;
+import lib.ValidationToolkit;
 import model.Auction;
 import model.HypermediaFile;
 import repositories.AuctionsRepository;
@@ -66,6 +67,7 @@ public class MakeOfferController implements Initializable, VideoStreamListener {
     private Label lblAuctionDescription;
     
     private int idAuction;
+    private Auction auction;
     private List<HypermediaFile> hypermediaFiles;
     private final List<byte[]> videoFragments = new ArrayList<>();
     private MediaPlayer mediaPlayer;
@@ -109,6 +111,9 @@ public class MakeOfferController implements Initializable, VideoStreamListener {
     }
     
     private void showAuctionInformation(Auction auction) {
+        this.auction = auction;
+        this.hypermediaFiles = auction.getMediaFiles();
+        
         lblAuctionTitle.setText(auction.getTitle());
         lblTimeLeft.setText("Se cierra el " + DateToolkit.parseToFullDateWithHour(auction.getClosesAt()));
         
@@ -127,7 +132,6 @@ public class MakeOfferController implements Initializable, VideoStreamListener {
             lblMinimumBidValue.setVisible(true);
         }
         
-        this.hypermediaFiles = auction.getMediaFiles();
         showImagesOnCarrusel();
     }
     
@@ -279,6 +283,61 @@ public class MakeOfferController implements Initializable, VideoStreamListener {
 
     @FXML
     private void btnMakeOfferClick(ActionEvent event) {
+        boolean isValidOffer = validateOfferAmount();
         
+        cleanOfferErrorMessage();
+        if(!isValidOffer) {
+            showInvalidOfferErrorMessage();
+        } else {
+            makeOffer();
+        }
+    }
+    
+    private void cleanOfferErrorMessage() {
+        tfOffer.setStyle("-fx-border-color: #000000; -fx-border-radius: 5;");
+        lblOfferError.setVisible(false);
+    }
+    
+    private void showInvalidOfferErrorMessage() {
+        String rawOffer = tfOffer.getText().trim();
+        float previousOffer = auction.getLastOffer() != null
+            ? auction.getLastOffer().getAmount()
+            : auction.getBasePrice();
+        float minimumBid = auction.getMinimumBid();
+        
+        String errorMessage = "";
+        if(!ValidationToolkit.isPositiveFloat(rawOffer)) {
+            errorMessage = "Esta oferta no tiene un formato válido";
+        }
+        
+        if(errorMessage.isEmpty() && Float.parseFloat(rawOffer) <= previousOffer) {
+            errorMessage = "Esta oferta no supera la mejor oferta previa";
+        }
+        
+        if(errorMessage.isEmpty() && Float.parseFloat(rawOffer) - previousOffer < minimumBid) {
+            errorMessage = "Debe superar la puja mínima establecida";
+        }
+        
+        if(!errorMessage.isEmpty()) {
+            tfOffer.setStyle("-fx-border-color: #ff1700; -fx-border-radius: 5;");
+            lblOfferError.setVisible(true);
+            lblOfferError.setText(errorMessage);
+        }
+    }
+    
+    private void makeOffer() {
+        
+    }
+    
+    private boolean validateOfferAmount() {
+        String rawOffer = tfOffer.getText().trim();
+        float previousOffer = auction.getLastOffer() != null
+            ? auction.getLastOffer().getAmount()
+            : auction.getBasePrice();
+        float minimumBid = auction.getMinimumBid();
+        
+        return ValidationToolkit.isPositiveFloat(rawOffer)
+            && Float.parseFloat(rawOffer) > previousOffer
+            && Float.parseFloat(rawOffer) - previousOffer >= minimumBid;
     }
 }
