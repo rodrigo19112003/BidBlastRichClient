@@ -11,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
+import lib.Navigation;
 
 public class MakeOfferController implements Initializable {
 
@@ -38,16 +40,29 @@ public class MakeOfferController implements Initializable {
     private TextField tfOffer;
     @FXML
     private Label lblOfferError;
+    
+    private int idAuction;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
     }
+    
+    public void setIdAuction(int idAuction) {
+        this.idAuction = idAuction;
+        System.out.println(idAuction);
+    }
 
     @FXML
     private void imgReturnToPreviousPageClick(MouseEvent event) {
+        Stage baseStage = (Stage) hbImageCarrusel.getScene().getWindow();
+        baseStage.setScene(Navigation.startScene("views/SearchAuctionView.fxml"));
+        baseStage.setTitle("Buscar subasta");
+        baseStage.show();
     }
 
     @FXML
     private void btnMakeOfferClick(ActionEvent event) {
+        
     }
 }

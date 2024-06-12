@@ -1,5 +1,6 @@
 package bidblastrichclient.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,9 @@ import java.util.Date;
 import lib.DateToolkit;
 import model.PriceRange;
 import java.util.Arrays;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lib.Navigation;
@@ -329,5 +333,33 @@ public class SearchAuctionController implements Initializable {
         baseStage.setScene(Navigation.startScene("views/MainMenuView.fxml"));
         baseStage.setTitle("Menu principal");
         baseStage.show();
+    }
+
+    @FXML
+    private void btnMakeOfferClick(ActionEvent event) {
+        Auction selectedAcution = tvAuctions.getSelectionModel().getSelectedItem();
+        
+        if(selectedAcution == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Seleccione una subasta");
+            alert.setHeaderText(null);
+            alert.setContentText("Seleccione la subasta sobre la cual le "
+                + "gustaría realizar su oferta");
+            alert.showAndWait();
+        } else {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/bidblastrichclient/views/MakeOfferView.fxml"));
+                Parent root = loader.load();
+                MakeOfferController controller = loader.getController();
+
+                controller.setIdAuction(selectedAcution.getId());
+                Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+                baseStage.setScene(new Scene(root));
+                baseStage.setTitle("Hacer oferta en subasta");
+                baseStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
