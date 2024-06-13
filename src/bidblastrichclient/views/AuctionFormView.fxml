@@ -10,7 +10,7 @@
 
 <ScrollPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bidblastrichclient.controllers.AuctionFormController">
     <content>
-        <AnchorPane id="AnchorPane" prefHeight="1200.0" prefWidth="900.0">
+        <AnchorPane id="AnchorPane" prefHeight="950.0" prefWidth="900.0">
          <children>
             <Pane prefHeight="73.0" prefWidth="922.0" style="-fx-background-color: #00086A;">
                <children>
@@ -62,7 +62,7 @@
                </font>
             </Label>
             <TextField fx:id="lblAuctionTitle" layoutX="52.0" layoutY="162.0" prefHeight="31.0" prefWidth="770.0" />
-            <ComboBox fx:id="cbxAuctionState" layoutX="55.0" layoutY="237.0" prefHeight="31.0" prefWidth="769.0" />
+            <ComboBox fx:id="cbAuctionState" layoutX="55.0" layoutY="237.0" prefHeight="31.0" prefWidth="769.0" />
             <TextField fx:id="tfAuctionDescription" layoutX="52.0" layoutY="314.0" prefHeight="31.0" prefWidth="768.0" />
             <TextField fx:id="tfAuctionBasePrice" layoutX="55.0" layoutY="386.0" prefHeight="31.0" prefWidth="223.0" />
             <TextField fx:id="tfAuctionMiniumBid" layoutX="55.0" layoutY="462.0" prefHeight="31.0" prefWidth="224.0" />
@@ -122,23 +122,22 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <VBox fx:id="vbUploadMultimedia" alignment="CENTER" layoutX="52.0" layoutY="620.0" prefHeight="200.0" prefWidth="770.0" spacing="20.0" style="-fx-border-color: #d3d3d3; -fx-border-style: dashed;">
+            <VBox fx:id="vbUploadMultimedia" alignment="CENTER" layoutX="52.0" layoutY="620.0" prefHeight="139.0" prefWidth="770.0" spacing="20.0" style="-fx-border-color: #d3d3d3; -fx-border-style: dashed;">
                     <children>
                         <Label text="Selecciona archivos para subir" />
-                        <Label text="O arrastra y suelta archivos de video." />
                         <Button fx:id="btnUploadMedia" onAction="#btnUploadHipermedia" text="Cargar archivos" />
                     </children>
                 </VBox>
-                <VBox fx:id="vboxUploadedFiles" layoutX="52.0" layoutY="840.0" prefHeight="181.0" prefWidth="770.0" spacing="10.0">
+                <VBox fx:id="vboxUploadedFiles" layoutX="52.0" layoutY="765.0" prefHeight="134.0" prefWidth="454.0" spacing="10.0">
                     <children>
                     </children>
                 </VBox>
-            <Button fx:id="btnSaveTAuction" layoutX="725.0" layoutY="1033.0" mnemonicParsing="false" onAction="#btnSaveAuctionClick" prefHeight="37.0" prefWidth="100.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Guardar" textFill="WHITE">
+            <Button fx:id="btnSaveTAuction" layoutX="726.0" layoutY="795.0" mnemonicParsing="false" onAction="#btnSaveAuctionClick" prefHeight="37.0" prefWidth="100.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Guardar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button fx:id="btnCancelAuction" layoutX="601.0" layoutY="1039.0" mnemonicParsing="false" onAction="#btnCancelCreateAuctionClick" prefHeight="37.0" prefWidth="112.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Cancelar" textFill="#ff5c00">
+            <Button fx:id="btnCancelAuction" layoutX="602.0" layoutY="795.0" mnemonicParsing="false" onAction="#btnCancelCreateAuctionClick" prefHeight="37.0" prefWidth="112.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Cancelar" textFill="#ff5c00">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

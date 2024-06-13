@@ -36,8 +36,6 @@ public class AuctionFormController implements Initializable {
     @FXML
     private TextField lblAuctionTitle;
     @FXML
-    private ComboBox<AuctionState> cbxAuctionState;
-    @FXML
     private TextField tfAuctionDescription;
     @FXML
     private TextField tfAuctionBasePrice;
@@ -48,13 +46,9 @@ public class AuctionFormController implements Initializable {
     @FXML
     private VBox vboxUploadedFiles;
     @FXML
-    private Button btnSaveTAuction;
-    @FXML
-    private Button btnCancelAuction;
-    @FXML
-    private Button btnUploadMedia;
-    @FXML
     private Label lblUploadMedia;
+    @FXML
+    private ComboBox<AuctionState> cbAuctionState;
 
     private List<HypermediaFile> uploadedMediaFiles = new ArrayList<>();
 
@@ -64,6 +58,15 @@ public class AuctionFormController implements Initializable {
         tfAuctionBasePrice.addEventFilter(KeyEvent.KEY_TYPED, this::validateNumericInput);
         tfAuctionMiniumBid.addEventFilter(KeyEvent.KEY_TYPED, this::validateNumericInput);
         tfAuctionDaysAvailable.addEventFilter(KeyEvent.KEY_TYPED, this::validateNumericInput);
+        setFieldLimits();
+    }
+
+    private void setFieldLimits() {
+        addTextLimiter(lblAuctionTitle, 40); 
+        addTextLimiter(tfAuctionDescription, 100); 
+        addTextLimiter(tfAuctionBasePrice, 5); 
+        addTextLimiter(tfAuctionMiniumBid, 5); 
+        addTextLimiter(tfAuctionDaysAvailable, 5); 
     }
 
     private void loadAuctionStates() {
@@ -72,7 +75,7 @@ public class AuctionFormController implements Initializable {
             @Override
             public void onSuccess(List<AuctionState> auctionStates) {
                 Platform.runLater(() -> {
-                    cbxAuctionState.getItems().setAll(auctionStates);
+                    cbAuctionState.getItems().setAll(auctionStates);
                     for (AuctionState state : auctionStates) {
                         System.out.println("Loaded AuctionState: " + state.getId_item_condition() + " - " + state.getName());
                     }
@@ -92,6 +95,14 @@ public class AuctionFormController implements Initializable {
         }
     }
 
+    private void addTextLimiter(TextField textField, int maxLength) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > maxLength) {
+                textField.setText(oldValue);
+            }
+        });
+    }
+
     @FXML
     private void imgReturnToPreviousPageClick(MouseEvent event) {
         Stage baseStage = (Stage) lblAuctionTitle.getScene().getWindow();
@@ -102,6 +113,11 @@ public class AuctionFormController implements Initializable {
 
     @FXML
     private void btnUploadHipermedia(ActionEvent event) {
+        if (uploadedMediaFiles.size() >= 4) {
+            showAlert("No puedes subir más de 4 archivos multimedia.");
+            return;
+        }
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecciona archivos para subir");
         fileChooser.getExtensionFilters().addAll(
@@ -111,12 +127,18 @@ public class AuctionFormController implements Initializable {
 
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(new Stage());
         if (selectedFiles != null) {
+            if (uploadedMediaFiles.size() + selectedFiles.size() > 8) {
+                showAlert("No puedes subir más de 8 archivos multimedia en total.");
+                return;
+            }
+
             for (File file : selectedFiles) {
                 try {
                     if (isValidFile(file)) {
                         Label fileLabel = new Label(file.getName());
                         vboxUploadedFiles.getChildren().add(fileLabel);
-                        uploadedMediaFiles.add(new HypermediaFile(file.getName(), convertFileToBase64(file), Files.probeContentType(file.toPath())));
+                        uploadedMediaFiles.add(new HypermediaFile(file.getName(), 
+                            convertFileToBase64(file), Files.probeContentType(file.toPath())));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -168,11 +190,11 @@ public class AuctionFormController implements Initializable {
             lblAuctionTitle.setStyle(null);
         }
 
-        if (cbxAuctionState.getValue() == null) {
-            cbxAuctionState.setStyle("-fx-border-color: red;");
+        if (cbAuctionState.getValue() == null) {
+            cbAuctionState.setStyle("-fx-border-color: red;");
             isValid = false;
         } else {
-            cbxAuctionState.setStyle(null);
+            cbAuctionState.setStyle(null);
         }
 
         if (tfAuctionDescription.getText().isEmpty()) {
@@ -185,15 +207,22 @@ public class AuctionFormController implements Initializable {
         if (tfAuctionBasePrice.getText().isEmpty()) {
             tfAuctionBasePrice.setStyle("-fx-border-color: red;");
             isValid = false;
+        } else if (Double.parseDouble(tfAuctionBasePrice.getText()) < 0) {
+            showAlert("El precio base de la subasta no puede ser negativo.");
+            isValid = false;
         } else {
             tfAuctionBasePrice.setStyle(null);
         }
         if (tfAuctionDaysAvailable.getText().isEmpty()) {
             tfAuctionDaysAvailable.setStyle("-fx-border-color: red;");
             isValid = false;
+        } else if (Integer.parseInt(tfAuctionDaysAvailable.getText()) <= 0) {
+            showAlert("Los días disponibles deben ser mayores a cero.");
+            isValid = false;
         } else {
             tfAuctionDaysAvailable.setStyle(null);
         }
+
         if (vboxUploadedFiles.getChildren().isEmpty()) {
             lblUploadMedia.setStyle("-fx-text-fill: red;");
             isValid = false;
@@ -214,7 +243,7 @@ public class AuctionFormController implements Initializable {
         double basePrice = Double.parseDouble(tfAuctionBasePrice.getText());
         Double minimumBid = tfAuctionMiniumBid.getText().isEmpty() ? null : Double.parseDouble(tfAuctionMiniumBid.getText());
         int daysAvailable = Integer.parseInt(tfAuctionDaysAvailable.getText());
-        AuctionState selectedState = cbxAuctionState.getSelectionModel().getSelectedItem();
+        AuctionState selectedState = cbAuctionState.getSelectionModel().getSelectedItem();
         int itemConditionId = selectedState.getId_item_condition();
 
         if (itemConditionId == -1) {
@@ -229,14 +258,14 @@ public class AuctionFormController implements Initializable {
             @Override
             public void onSuccess() {
                 Platform.runLater(() -> {
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setTitle("Subasta creada");
-                            alert.setHeaderText(null);
-                            alert.setContentText("La subasta ha sido creada con éxito");
-                            alert.showAndWait().ifPresent(response -> {
-                                redirectToPreviousPage();
-                            });
-                        });
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Subasta creada");
+                    alert.setHeaderText(null);
+                    alert.setContentText("La subasta ha sido creada con éxito");
+                    alert.showAndWait().ifPresent(response -> {
+                        redirectToPreviousPage();
+                    });
+                });
             }
 
             @Override

@@ -67,15 +67,15 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
     @FXML
     private Label lblAuctionDescription;
     @FXML
-    private ComboBox<Auction> cbxAuctions;
-    @FXML
     private Label lblPriceSign;
     @FXML
     private ImageView imgMainHypermediaFile;
     @FXML
     private Label lblBasePriceIcon;
     @FXML
-    private ComboBox<AuctionCategory> cbxAuctionCategory;
+    private ComboBox<AuctionCategory> cbAuctionCategory;
+    @FXML
+    private ComboBox<Auction> cbAuctions;
     @FXML
     private Button btnApprove;
     @FXML
@@ -92,13 +92,14 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
     private Label lblPesosIcon;
     @FXML
     private Label lblOpenningDays;
+    @FXML
+    private Label lblIconminiumBid;
     
     private MediaPlayer mediaPlayer;
     private final List<byte[]> videoFragments = new ArrayList<>();
     private int currentFragmentIndex = 0;
     private Client client;
     private List<HypermediaFile> hypermediaFiles;
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lblPriceSign.setVisible(false);
@@ -106,14 +107,16 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
         btnSave.setVisible(false);
         lblComents.setVisible(false);
         tfComents.setVisible(false);
+        lblIconminiumBid.setVisible(false);
         loadAuctions();
         loadAuctionCategories();
-        cbxAuctions.setOnAction(event -> {
-            Auction selectedAuction = cbxAuctions.getSelectionModel().getSelectedItem();
+        cbAuctions.setOnAction(event -> {
+            Auction selectedAuction = cbAuctions.getSelectionModel().getSelectedItem();
             if (selectedAuction != null) {
                 recoverAuctionDetails(selectedAuction);
                 lblPriceSign.setVisible(true);
                 lblBasePriceIcon.setVisible(true);
+                lblIconminiumBid.setVisible(true);
             }
         });
         tfComents.setTextFormatter(new TextFormatter<String>(change -> {
@@ -271,7 +274,7 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
                     if (auctions != null && !auctions.isEmpty()) {
                     } else {
                     }
-                    cbxAuctions.setItems(FXCollections.observableArrayList(auctions));
+                    cbAuctions.setItems(FXCollections.observableArrayList(auctions));
                 });
             }
 
@@ -321,7 +324,7 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
             @Override
             public void onSuccess(List<AuctionCategory> categories) {
                 Platform.runLater(() -> {
-                    cbxAuctionCategory.setItems(FXCollections.observableArrayList(categories));
+                    cbAuctionCategory.setItems(FXCollections.observableArrayList(categories));
                 });
             }
 
@@ -357,8 +360,8 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
     }
     @FXML
     private void btnAproveClick(ActionEvent event) {
-        Auction selectedAuction = cbxAuctions.getSelectionModel().getSelectedItem();
-        AuctionCategory selectedCategory = cbxAuctionCategory.getSelectionModel().getSelectedItem();
+        Auction selectedAuction = cbAuctions.getSelectionModel().getSelectedItem();
+        AuctionCategory selectedCategory = cbAuctionCategory.getSelectionModel().getSelectedItem();
 
         if (selectedAuction != null && selectedCategory != null) {
 
@@ -416,7 +419,7 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
     }
     @FXML
     private void btnDenyClick(ActionEvent event) {
-        Auction selectedAuction = cbxAuctions.getSelectionModel().getSelectedItem();
+        Auction selectedAuction = cbAuctions.getSelectionModel().getSelectedItem();
 
         if (selectedAuction != null) {
             lblAuctionTitle.setVisible(false);
@@ -425,7 +428,7 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
             lblAuctionState.setVisible(false);
             lblMiniumBid.setVisible(false);
             lblAuctionDescription.setVisible(false);
-            cbxAuctions.setVisible(false);
+            cbAuctions.setVisible(false);
             lblPriceSign.setVisible(false);
             lblBasePriceIcon.setVisible(false);
             btnApprove.setVisible(false);
@@ -449,7 +452,7 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
     }   
     @FXML
     private void btnSaveCommentsClick(ActionEvent event) {
-        Auction selectedAuction = cbxAuctions.getSelectionModel().getSelectedItem();
+        Auction selectedAuction = cbAuctions.getSelectionModel().getSelectedItem();
         String comments = tfComents.getText();
 
         if (selectedAuction != null && comments != null && !comments.isEmpty()) {
