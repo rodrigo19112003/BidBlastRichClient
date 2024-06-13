@@ -354,7 +354,7 @@ public class CreatedAuctionsListController implements Initializable {
     private void configureCustomerAvatarColumn() {
         colCustomerAvatar.setCellValueFactory(cellData -> {
             String customerAvatar = 
-                cellData.getValue().getLastOffer().getCustomer().getAvatar() == null 
+                cellData.getValue().getLastOffer().getCustomer().getAvatar().isEmpty()
                     ? null 
                     : cellData.getValue().getLastOffer().getCustomer().getAvatar();
             

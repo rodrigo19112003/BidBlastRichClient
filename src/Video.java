@@ -2,8 +2,6 @@
 // source: src/proto/video.proto
 // Protobuf Java Version: 4.26.1
 
-package proto.video;
-
 public final class Video {
   private Video() {}
   static {
@@ -60,15 +58,15 @@ public final class Video {
 
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.video.Video.internal_static_VideoRequest_descriptor;
+      return Video.internal_static_VideoRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.video.Video.internal_static_VideoRequest_fieldAccessorTable
+      return Video.internal_static_VideoRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              proto.video.Video.VideoRequest.class, proto.video.Video.VideoRequest.Builder.class);
+              Video.VideoRequest.class, Video.VideoRequest.Builder.class);
     }
 
     public static final int VIDEOID_FIELD_NUMBER = 1;
@@ -122,10 +120,10 @@ public final class Video {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof proto.video.Video.VideoRequest)) {
+      if (!(obj instanceof Video.VideoRequest)) {
         return super.equals(obj);
       }
-      proto.video.Video.VideoRequest other = (proto.video.Video.VideoRequest) obj;
+      Video.VideoRequest other = (Video.VideoRequest) obj;
 
       if (getVideoId()
           != other.getVideoId()) return false;
@@ -147,44 +145,44 @@ public final class Video {
       return hash;
     }
 
-    public static proto.video.Video.VideoRequest parseFrom(
+    public static Video.VideoRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.video.Video.VideoRequest parseFrom(
+    public static Video.VideoRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.video.Video.VideoRequest parseFrom(
+    public static Video.VideoRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.video.Video.VideoRequest parseFrom(
+    public static Video.VideoRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.video.Video.VideoRequest parseFrom(byte[] data)
+    public static Video.VideoRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.video.Video.VideoRequest parseFrom(
+    public static Video.VideoRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.video.Video.VideoRequest parseFrom(java.io.InputStream input)
+    public static Video.VideoRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static proto.video.Video.VideoRequest parseFrom(
+    public static Video.VideoRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -192,26 +190,26 @@ public final class Video {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static proto.video.Video.VideoRequest parseDelimitedFrom(java.io.InputStream input)
+    public static Video.VideoRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static proto.video.Video.VideoRequest parseDelimitedFrom(
+    public static Video.VideoRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static proto.video.Video.VideoRequest parseFrom(
+    public static Video.VideoRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static proto.video.Video.VideoRequest parseFrom(
+    public static Video.VideoRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -224,7 +222,7 @@ public final class Video {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(proto.video.Video.VideoRequest prototype) {
+    public static Builder newBuilder(Video.VideoRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -245,21 +243,21 @@ public final class Video {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:VideoRequest)
-        proto.video.Video.VideoRequestOrBuilder {
+        Video.VideoRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return proto.video.Video.internal_static_VideoRequest_descriptor;
+        return Video.internal_static_VideoRequest_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return proto.video.Video.internal_static_VideoRequest_fieldAccessorTable
+        return Video.internal_static_VideoRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                proto.video.Video.VideoRequest.class, proto.video.Video.VideoRequest.Builder.class);
+                Video.VideoRequest.class, Video.VideoRequest.Builder.class);
       }
 
-      // Construct using proto.video.Video.VideoRequest.newBuilder()
+      // Construct using Video.VideoRequest.newBuilder()
       private Builder() {
 
       }
@@ -280,17 +278,17 @@ public final class Video {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return proto.video.Video.internal_static_VideoRequest_descriptor;
+        return Video.internal_static_VideoRequest_descriptor;
       }
 
       @java.lang.Override
-      public proto.video.Video.VideoRequest getDefaultInstanceForType() {
-        return proto.video.Video.VideoRequest.getDefaultInstance();
+      public Video.VideoRequest getDefaultInstanceForType() {
+        return Video.VideoRequest.getDefaultInstance();
       }
 
       @java.lang.Override
-      public proto.video.Video.VideoRequest build() {
-        proto.video.Video.VideoRequest result = buildPartial();
+      public Video.VideoRequest build() {
+        Video.VideoRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -298,14 +296,14 @@ public final class Video {
       }
 
       @java.lang.Override
-      public proto.video.Video.VideoRequest buildPartial() {
-        proto.video.Video.VideoRequest result = new proto.video.Video.VideoRequest(this);
+      public Video.VideoRequest buildPartial() {
+        Video.VideoRequest result = new Video.VideoRequest(this);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(proto.video.Video.VideoRequest result) {
+      private void buildPartial0(Video.VideoRequest result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.videoId_ = videoId_;
@@ -314,16 +312,16 @@ public final class Video {
 
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof proto.video.Video.VideoRequest) {
-          return mergeFrom((proto.video.Video.VideoRequest)other);
+        if (other instanceof Video.VideoRequest) {
+          return mergeFrom((Video.VideoRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(proto.video.Video.VideoRequest other) {
-        if (other == proto.video.Video.VideoRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(Video.VideoRequest other) {
+        if (other == Video.VideoRequest.getDefaultInstance()) return this;
         if (other.getVideoId() != 0) {
           setVideoId(other.getVideoId());
         }
@@ -411,12 +409,12 @@ public final class Video {
     }
 
     // @@protoc_insertion_point(class_scope:VideoRequest)
-    private static final proto.video.Video.VideoRequest DEFAULT_INSTANCE;
+    private static final Video.VideoRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new proto.video.Video.VideoRequest();
+      DEFAULT_INSTANCE = new Video.VideoRequest();
     }
 
-    public static proto.video.Video.VideoRequest getDefaultInstance() {
+    public static Video.VideoRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
@@ -452,7 +450,7 @@ public final class Video {
     }
 
     @java.lang.Override
-    public proto.video.Video.VideoRequest getDefaultInstanceForType() {
+    public Video.VideoRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -495,15 +493,15 @@ public final class Video {
 
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.video.Video.internal_static_VideoChunkResponse_descriptor;
+      return Video.internal_static_VideoChunkResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.video.Video.internal_static_VideoChunkResponse_fieldAccessorTable
+      return Video.internal_static_VideoChunkResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              proto.video.Video.VideoChunkResponse.class, proto.video.Video.VideoChunkResponse.Builder.class);
+              Video.VideoChunkResponse.class, Video.VideoChunkResponse.Builder.class);
     }
 
     public static final int DATA_FIELD_NUMBER = 1;
@@ -557,10 +555,10 @@ public final class Video {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof proto.video.Video.VideoChunkResponse)) {
+      if (!(obj instanceof Video.VideoChunkResponse)) {
         return super.equals(obj);
       }
-      proto.video.Video.VideoChunkResponse other = (proto.video.Video.VideoChunkResponse) obj;
+      Video.VideoChunkResponse other = (Video.VideoChunkResponse) obj;
 
       if (!getData()
           .equals(other.getData())) return false;
@@ -582,44 +580,44 @@ public final class Video {
       return hash;
     }
 
-    public static proto.video.Video.VideoChunkResponse parseFrom(
+    public static Video.VideoChunkResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.video.Video.VideoChunkResponse parseFrom(
+    public static Video.VideoChunkResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.video.Video.VideoChunkResponse parseFrom(
+    public static Video.VideoChunkResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.video.Video.VideoChunkResponse parseFrom(
+    public static Video.VideoChunkResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.video.Video.VideoChunkResponse parseFrom(byte[] data)
+    public static Video.VideoChunkResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.video.Video.VideoChunkResponse parseFrom(
+    public static Video.VideoChunkResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.video.Video.VideoChunkResponse parseFrom(java.io.InputStream input)
+    public static Video.VideoChunkResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static proto.video.Video.VideoChunkResponse parseFrom(
+    public static Video.VideoChunkResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -627,26 +625,26 @@ public final class Video {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static proto.video.Video.VideoChunkResponse parseDelimitedFrom(java.io.InputStream input)
+    public static Video.VideoChunkResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static proto.video.Video.VideoChunkResponse parseDelimitedFrom(
+    public static Video.VideoChunkResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static proto.video.Video.VideoChunkResponse parseFrom(
+    public static Video.VideoChunkResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static proto.video.Video.VideoChunkResponse parseFrom(
+    public static Video.VideoChunkResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -659,7 +657,7 @@ public final class Video {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(proto.video.Video.VideoChunkResponse prototype) {
+    public static Builder newBuilder(Video.VideoChunkResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -680,21 +678,21 @@ public final class Video {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:VideoChunkResponse)
-        proto.video.Video.VideoChunkResponseOrBuilder {
+        Video.VideoChunkResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return proto.video.Video.internal_static_VideoChunkResponse_descriptor;
+        return Video.internal_static_VideoChunkResponse_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return proto.video.Video.internal_static_VideoChunkResponse_fieldAccessorTable
+        return Video.internal_static_VideoChunkResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                proto.video.Video.VideoChunkResponse.class, proto.video.Video.VideoChunkResponse.Builder.class);
+                Video.VideoChunkResponse.class, Video.VideoChunkResponse.Builder.class);
       }
 
-      // Construct using proto.video.Video.VideoChunkResponse.newBuilder()
+      // Construct using Video.VideoChunkResponse.newBuilder()
       private Builder() {
 
       }
@@ -715,17 +713,17 @@ public final class Video {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return proto.video.Video.internal_static_VideoChunkResponse_descriptor;
+        return Video.internal_static_VideoChunkResponse_descriptor;
       }
 
       @java.lang.Override
-      public proto.video.Video.VideoChunkResponse getDefaultInstanceForType() {
-        return proto.video.Video.VideoChunkResponse.getDefaultInstance();
+      public Video.VideoChunkResponse getDefaultInstanceForType() {
+        return Video.VideoChunkResponse.getDefaultInstance();
       }
 
       @java.lang.Override
-      public proto.video.Video.VideoChunkResponse build() {
-        proto.video.Video.VideoChunkResponse result = buildPartial();
+      public Video.VideoChunkResponse build() {
+        Video.VideoChunkResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -733,14 +731,14 @@ public final class Video {
       }
 
       @java.lang.Override
-      public proto.video.Video.VideoChunkResponse buildPartial() {
-        proto.video.Video.VideoChunkResponse result = new proto.video.Video.VideoChunkResponse(this);
+      public Video.VideoChunkResponse buildPartial() {
+        Video.VideoChunkResponse result = new Video.VideoChunkResponse(this);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(proto.video.Video.VideoChunkResponse result) {
+      private void buildPartial0(Video.VideoChunkResponse result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.data_ = data_;
@@ -749,16 +747,16 @@ public final class Video {
 
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof proto.video.Video.VideoChunkResponse) {
-          return mergeFrom((proto.video.Video.VideoChunkResponse)other);
+        if (other instanceof Video.VideoChunkResponse) {
+          return mergeFrom((Video.VideoChunkResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(proto.video.Video.VideoChunkResponse other) {
-        if (other == proto.video.Video.VideoChunkResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(Video.VideoChunkResponse other) {
+        if (other == Video.VideoChunkResponse.getDefaultInstance()) return this;
         if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
           setData(other.getData());
         }
@@ -846,12 +844,12 @@ public final class Video {
     }
 
     // @@protoc_insertion_point(class_scope:VideoChunkResponse)
-    private static final proto.video.Video.VideoChunkResponse DEFAULT_INSTANCE;
+    private static final Video.VideoChunkResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new proto.video.Video.VideoChunkResponse();
+      DEFAULT_INSTANCE = new Video.VideoChunkResponse();
     }
 
-    public static proto.video.Video.VideoChunkResponse getDefaultInstance() {
+    public static Video.VideoChunkResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
@@ -887,7 +885,7 @@ public final class Video {
     }
 
     @java.lang.Override
-    public proto.video.Video.VideoChunkResponse getDefaultInstanceForType() {
+    public Video.VideoChunkResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -962,15 +960,15 @@ public final class Video {
 
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.video.Video.internal_static_VideoUploadRequest_descriptor;
+      return Video.internal_static_VideoUploadRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.video.Video.internal_static_VideoUploadRequest_fieldAccessorTable
+      return Video.internal_static_VideoUploadRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              proto.video.Video.VideoUploadRequest.class, proto.video.Video.VideoUploadRequest.Builder.class);
+              Video.VideoUploadRequest.class, Video.VideoUploadRequest.Builder.class);
     }
 
     public static final int AUCTIONID_FIELD_NUMBER = 1;
@@ -1132,10 +1130,10 @@ public final class Video {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof proto.video.Video.VideoUploadRequest)) {
+      if (!(obj instanceof Video.VideoUploadRequest)) {
         return super.equals(obj);
       }
-      proto.video.Video.VideoUploadRequest other = (proto.video.Video.VideoUploadRequest) obj;
+      Video.VideoUploadRequest other = (Video.VideoUploadRequest) obj;
 
       if (getAuctionId()
           != other.getAuctionId()) return false;
@@ -1169,44 +1167,44 @@ public final class Video {
       return hash;
     }
 
-    public static proto.video.Video.VideoUploadRequest parseFrom(
+    public static Video.VideoUploadRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.video.Video.VideoUploadRequest parseFrom(
+    public static Video.VideoUploadRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.video.Video.VideoUploadRequest parseFrom(
+    public static Video.VideoUploadRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.video.Video.VideoUploadRequest parseFrom(
+    public static Video.VideoUploadRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.video.Video.VideoUploadRequest parseFrom(byte[] data)
+    public static Video.VideoUploadRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.video.Video.VideoUploadRequest parseFrom(
+    public static Video.VideoUploadRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.video.Video.VideoUploadRequest parseFrom(java.io.InputStream input)
+    public static Video.VideoUploadRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static proto.video.Video.VideoUploadRequest parseFrom(
+    public static Video.VideoUploadRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1214,26 +1212,26 @@ public final class Video {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static proto.video.Video.VideoUploadRequest parseDelimitedFrom(java.io.InputStream input)
+    public static Video.VideoUploadRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static proto.video.Video.VideoUploadRequest parseDelimitedFrom(
+    public static Video.VideoUploadRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static proto.video.Video.VideoUploadRequest parseFrom(
+    public static Video.VideoUploadRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static proto.video.Video.VideoUploadRequest parseFrom(
+    public static Video.VideoUploadRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1246,7 +1244,7 @@ public final class Video {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(proto.video.Video.VideoUploadRequest prototype) {
+    public static Builder newBuilder(Video.VideoUploadRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -1267,21 +1265,21 @@ public final class Video {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:VideoUploadRequest)
-        proto.video.Video.VideoUploadRequestOrBuilder {
+        Video.VideoUploadRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return proto.video.Video.internal_static_VideoUploadRequest_descriptor;
+        return Video.internal_static_VideoUploadRequest_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return proto.video.Video.internal_static_VideoUploadRequest_fieldAccessorTable
+        return Video.internal_static_VideoUploadRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                proto.video.Video.VideoUploadRequest.class, proto.video.Video.VideoUploadRequest.Builder.class);
+                Video.VideoUploadRequest.class, Video.VideoUploadRequest.Builder.class);
       }
 
-      // Construct using proto.video.Video.VideoUploadRequest.newBuilder()
+      // Construct using Video.VideoUploadRequest.newBuilder()
       private Builder() {
 
       }
@@ -1305,17 +1303,17 @@ public final class Video {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return proto.video.Video.internal_static_VideoUploadRequest_descriptor;
+        return Video.internal_static_VideoUploadRequest_descriptor;
       }
 
       @java.lang.Override
-      public proto.video.Video.VideoUploadRequest getDefaultInstanceForType() {
-        return proto.video.Video.VideoUploadRequest.getDefaultInstance();
+      public Video.VideoUploadRequest getDefaultInstanceForType() {
+        return Video.VideoUploadRequest.getDefaultInstance();
       }
 
       @java.lang.Override
-      public proto.video.Video.VideoUploadRequest build() {
-        proto.video.Video.VideoUploadRequest result = buildPartial();
+      public Video.VideoUploadRequest build() {
+        Video.VideoUploadRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -1323,14 +1321,14 @@ public final class Video {
       }
 
       @java.lang.Override
-      public proto.video.Video.VideoUploadRequest buildPartial() {
-        proto.video.Video.VideoUploadRequest result = new proto.video.Video.VideoUploadRequest(this);
+      public Video.VideoUploadRequest buildPartial() {
+        Video.VideoUploadRequest result = new Video.VideoUploadRequest(this);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(proto.video.Video.VideoUploadRequest result) {
+      private void buildPartial0(Video.VideoUploadRequest result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.auctionId_ = auctionId_;
@@ -1348,16 +1346,16 @@ public final class Video {
 
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof proto.video.Video.VideoUploadRequest) {
-          return mergeFrom((proto.video.Video.VideoUploadRequest)other);
+        if (other instanceof Video.VideoUploadRequest) {
+          return mergeFrom((Video.VideoUploadRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(proto.video.Video.VideoUploadRequest other) {
-        if (other == proto.video.Video.VideoUploadRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(Video.VideoUploadRequest other) {
+        if (other == Video.VideoUploadRequest.getDefaultInstance()) return this;
         if (other.getAuctionId() != 0) {
           setAuctionId(other.getAuctionId());
         }
@@ -1649,12 +1647,12 @@ public final class Video {
     }
 
     // @@protoc_insertion_point(class_scope:VideoUploadRequest)
-    private static final proto.video.Video.VideoUploadRequest DEFAULT_INSTANCE;
+    private static final Video.VideoUploadRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new proto.video.Video.VideoUploadRequest();
+      DEFAULT_INSTANCE = new Video.VideoUploadRequest();
     }
 
-    public static proto.video.Video.VideoUploadRequest getDefaultInstance() {
+    public static Video.VideoUploadRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
@@ -1690,7 +1688,7 @@ public final class Video {
     }
 
     @java.lang.Override
-    public proto.video.Video.VideoUploadRequest getDefaultInstanceForType() {
+    public Video.VideoUploadRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -1745,15 +1743,15 @@ public final class Video {
 
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.video.Video.internal_static_VideoUploadResponse_descriptor;
+      return Video.internal_static_VideoUploadResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.video.Video.internal_static_VideoUploadResponse_fieldAccessorTable
+      return Video.internal_static_VideoUploadResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              proto.video.Video.VideoUploadResponse.class, proto.video.Video.VideoUploadResponse.Builder.class);
+              Video.VideoUploadResponse.class, Video.VideoUploadResponse.Builder.class);
     }
 
     public static final int MESSAGE_FIELD_NUMBER = 1;
@@ -1852,10 +1850,10 @@ public final class Video {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof proto.video.Video.VideoUploadResponse)) {
+      if (!(obj instanceof Video.VideoUploadResponse)) {
         return super.equals(obj);
       }
-      proto.video.Video.VideoUploadResponse other = (proto.video.Video.VideoUploadResponse) obj;
+      Video.VideoUploadResponse other = (Video.VideoUploadResponse) obj;
 
       if (!getMessage()
           .equals(other.getMessage())) return false;
@@ -1881,44 +1879,44 @@ public final class Video {
       return hash;
     }
 
-    public static proto.video.Video.VideoUploadResponse parseFrom(
+    public static Video.VideoUploadResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.video.Video.VideoUploadResponse parseFrom(
+    public static Video.VideoUploadResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.video.Video.VideoUploadResponse parseFrom(
+    public static Video.VideoUploadResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.video.Video.VideoUploadResponse parseFrom(
+    public static Video.VideoUploadResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.video.Video.VideoUploadResponse parseFrom(byte[] data)
+    public static Video.VideoUploadResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.video.Video.VideoUploadResponse parseFrom(
+    public static Video.VideoUploadResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.video.Video.VideoUploadResponse parseFrom(java.io.InputStream input)
+    public static Video.VideoUploadResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static proto.video.Video.VideoUploadResponse parseFrom(
+    public static Video.VideoUploadResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1926,26 +1924,26 @@ public final class Video {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static proto.video.Video.VideoUploadResponse parseDelimitedFrom(java.io.InputStream input)
+    public static Video.VideoUploadResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static proto.video.Video.VideoUploadResponse parseDelimitedFrom(
+    public static Video.VideoUploadResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static proto.video.Video.VideoUploadResponse parseFrom(
+    public static Video.VideoUploadResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static proto.video.Video.VideoUploadResponse parseFrom(
+    public static Video.VideoUploadResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1958,7 +1956,7 @@ public final class Video {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(proto.video.Video.VideoUploadResponse prototype) {
+    public static Builder newBuilder(Video.VideoUploadResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -1979,21 +1977,21 @@ public final class Video {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:VideoUploadResponse)
-        proto.video.Video.VideoUploadResponseOrBuilder {
+        Video.VideoUploadResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return proto.video.Video.internal_static_VideoUploadResponse_descriptor;
+        return Video.internal_static_VideoUploadResponse_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return proto.video.Video.internal_static_VideoUploadResponse_fieldAccessorTable
+        return Video.internal_static_VideoUploadResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                proto.video.Video.VideoUploadResponse.class, proto.video.Video.VideoUploadResponse.Builder.class);
+                Video.VideoUploadResponse.class, Video.VideoUploadResponse.Builder.class);
       }
 
-      // Construct using proto.video.Video.VideoUploadResponse.newBuilder()
+      // Construct using Video.VideoUploadResponse.newBuilder()
       private Builder() {
 
       }
@@ -2015,17 +2013,17 @@ public final class Video {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return proto.video.Video.internal_static_VideoUploadResponse_descriptor;
+        return Video.internal_static_VideoUploadResponse_descriptor;
       }
 
       @java.lang.Override
-      public proto.video.Video.VideoUploadResponse getDefaultInstanceForType() {
-        return proto.video.Video.VideoUploadResponse.getDefaultInstance();
+      public Video.VideoUploadResponse getDefaultInstanceForType() {
+        return Video.VideoUploadResponse.getDefaultInstance();
       }
 
       @java.lang.Override
-      public proto.video.Video.VideoUploadResponse build() {
-        proto.video.Video.VideoUploadResponse result = buildPartial();
+      public Video.VideoUploadResponse build() {
+        Video.VideoUploadResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -2033,14 +2031,14 @@ public final class Video {
       }
 
       @java.lang.Override
-      public proto.video.Video.VideoUploadResponse buildPartial() {
-        proto.video.Video.VideoUploadResponse result = new proto.video.Video.VideoUploadResponse(this);
+      public Video.VideoUploadResponse buildPartial() {
+        Video.VideoUploadResponse result = new Video.VideoUploadResponse(this);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(proto.video.Video.VideoUploadResponse result) {
+      private void buildPartial0(Video.VideoUploadResponse result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.message_ = message_;
@@ -2052,16 +2050,16 @@ public final class Video {
 
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof proto.video.Video.VideoUploadResponse) {
-          return mergeFrom((proto.video.Video.VideoUploadResponse)other);
+        if (other instanceof Video.VideoUploadResponse) {
+          return mergeFrom((Video.VideoUploadResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(proto.video.Video.VideoUploadResponse other) {
-        if (other == proto.video.Video.VideoUploadResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(Video.VideoUploadResponse other) {
+        if (other == Video.VideoUploadResponse.getDefaultInstance()) return this;
         if (!other.getMessage().isEmpty()) {
           message_ = other.message_;
           bitField0_ |= 0x00000001;
@@ -2231,12 +2229,12 @@ public final class Video {
     }
 
     // @@protoc_insertion_point(class_scope:VideoUploadResponse)
-    private static final proto.video.Video.VideoUploadResponse DEFAULT_INSTANCE;
+    private static final Video.VideoUploadResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new proto.video.Video.VideoUploadResponse();
+      DEFAULT_INSTANCE = new Video.VideoUploadResponse();
     }
 
-    public static proto.video.Video.VideoUploadResponse getDefaultInstance() {
+    public static Video.VideoUploadResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
@@ -2272,7 +2270,7 @@ public final class Video {
     }
 
     @java.lang.Override
-    public proto.video.Video.VideoUploadResponse getDefaultInstanceForType() {
+    public Video.VideoUploadResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -2316,7 +2314,7 @@ public final class Video {
       "\201\001\n\014VideoService\0225\n\013streamVideo\022\r.VideoR" +
       "equest\032\023.VideoChunkResponse\"\0000\001\022:\n\013uploa" +
       "dVideo\022\023.VideoUploadRequest\032\024.VideoUploa" +
-      "dResponse(\001B\r\n\013proto.videob\006proto3"
+      "dResponse(\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

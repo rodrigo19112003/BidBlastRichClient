@@ -1,5 +1,3 @@
-package proto.video;
-
 import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
@@ -15,29 +13,29 @@ public final class VideoServiceGrpc {
   public static final java.lang.String SERVICE_NAME = "VideoService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<proto.video.Video.VideoRequest,
-      proto.video.Video.VideoChunkResponse> getStreamVideoMethod;
+  private static volatile io.grpc.MethodDescriptor<Video.VideoRequest,
+      Video.VideoChunkResponse> getStreamVideoMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "streamVideo",
-      requestType = proto.video.Video.VideoRequest.class,
-      responseType = proto.video.Video.VideoChunkResponse.class,
+      requestType = Video.VideoRequest.class,
+      responseType = Video.VideoChunkResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-  public static io.grpc.MethodDescriptor<proto.video.Video.VideoRequest,
-      proto.video.Video.VideoChunkResponse> getStreamVideoMethod() {
-    io.grpc.MethodDescriptor<proto.video.Video.VideoRequest, proto.video.Video.VideoChunkResponse> getStreamVideoMethod;
+  public static io.grpc.MethodDescriptor<Video.VideoRequest,
+      Video.VideoChunkResponse> getStreamVideoMethod() {
+    io.grpc.MethodDescriptor<Video.VideoRequest, Video.VideoChunkResponse> getStreamVideoMethod;
     if ((getStreamVideoMethod = VideoServiceGrpc.getStreamVideoMethod) == null) {
       synchronized (VideoServiceGrpc.class) {
         if ((getStreamVideoMethod = VideoServiceGrpc.getStreamVideoMethod) == null) {
           VideoServiceGrpc.getStreamVideoMethod = getStreamVideoMethod =
-              io.grpc.MethodDescriptor.<proto.video.Video.VideoRequest, proto.video.Video.VideoChunkResponse>newBuilder()
+              io.grpc.MethodDescriptor.<Video.VideoRequest, Video.VideoChunkResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "streamVideo"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  proto.video.Video.VideoRequest.getDefaultInstance()))
+                  Video.VideoRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  proto.video.Video.VideoChunkResponse.getDefaultInstance()))
+                  Video.VideoChunkResponse.getDefaultInstance()))
               .setSchemaDescriptor(new VideoServiceMethodDescriptorSupplier("streamVideo"))
               .build();
         }
@@ -46,29 +44,29 @@ public final class VideoServiceGrpc {
     return getStreamVideoMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<proto.video.Video.VideoUploadRequest,
-      proto.video.Video.VideoUploadResponse> getUploadVideoMethod;
+  private static volatile io.grpc.MethodDescriptor<Video.VideoUploadRequest,
+      Video.VideoUploadResponse> getUploadVideoMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "uploadVideo",
-      requestType = proto.video.Video.VideoUploadRequest.class,
-      responseType = proto.video.Video.VideoUploadResponse.class,
+      requestType = Video.VideoUploadRequest.class,
+      responseType = Video.VideoUploadResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
-  public static io.grpc.MethodDescriptor<proto.video.Video.VideoUploadRequest,
-      proto.video.Video.VideoUploadResponse> getUploadVideoMethod() {
-    io.grpc.MethodDescriptor<proto.video.Video.VideoUploadRequest, proto.video.Video.VideoUploadResponse> getUploadVideoMethod;
+  public static io.grpc.MethodDescriptor<Video.VideoUploadRequest,
+      Video.VideoUploadResponse> getUploadVideoMethod() {
+    io.grpc.MethodDescriptor<Video.VideoUploadRequest, Video.VideoUploadResponse> getUploadVideoMethod;
     if ((getUploadVideoMethod = VideoServiceGrpc.getUploadVideoMethod) == null) {
       synchronized (VideoServiceGrpc.class) {
         if ((getUploadVideoMethod = VideoServiceGrpc.getUploadVideoMethod) == null) {
           VideoServiceGrpc.getUploadVideoMethod = getUploadVideoMethod =
-              io.grpc.MethodDescriptor.<proto.video.Video.VideoUploadRequest, proto.video.Video.VideoUploadResponse>newBuilder()
+              io.grpc.MethodDescriptor.<Video.VideoUploadRequest, Video.VideoUploadResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "uploadVideo"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  proto.video.Video.VideoUploadRequest.getDefaultInstance()))
+                  Video.VideoUploadRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  proto.video.Video.VideoUploadResponse.getDefaultInstance()))
+                  Video.VideoUploadResponse.getDefaultInstance()))
               .setSchemaDescriptor(new VideoServiceMethodDescriptorSupplier("uploadVideo"))
               .build();
         }
@@ -127,15 +125,15 @@ public final class VideoServiceGrpc {
 
     /**
      */
-    default void streamVideo(proto.video.Video.VideoRequest request,
-        io.grpc.stub.StreamObserver<proto.video.Video.VideoChunkResponse> responseObserver) {
+    default void streamVideo(Video.VideoRequest request,
+        io.grpc.stub.StreamObserver<Video.VideoChunkResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getStreamVideoMethod(), responseObserver);
     }
 
     /**
      */
-    default io.grpc.stub.StreamObserver<proto.video.Video.VideoUploadRequest> uploadVideo(
-        io.grpc.stub.StreamObserver<proto.video.Video.VideoUploadResponse> responseObserver) {
+    default io.grpc.stub.StreamObserver<Video.VideoUploadRequest> uploadVideo(
+        io.grpc.stub.StreamObserver<Video.VideoUploadResponse> responseObserver) {
       return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getUploadVideoMethod(), responseObserver);
     }
   }
@@ -169,16 +167,16 @@ public final class VideoServiceGrpc {
 
     /**
      */
-    public void streamVideo(proto.video.Video.VideoRequest request,
-        io.grpc.stub.StreamObserver<proto.video.Video.VideoChunkResponse> responseObserver) {
+    public void streamVideo(Video.VideoRequest request,
+        io.grpc.stub.StreamObserver<Video.VideoChunkResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncServerStreamingCall(
           getChannel().newCall(getStreamVideoMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public io.grpc.stub.StreamObserver<proto.video.Video.VideoUploadRequest> uploadVideo(
-        io.grpc.stub.StreamObserver<proto.video.Video.VideoUploadResponse> responseObserver) {
+    public io.grpc.stub.StreamObserver<Video.VideoUploadRequest> uploadVideo(
+        io.grpc.stub.StreamObserver<Video.VideoUploadResponse> responseObserver) {
       return io.grpc.stub.ClientCalls.asyncClientStreamingCall(
           getChannel().newCall(getUploadVideoMethod(), getCallOptions()), responseObserver);
     }
@@ -202,8 +200,8 @@ public final class VideoServiceGrpc {
 
     /**
      */
-    public java.util.Iterator<proto.video.Video.VideoChunkResponse> streamVideo(
-        proto.video.Video.VideoRequest request) {
+    public java.util.Iterator<Video.VideoChunkResponse> streamVideo(
+        Video.VideoRequest request) {
       return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
           getChannel(), getStreamVideoMethod(), getCallOptions(), request);
     }
@@ -247,8 +245,8 @@ public final class VideoServiceGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_STREAM_VIDEO:
-          serviceImpl.streamVideo((proto.video.Video.VideoRequest) request,
-              (io.grpc.stub.StreamObserver<proto.video.Video.VideoChunkResponse>) responseObserver);
+          serviceImpl.streamVideo((Video.VideoRequest) request,
+              (io.grpc.stub.StreamObserver<Video.VideoChunkResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -262,7 +260,7 @@ public final class VideoServiceGrpc {
       switch (methodId) {
         case METHODID_UPLOAD_VIDEO:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.uploadVideo(
-              (io.grpc.stub.StreamObserver<proto.video.Video.VideoUploadResponse>) responseObserver);
+              (io.grpc.stub.StreamObserver<Video.VideoUploadResponse>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -275,15 +273,15 @@ public final class VideoServiceGrpc {
           getStreamVideoMethod(),
           io.grpc.stub.ServerCalls.asyncServerStreamingCall(
             new MethodHandlers<
-              proto.video.Video.VideoRequest,
-              proto.video.Video.VideoChunkResponse>(
+              Video.VideoRequest,
+              Video.VideoChunkResponse>(
                 service, METHODID_STREAM_VIDEO)))
         .addMethod(
           getUploadVideoMethod(),
           io.grpc.stub.ServerCalls.asyncClientStreamingCall(
             new MethodHandlers<
-              proto.video.Video.VideoUploadRequest,
-              proto.video.Video.VideoUploadResponse>(
+              Video.VideoUploadRequest,
+              Video.VideoUploadResponse>(
                 service, METHODID_UPLOAD_VIDEO)))
         .build();
   }
@@ -294,7 +292,7 @@ public final class VideoServiceGrpc {
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return proto.video.Video.getDescriptor();
+      return Video.getDescriptor();
     }
 
     @java.lang.Override
