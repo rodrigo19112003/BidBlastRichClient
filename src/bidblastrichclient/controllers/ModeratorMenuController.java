@@ -55,6 +55,11 @@ public class ModeratorMenuController implements Initializable {
 
     @FXML
     private void btnAssessAuctionClick(ActionEvent event) {
+        Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/EvaluateItemView.fxml"));
+        baseStage.setTitle("Evaluar subastas");
+        baseStage.show();
     }
 
     @FXML
