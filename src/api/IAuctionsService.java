@@ -1,5 +1,7 @@
 package api;
 
+import api.requests.auctions.AuctionApprovalBody;
+import api.requests.auctions.AuctionRejectionBody;
 import api.requests.auctions.BlockedProfileBody;
 import api.responses.auctions.AuctionJSONResponse;
 import api.responses.auctions.AuctionLastOfferJSONResponse;
@@ -24,6 +26,11 @@ public interface IAuctionsService {
         @Query("categories") String categories,
         @Query("minimumPrice") int minimumPrice,
         @Query("maximumPrice") int maximumPrice
+    );
+    
+    @GET("auctions/published")
+    Call<List<AuctionJSONResponse>> getPublishedAuctions(
+        @Header("Authorization") String authHeader
     );
     
     @GET("auctions/{idAuction}")
@@ -68,5 +75,15 @@ public interface IAuctionsService {
         @Header("Authorization") String authHeader,
         @Query("startDate") String startDate,
         @Query("endDate") String endDate
+    );
+    @POST("auction-reviews/approval")
+    Call<Void> approveAuction(
+        @Header("Authorization") String authHeader,
+        @Body AuctionApprovalBody auctionApprovalBody
+    );
+    @POST("auction-reviews/rejection")
+    Call<Void> rejectAuction(
+        @Header("Authorization") String authHeader,
+        @Body AuctionRejectionBody auctionRejectionBody
     );
 }

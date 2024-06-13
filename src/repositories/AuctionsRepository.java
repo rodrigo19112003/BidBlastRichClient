@@ -2,6 +2,8 @@ package repositories;
 
 import api.ApiClient;
 import api.IAuctionsService;
+import api.requests.auctions.AuctionApprovalBody;
+import api.requests.auctions.AuctionRejectionBody;
 import api.requests.auctions.BlockedProfileBody;
 import api.responses.auctioncategories.AuctionCategoryJSONResponse;
 import api.responses.auctions.AuctionAuctioneerJSONResponse;
@@ -492,6 +494,120 @@ public class AuctionsRepository {
 
             @Override
             public void onFailure(Call<List<AuctionJSONResponse>> call, Throwable t) {
+                statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+            }
+        });
+    }
+    public void getPublishedAuctions(IProcessStatusListener<List<Auction>> statusListener) {
+    IAuctionsService auctionsService = ApiClient.getInstance().getAuctionsService();
+    String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
+
+        auctionsService.getPublishedAuctions(authHeader).enqueue(new Callback<List<AuctionJSONResponse>>() {
+            @Override
+            public void onResponse(Call<List<AuctionJSONResponse>> call, Response<List<AuctionJSONResponse>> response) {
+                if (response.isSuccessful()) {
+                    List<AuctionJSONResponse> body = response.body();
+
+                    if (body != null) {
+                        List<Auction> auctionsList = new ArrayList<>();
+
+                        for (AuctionJSONResponse auctionRes : body) {
+                            Auction auction = new Auction();
+
+                            auction.setId(auctionRes.getId());
+                            auction.setTitle(auctionRes.getTitle());
+                            auction.setClosesAt(auctionRes.getClosesAt() != null ? DateToolkit.parseDateFromIS8601(auctionRes.getClosesAt()) : null);
+                            auction.setDescription(auctionRes.getDescription());
+                            auction.setBasePrice(auctionRes.getBasePrice());
+                            auction.setMinimumBid(auctionRes.getMinimumBid());
+                            auction.setItemCondition(auctionRes.getItemCondition());
+
+                            List<AuctionMediaFileJSONResponse> mediaFilesRes = auctionRes.getMediaFiles();
+                            if (mediaFilesRes != null) {
+                                List<HypermediaFile> mediaFiles = new ArrayList<>();
+
+                                for (AuctionMediaFileJSONResponse fileRes : mediaFilesRes) {
+                                    HypermediaFile file = new HypermediaFile();
+
+                                    file.setId(fileRes.getId());
+                                    file.setName(fileRes.getName());
+                                    file.setContent(fileRes.getContent());
+
+                                    mediaFiles.add(file);
+                                }
+
+                                auction.setMediaFiles(mediaFiles);
+                            }
+
+                            AuctionLastOfferJSONResponse lastOffer = auctionRes.getLastOffer();
+                            if (lastOffer != null) {
+                                Offer offer = new Offer();
+                                offer.setId(lastOffer.getId());
+                                offer.setAmount(lastOffer.getAmount());
+                                offer.setCreationDate(DateToolkit.parseDateFromIS8601(lastOffer.getCreationDate()));
+
+                                auction.setLastOffer(offer);
+                            }
+
+                            auctionsList.add(auction);
+                        }
+
+                        statusListener.onSuccess(auctionsList);
+                    } else {
+                        statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+                    }
+                } else {
+                    statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AuctionJSONResponse>> call, Throwable t) {
+                statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+            }
+        });
+    }
+
+    public void approveAuction(int idAuction, int idAuctionCategory, IEmptyProcessStatusListener statusListener) {
+    IAuctionsService reviewService = ApiClient.getInstance().getAuctionsService();
+    String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
+    AuctionApprovalBody approvalBody = new AuctionApprovalBody(idAuction, idAuctionCategory);
+
+        reviewService.approveAuction(authHeader, approvalBody).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    statusListener.onSuccess();
+                } else {
+                    System.err.println("Error al aprobar la subasta: " + response.message());
+                    statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.err.println("Error al conectar con el servidor: " + t.getMessage());
+                statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+            }
+        });
+    }
+    public void rejectAuction(int idAuction, String comments, IEmptyProcessStatusListener statusListener) {
+        IAuctionsService auctionsService = ApiClient.getInstance().getAuctionsService();
+        String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
+        AuctionRejectionBody rejectionBody = new AuctionRejectionBody(idAuction, comments);
+
+        auctionsService.rejectAuction(authHeader, rejectionBody).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    statusListener.onSuccess();
+                } else {
+                    statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
                 statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
             }
         });
