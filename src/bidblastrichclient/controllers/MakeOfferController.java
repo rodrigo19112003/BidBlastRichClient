@@ -1,8 +1,7 @@
 package bidblastrichclient.controllers;
 
 import api.requests.offers.OfferCreationBody;
-import gRPC.Client;
-import gRPC.VideoStreamListener;
+import grpc.Client;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -42,8 +41,9 @@ import repositories.IProcessStatusListener;
 import repositories.OffersRepository;
 import repositories.ProcessErrorCodes;
 import repositories.businesserrors.CreateOfferCodes;
+import grpc.IVideoStreamListener;
 
-public class MakeOfferController implements Initializable, VideoStreamListener {
+public class MakeOfferController implements Initializable, IVideoStreamListener {
 
     @FXML
     private HBox hbImageCarrusel;

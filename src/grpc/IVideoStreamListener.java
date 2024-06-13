@@ -1,6 +1,6 @@
-package gRPC;
+package grpc;
 
-public interface VideoStreamListener {
+public interface IVideoStreamListener {
     void onVideoChunkReceived(byte[] videoChunk);
     void onVideoFetchError(Throwable error);
     void onVideoFetchComplete();

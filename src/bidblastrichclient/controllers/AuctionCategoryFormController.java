@@ -97,10 +97,10 @@ public class AuctionCategoryFormController implements Initializable {
     
     private boolean verifyTextFields() {
         boolean areValid = 
-                !tfTitle.getText().trim().isEmpty() &&
-                !tfDescription.getText().trim().isEmpty() &&
-                !tfKeywords.getText().trim().isEmpty() &&
-                ValidationToolkit.areValidKeywords(tfKeywords.getText().trim());
+                !tfTitle.getText().trim().isEmpty()
+                && !tfDescription.getText().trim().isEmpty()
+                && !tfKeywords.getText().trim().isEmpty()
+                && ValidationToolkit.areValidKeywords(tfKeywords.getText().trim());
         
         return areValid;
     }
@@ -112,7 +112,8 @@ public class AuctionCategoryFormController implements Initializable {
         if (tfDescription.getText().isEmpty()) {
             lblDescriptionError.setVisible(true);
         }
-        if (tfKeywords.getText().isEmpty() || !ValidationToolkit.areValidKeywords(tfKeywords.getText())) {
+        if (tfKeywords.getText().isEmpty() 
+                || !ValidationToolkit.areValidKeywords(tfKeywords.getText())) {
             lblKeywordsError.setVisible(true);
         }
     }

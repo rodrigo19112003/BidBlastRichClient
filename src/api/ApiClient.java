@@ -1,6 +1,6 @@
-
 package api;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
@@ -20,8 +20,13 @@ public class ApiClient {
     }
 
     private ApiClient() {
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+            .addInterceptor(new AuthorizationInterceptor())
+            .build();
+
         retrofit = new Retrofit.Builder()
-            .baseUrl(API_BASE_URL)
+            .baseUrl(ApiClient.API_BASE_URL)
+            .client(httpClient)
             .addConverterFactory(MoshiConverterFactory.create())
             .build();
     }

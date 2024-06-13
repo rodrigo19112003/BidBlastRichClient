@@ -147,22 +147,22 @@ public class UserFormController implements Initializable {
         
         if (isEdition) {
             areValid = 
-                !tfFullName.getText().trim().isEmpty()&&
-                !tfEmail.getText().trim().isEmpty() &&
-                ValidationToolkit.isValidEmail(tfEmail.getText());
+                !tfFullName.getText().trim().isEmpty()
+                && !tfEmail.getText().trim().isEmpty()
+                && ValidationToolkit.isValidEmail(tfEmail.getText());
             if (!tfPassword.getText().trim().isEmpty()) {
-                areValid = areValid && 
-                    ValidationToolkit.isValidPassword(tfPassword.getText().trim()) &&
-                    tfPassword.getText().trim().equals(tfConfirmPassword.getText().trim());
+                areValid = areValid 
+                        && ValidationToolkit.isValidPassword(tfPassword.getText().trim())
+                     && tfPassword.getText().trim().equals(tfConfirmPassword.getText().trim());
             }
         } else {
             areValid = 
-                !tfFullName.getText().trim().isEmpty()&&
-                !tfEmail.getText().trim().isEmpty() &&
-                ValidationToolkit.isValidEmail(tfEmail.getText()) &&
-                !tfPassword.getText().trim().isEmpty() &&
-                ValidationToolkit.isValidPassword(tfPassword.getText().trim()) &&
-                tfPassword.getText().trim().equals(tfConfirmPassword.getText().trim());
+                !tfFullName.getText().trim().isEmpty()
+                && !tfEmail.getText().trim().isEmpty()
+                && ValidationToolkit.isValidEmail(tfEmail.getText())
+                && !tfPassword.getText().trim().isEmpty()
+                && ValidationToolkit.isValidPassword(tfPassword.getText().trim())
+                && tfPassword.getText().trim().equals(tfConfirmPassword.getText().trim());
         }
         
         if (!tfPhoneNumber.getText().trim().isEmpty()) {
@@ -176,36 +176,36 @@ public class UserFormController implements Initializable {
         if (tfFullName.getText().trim().isEmpty()) {
             lblFullNameError.setVisible(true);
         }
-        if (tfEmail.getText().trim().isEmpty() || 
-                !ValidationToolkit.isValidEmail(tfEmail.getText().trim())) {
+        if (tfEmail.getText().trim().isEmpty()
+                || !ValidationToolkit.isValidEmail(tfEmail.getText().trim())) {
             lblEmailError.setVisible(true);
         }
-        if (!tfPhoneNumber.getText().trim().isEmpty() && 
-                !ValidationToolkit.isNumeric(tfPhoneNumber.getText().trim())) {
+        if (!tfPhoneNumber.getText().trim().isEmpty()
+                && !ValidationToolkit.isNumeric(tfPhoneNumber.getText().trim())) {
             lblPhoneNumberError.setVisible(true);
         }
         if (isEdition) {
-            if (!tfPassword.getText().trim().isEmpty() &&
-                    !ValidationToolkit.isValidPassword(tfPassword.getText().trim())) {
+            if (!tfPassword.getText().trim().isEmpty() 
+                    && !ValidationToolkit.isValidPassword(tfPassword.getText().trim())) {
                 lblPasswordError.setVisible(true);
                 if (!tfPassword.getText().trim().equals(tfConfirmPassword.getText().trim())) {
                     lblConfirmPasswordError.setText("Confirme su contraseña, debe ser la misma");
                     lblConfirmPassword.setVisible(true);
                 }
             }
-            if (!tfConfirmPassword.getText().trim().isEmpty() &&
-                    tfPassword.getText().trim().isEmpty()) {
+            if (!tfConfirmPassword.getText().trim().isEmpty() 
+                    && tfPassword.getText().trim().isEmpty()) {
                 lblConfirmPasswordError.setText("Ha hecho una confirmación de contraseña "
                         + "para una inexistente");
                 lblConfirmPassword.setVisible(true);
             }
         } else {
-            if (tfPassword.getText().trim().isEmpty() ||
-                    !ValidationToolkit.isValidPassword(tfPassword.getText().trim())) {
+            if (tfPassword.getText().trim().isEmpty() 
+                    || !ValidationToolkit.isValidPassword(tfPassword.getText().trim())) {
                 lblPasswordError.setVisible(true);
             }
-            if (tfConfirmPassword.getText().trim().isEmpty() ||
-                    !ValidationToolkit.isValidPassword(tfConfirmPassword.getText().trim())) {
+            if (tfConfirmPassword.getText().trim().isEmpty() 
+                    || !ValidationToolkit.isValidPassword(tfConfirmPassword.getText().trim())) {
                 lblConfirmPasswordError.setVisible(true);
             }
             if (!tfConfirmPassword.getText().trim().equals(tfPassword.getText().trim())) {

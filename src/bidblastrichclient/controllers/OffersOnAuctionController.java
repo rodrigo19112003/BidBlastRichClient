@@ -1,7 +1,6 @@
 package bidblastrichclient.controllers;
 
-import gRPC.Client;
-import gRPC.VideoStreamListener;
+import grpc.Client;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -51,8 +50,9 @@ import repositories.AuctionsRepository;
 import repositories.IEmptyProcessStatusListener;
 import repositories.IProcessStatusListener;
 import repositories.ProcessErrorCodes;
+import grpc.IVideoStreamListener;
 
-public class OffersOnAuctionController implements Initializable, VideoStreamListener {
+public class OffersOnAuctionController implements Initializable, IVideoStreamListener {
 
     @FXML
     private MediaView mvVideoPlayer;

@@ -1,4 +1,4 @@
-package gRPC;
+package grpc;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -13,9 +13,9 @@ public class Client {
     private final VideoServiceGrpc.VideoServiceStub videoServiceStub;
     private static final String GRPC_URL = "localhost";
     private static final int GRPC_PORT = 3001;
-    private final VideoStreamListener streamListener;
+    private final IVideoStreamListener streamListener;
 
-    public Client(VideoStreamListener streamListener) {
+    public Client(IVideoStreamListener streamListener) {
         this.streamListener = streamListener;
         channel = ManagedChannelBuilder.forAddress(GRPC_URL, GRPC_PORT)
                 .usePlaintext()
