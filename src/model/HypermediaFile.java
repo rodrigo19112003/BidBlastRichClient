@@ -16,6 +16,11 @@ public class HypermediaFile {
         this.name = name;
         this.mimeType = mimeType;
     }
+    public HypermediaFile(String name, String content, String mimeType) {
+        this.name = name;
+        this.content = content;
+        this.mimeType = mimeType;
+    }
 
     public int getId() {
         return id;
@@ -60,5 +65,13 @@ public class HypermediaFile {
     @Override
     public int hashCode() {
         return Objects.hash(id, content, name, mimeType);
+    }
+    @Override
+    public String toString() {
+        return "HypermediaFile{" +
+                "name='" + name + '\'' +
+                ", content='" + content + '\'' +
+                ", mimeType='" + mimeType + '\'' +
+                '}';
     }
 }
