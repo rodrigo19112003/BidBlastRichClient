@@ -1,12 +1,14 @@
 package api;
 
 import api.requests.auctions.AuctionApprovalBody;
+import api.requests.auctions.AuctionCreateBody;
 import api.requests.auctions.AuctionRejectionBody;
 import api.requests.auctions.BlockedProfileBody;
 import api.responses.auctions.AuctionJSONResponse;
 import api.responses.auctions.AuctionLastOfferJSONResponse;
 
 import java.util.List;
+import model.AuctionState;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -31,6 +33,16 @@ public interface IAuctionsService {
     @GET("auctions/published")
     Call<List<AuctionJSONResponse>> getPublishedAuctions(
         @Header("Authorization") String authHeader
+    );
+    @GET("auctions/states")
+    Call<List<AuctionState>> getAuctionStates(
+    @Header("Authorization") String authHeader
+    );
+
+    @POST("auctions/")
+    Call<Void> createAuction(
+        @Header("Authorization") String authHeader, 
+        @Body AuctionCreateBody auctionBody
     );
     
     @GET("auctions/{idAuction}")

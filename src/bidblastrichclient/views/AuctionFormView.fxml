@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bidblastrichclient.controllers.AuctionFormController">
+    <content>
+        <AnchorPane id="AnchorPane" prefHeight="950.0" prefWidth="900.0">
+         <children>
+            <Pane prefHeight="73.0" prefWidth="922.0" style="-fx-background-color: #00086A;">
+               <children>
+                  <ImageView fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="24.0" onMouseClicked="#imgReturnToPreviousPageClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                     <image>
+                        <Image url="@../resources/Arrow.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="52.0" layoutY="19.0" text="Crear subasta en subasta" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Label layoutX="52.0" layoutY="137.0" text="Título">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="54.0" layoutY="212.0" text="Estado">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="53.0" layoutY="289.0" text="Descripción">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="54.0" layoutY="361.0" text="Precio base">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="55.0" layoutY="437.0" text="Puja mínima">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="56.0" layoutY="511.0" text="Días de apertura de subasta ">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblUploadMedia" layoutX="56.0" layoutY="585.0" text="Fotos y videos">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="lblAuctionTitle" layoutX="52.0" layoutY="162.0" prefHeight="31.0" prefWidth="770.0" />
+            <ComboBox fx:id="cbAuctionState" layoutX="55.0" layoutY="237.0" prefHeight="31.0" prefWidth="769.0" />
+            <TextField fx:id="tfAuctionDescription" layoutX="52.0" layoutY="314.0" prefHeight="31.0" prefWidth="768.0" />
+            <TextField fx:id="tfAuctionBasePrice" layoutX="55.0" layoutY="386.0" prefHeight="31.0" prefWidth="223.0" />
+            <TextField fx:id="tfAuctionMiniumBid" layoutX="55.0" layoutY="462.0" prefHeight="31.0" prefWidth="224.0" />
+            <Label layoutX="291.0" layoutY="389.0" text="MXN">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="291.0" layoutY="465.0" text="MXN">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tfAuctionDaysAvailable" layoutX="55.0" layoutY="536.0" prefHeight="31.0" prefWidth="229.0" />
+            <Label layoutX="291.0" layoutY="539.0" text="Días">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="697.0" layoutY="103.0" prefHeight="25.0" prefWidth="17.0" text=" *" textAlignment="CENTER" textFill="#ff5c00">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="489.0" layoutY="103.0" text="Los campos marcados con un   son obligatorios">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="98.0" layoutY="137.0" prefHeight="25.0" prefWidth="17.0" text=" *" textAlignment="CENTER" textFill="#ff5c00">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="105.0" layoutY="212.0" prefHeight="25.0" prefWidth="17.0" text=" *" textAlignment="CENTER" textFill="#ff5c00">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="139.0" layoutY="289.0" prefHeight="25.0" prefWidth="17.0" text=" *" textAlignment="CENTER" textFill="#ff5c00">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="139.0" layoutY="361.0" prefHeight="25.0" prefWidth="17.0" text=" *" textAlignment="CENTER" textFill="#ff5c00">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="261.0" layoutY="511.0" prefHeight="25.0" prefWidth="17.0" text=" *" textAlignment="CENTER" textFill="#ff5c00">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="167.0" layoutY="585.0" prefHeight="25.0" prefWidth="17.0" text=" *" textAlignment="CENTER" textFill="#ff5c00">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <VBox fx:id="vbUploadMultimedia" alignment="CENTER" layoutX="52.0" layoutY="620.0" prefHeight="139.0" prefWidth="770.0" spacing="20.0" style="-fx-border-color: #d3d3d3; -fx-border-style: dashed;">
+                    <children>
+                        <Label text="Selecciona archivos para subir" />
+                        <Button fx:id="btnUploadMedia" onAction="#btnUploadHipermedia" text="Cargar archivos" />
+                    </children>
+                </VBox>
+                <VBox fx:id="vboxUploadedFiles" layoutX="52.0" layoutY="765.0" prefHeight="134.0" prefWidth="454.0" spacing="10.0">
+                    <children>
+                    </children>
+                </VBox>
+            <Button fx:id="btnSaveTAuction" layoutX="726.0" layoutY="795.0" mnemonicParsing="false" onAction="#btnSaveAuctionClick" prefHeight="37.0" prefWidth="100.0" style="-fx-background-color: #0014FF; -fx-cursor: hand;" text="Guardar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnCancelAuction" layoutX="602.0" layoutY="795.0" mnemonicParsing="false" onAction="#btnCancelCreateAuctionClick" prefHeight="37.0" prefWidth="112.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Cancelar" textFill="#ff5c00">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+         </children></AnchorPane>
+    </content>
+</ScrollPane>

@@ -3,6 +3,7 @@ package repositories;
 import api.ApiClient;
 import api.IAuctionsService;
 import api.requests.auctions.AuctionApprovalBody;
+import api.requests.auctions.AuctionCreateBody;
 import api.requests.auctions.AuctionRejectionBody;
 import api.requests.auctions.BlockedProfileBody;
 import api.responses.auctioncategories.AuctionCategoryJSONResponse;
@@ -23,6 +24,7 @@ import model.User;
 import java.util.ArrayList;
 import java.util.List;
 import model.AuctionReview;
+import model.AuctionState;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -610,6 +612,52 @@ public class AuctionsRepository {
             public void onFailure(Call<Void> call, Throwable t) {
                 statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
             }
+        });
+    }
+    public void getAuctionStates(IProcessStatusListener<List<AuctionState>> statusListener) {
+    IAuctionsService auctionsService = ApiClient.getInstance().getAuctionsService();
+    String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
+
+    auctionsService.getAuctionStates(authHeader).enqueue(new Callback<List<AuctionState>>() {
+        @Override
+        public void onResponse(Call<List<AuctionState>> call, Response<List<AuctionState>> response) {
+            if (response.isSuccessful()) {
+                List<AuctionState> body = response.body();
+
+                if (body != null) {
+                    statusListener.onSuccess(body);
+                } else {
+                    statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+                }
+            } else {
+                statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+            }
+        }
+
+        @Override
+        public void onFailure(Call<List<AuctionState>> call, Throwable t) {
+            statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+        }
+        });
+    }
+
+    public void createAuction(AuctionCreateBody auctionBody, IEmptyProcessStatusListener statusListener) {
+    IAuctionsService auctionsService = ApiClient.getInstance().getAuctionsService();
+    String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
+    auctionsService.createAuction(authHeader, auctionBody).enqueue(new Callback<Void>() {
+        @Override
+        public void onResponse(Call<Void> call, Response<Void> response) {
+            if (response.isSuccessful()) {
+                statusListener.onSuccess();
+            } else {
+                statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+            }
+        }
+        @Override
+        public void onFailure(Call<Void> call, Throwable t) {
+            statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+            System.err.println("Error al crear la subasta: " + t.getMessage());
+        }
         });
     }
 }
