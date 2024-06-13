@@ -89,6 +89,11 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void btnCreateAuctionClick(ActionEvent event) {
+        Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
+
+        baseStage.setScene(Navigation.startScene("views/AuctionFormView.fxml"));
+        baseStage.setTitle("Crear subasta");
+        baseStage.show();
     }
 
     @FXML

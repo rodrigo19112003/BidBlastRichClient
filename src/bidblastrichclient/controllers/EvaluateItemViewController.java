@@ -269,9 +269,7 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
             public void onSuccess(List<Auction> auctions) {
                 Platform.runLater(() -> {
                     if (auctions != null && !auctions.isEmpty()) {
-                        System.out.println("Subastas recuperadas: " + auctions.size());
                     } else {
-                        System.out.println("No se recuperaron subastas.");
                     }
                     cbxAuctions.setItems(FXCollections.observableArrayList(auctions));
                 });
@@ -280,7 +278,6 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
             @Override
             public void onError(ProcessErrorCodes errorCode) {
                 Platform.runLater(() -> {
-                    System.err.println("Error al cargar las subastas: " + errorCode);
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error al cargar subastas");
                     alert.setHeaderText(null);
@@ -364,7 +361,6 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
         AuctionCategory selectedCategory = cbxAuctionCategory.getSelectionModel().getSelectedItem();
 
         if (selectedAuction != null && selectedCategory != null) {
-            System.out.println("Aprobando subasta con ID: " + selectedAuction.getId() + " y categoría ID: " + selectedCategory.getId());
 
             new AuctionsRepository().approveAuction(
                 selectedAuction.getId(),
@@ -380,7 +376,6 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
                             alert.showAndWait().ifPresent(response -> {
                                 navigateToMainMenu();
                             });
-                            System.out.println("Subasta aprobada con éxito.");
                         });
                     }
 
@@ -392,7 +387,6 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
                             alert.setHeaderText(null);
                             alert.setContentText("No se pudo aprobar la subasta. Intente de nuevo más tarde.");
                             alert.showAndWait();
-                            System.err.println("Error al aprobar la subasta: " + errorCode);
                         });
                     }
                 }
@@ -404,7 +398,6 @@ public class EvaluateItemViewController implements Initializable, VideoStreamLis
                 alert.setHeaderText(null);
                 alert.setContentText("Por favor seleccione una subasta y una categoría para aprobar.");
                 alert.showAndWait();
-                System.err.println("No se seleccionó una subasta o una categoría.");
             });
         }
     }
