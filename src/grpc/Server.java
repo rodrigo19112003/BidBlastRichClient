@@ -10,16 +10,16 @@ import proto.video.Video.VideoUploadResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import static lib.Configuration.GRPC_BASE_URL;
+import static lib.Configuration.GRPC_PORT;
 
 public class Server {
 
     private final ManagedChannel channel;
     private final VideoServiceGrpc.VideoServiceStub asyncStub;
-    private static final String GRPC_URL = "localhost";
-    private static final int GRPC_PORT = 3001;
 
     public Server() {
-        this.channel = ManagedChannelBuilder.forAddress(GRPC_URL, GRPC_PORT)
+        this.channel = ManagedChannelBuilder.forAddress(GRPC_BASE_URL, GRPC_PORT)
                 .usePlaintext()
                 .build();
         this.asyncStub = VideoServiceGrpc.newStub(channel);

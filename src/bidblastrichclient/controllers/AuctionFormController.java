@@ -129,8 +129,8 @@ public class AuctionFormController implements Initializable {
 
     @FXML
     private void btnUploadHipermedia(ActionEvent event) {
-        if (uploadedMediaFiles.size() == 5 && videoFiles.size() == 3) {
-            showAlert("No puedes subir más de 5 imágenes y 3 videos");
+        if (uploadedMediaFiles.size() == 6 && videoFiles.size() == 1) {
+            showAlert("No puedes subir más de 6 imágenes y 1 video");
             return;
         }
 
@@ -145,6 +145,16 @@ public class AuctionFormController implements Initializable {
         if (selectedFiles != null) {
             for (File file : selectedFiles) {
                 try {
+                    if (Files.probeContentType(file.toPath()).startsWith("image")
+                            && uploadedMediaFiles.size() == 6) {
+                        showAlert("No puedes subir más de 6 imágenes");
+                        return;
+                    }
+                    if (Files.probeContentType(file.toPath()).startsWith("video")
+                            && videoFiles.size() == 1) {
+                        showAlert("No puedes subir más de 1 video");
+                        return;
+                    }
                     if (isValidFile(file)) {
                         Label fileLabel = new Label(file.getName());
                         vboxUploadedFiles.getChildren().add(fileLabel);

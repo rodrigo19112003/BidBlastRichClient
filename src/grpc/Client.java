@@ -4,6 +4,8 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import javafx.application.Platform;
+import static lib.Configuration.GRPC_BASE_URL;
+import static lib.Configuration.GRPC_PORT;
 import proto.video.Video.VideoChunkResponse;
 import proto.video.Video.VideoRequest;
 import proto.video.VideoServiceGrpc;
@@ -11,13 +13,11 @@ import proto.video.VideoServiceGrpc;
 public class Client {
     private static ManagedChannel channel = null;
     private final VideoServiceGrpc.VideoServiceStub videoServiceStub;
-    private static final String GRPC_URL = "localhost";
-    private static final int GRPC_PORT = 3001;
     private final IVideoStreamListener streamListener;
 
     public Client(IVideoStreamListener streamListener) {
         this.streamListener = streamListener;
-        channel = ManagedChannelBuilder.forAddress(GRPC_URL, GRPC_PORT)
+        channel = ManagedChannelBuilder.forAddress(GRPC_BASE_URL, GRPC_PORT)
                 .usePlaintext()
                 .build();
         videoServiceStub = VideoServiceGrpc.newStub(channel);
