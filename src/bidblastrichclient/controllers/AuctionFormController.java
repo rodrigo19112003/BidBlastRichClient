@@ -15,7 +15,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,10 +24,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lib.Navigation;
+import model.Auction;
 import model.AuctionState;
 import model.HypermediaFile;
 import repositories.AuctionsRepository;
-import repositories.IEmptyProcessStatusListener;
 import repositories.IProcessStatusListener;
 import repositories.ProcessErrorCodes;
 
@@ -50,8 +49,10 @@ public class AuctionFormController implements Initializable {
     private Label lblUploadMedia;
     @FXML
     private ComboBox<AuctionState> cbAuctionState;
-
+    private int idAuction;
+    private static final String MIME_TYPE_VIDEO = "video/mp4";
     private List<HypermediaFile> uploadedMediaFiles = new ArrayList<>();
+    private List<File> videoFiles = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -60,19 +61,15 @@ public class AuctionFormController implements Initializable {
         tfAuctionMiniumBid.addEventFilter(KeyEvent.KEY_TYPED, this::validateNumericInput);
         tfAuctionDaysAvailable.addEventFilter(KeyEvent.KEY_TYPED, this::validateNumericInput);
         setFieldLimits();
-        
-        sendVideo();
     }
     
-    private void sendVideo() {
-        File videoFile = new File("src/bidblastrichclient/resources/videoplayback.mp4");
-        int auctionId = 110;
-        String mimeType = "video/mp4";
-        
+    private void sendVideos() {
         Server videoService = new Server();
 
         try {
-            videoService.uploadVideo(videoFile, auctionId, mimeType);
+            for (File videoFile : videoFiles) {
+                videoService.uploadVideo(videoFile, idAuction, MIME_TYPE_VIDEO);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -132,8 +129,8 @@ public class AuctionFormController implements Initializable {
 
     @FXML
     private void btnUploadHipermedia(ActionEvent event) {
-        if (uploadedMediaFiles.size() >= 4) {
-            showAlert("No puedes subir más de 4 archivos multimedia.");
+        if (uploadedMediaFiles.size() == 5 && videoFiles.size() == 3) {
+            showAlert("No puedes subir más de 5 imágenes y 3 videos");
             return;
         }
 
@@ -141,23 +138,23 @@ public class AuctionFormController implements Initializable {
         fileChooser.setTitle("Selecciona archivos para subir");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg"),
-                new FileChooser.ExtensionFilter("Videos", "*.avi")
+                new FileChooser.ExtensionFilter("Videos", "*.mp4")
         );
 
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(new Stage());
         if (selectedFiles != null) {
-            if (uploadedMediaFiles.size() + selectedFiles.size() > 8) {
-                showAlert("No puedes subir más de 8 archivos multimedia en total.");
-                return;
-            }
-
             for (File file : selectedFiles) {
                 try {
                     if (isValidFile(file)) {
                         Label fileLabel = new Label(file.getName());
                         vboxUploadedFiles.getChildren().add(fileLabel);
-                        uploadedMediaFiles.add(new HypermediaFile(file.getName(), 
+                        
+                        if (Files.probeContentType(file.toPath()).startsWith("image")) {
+                            uploadedMediaFiles.add(new HypermediaFile(file.getName(), 
                             convertFileToBase64(file), Files.probeContentType(file.toPath())));
+                        } else {
+                            videoFiles.add(file);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -176,7 +173,7 @@ public class AuctionFormController implements Initializable {
                 return false;
             }
             return true;
-        } else if (mimeType != null && mimeType.equals("video/x-msvideo")) {
+        } else if (mimeType != null && mimeType.equals("video/mp4")) {
             if (fileSize > 5 * 1024 * 1024) {
                 showAlert("El archivo de video " + file.getName() + " excede el tamaño máximo permitido de 5 MB.");
                 return false;
@@ -273,10 +270,12 @@ public class AuctionFormController implements Initializable {
         AuctionCreateBody auctionBody = new AuctionCreateBody(
             title, description, basePrice, minimumBid, daysAvailable, itemConditionId, uploadedMediaFiles
         );
-        new AuctionsRepository().createAuction(auctionBody, new IEmptyProcessStatusListener() {
+        new AuctionsRepository().createAuction(auctionBody, new IProcessStatusListener<Auction>() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(Auction auction) {
                 Platform.runLater(() -> {
+                    idAuction = auction.getId();
+                    sendVideos();
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Subasta creada");
                     alert.setHeaderText(null);
