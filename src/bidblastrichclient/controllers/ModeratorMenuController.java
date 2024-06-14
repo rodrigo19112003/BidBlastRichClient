@@ -57,7 +57,7 @@ public class ModeratorMenuController implements Initializable {
     private void btnAssessAuctionClick(ActionEvent event) {
         Stage baseStage = (Stage) imgReturnToPreviousPage.getScene().getWindow();
 
-        baseStage.setScene(Navigation.startScene("views/EvaluateItemView.fxml"));
+        baseStage.setScene(Navigation.startScene("views/AuctionEvaluationView.fxml"));
         baseStage.setTitle("Evaluar subastas");
         baseStage.show();
     }

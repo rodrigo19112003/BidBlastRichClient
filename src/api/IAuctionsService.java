@@ -40,7 +40,7 @@ public interface IAuctionsService {
     );
 
     @POST("auctions/")
-    Call<Void> createAuction(
+    Call<AuctionJSONResponse> createAuction(
         @Header("Authorization") String authHeader, 
         @Body AuctionCreateBody auctionBody
     );

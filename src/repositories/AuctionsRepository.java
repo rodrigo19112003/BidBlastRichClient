@@ -641,23 +641,32 @@ public class AuctionsRepository {
         });
     }
 
-    public void createAuction(AuctionCreateBody auctionBody, IEmptyProcessStatusListener statusListener) {
-    IAuctionsService auctionsService = ApiClient.getInstance().getAuctionsService();
-    String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
-    auctionsService.createAuction(authHeader, auctionBody).enqueue(new Callback<Void>() {
-        @Override
-        public void onResponse(Call<Void> call, Response<Void> response) {
-            if (response.isSuccessful()) {
-                statusListener.onSuccess();
-            } else {
-                statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+    public void createAuction(
+            AuctionCreateBody auctionBody, 
+            IProcessStatusListener<Auction> statusListener) {
+        IAuctionsService auctionsService = ApiClient.getInstance().getAuctionsService();
+        String authHeader = String.format("Bearer %s", Session.getInstance().getToken());
+        auctionsService.createAuction(authHeader, auctionBody).enqueue(new Callback<AuctionJSONResponse>() {
+            @Override
+            public void onResponse(Call<AuctionJSONResponse> call, Response<AuctionJSONResponse> response) {
+                if (response.isSuccessful()) {
+                    AuctionJSONResponse body = response.body();
+                    if (body != null) {
+                        Auction auction = new Auction();
+                        
+                        auction.setId(body.getId());
+                        statusListener.onSuccess(auction);
+                    } else {
+
+                    }
+                } else {
+                    statusListener.onError(ProcessErrorCodes.AUTH_ERROR);
+                }
             }
-        }
-        @Override
-        public void onFailure(Call<Void> call, Throwable t) {
-            statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
-            System.err.println("Error al crear la subasta: " + t.getMessage());
-        }
+            @Override
+            public void onFailure(Call<AuctionJSONResponse> call, Throwable t) {
+                statusListener.onError(ProcessErrorCodes.FATAL_ERROR);
+            }
         });
     }
 }

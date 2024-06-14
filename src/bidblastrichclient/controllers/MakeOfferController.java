@@ -172,6 +172,17 @@ public class MakeOfferController implements Initializable, IVideoStreamListener 
         mvVideoPlayer.setVisible(false);
         String content = "";
         
+        if (Client.getChannelStatus() && gRPCClient != null) {
+            videoFragments.clear();
+            gRPCClient.shutdown();
+            gRPCClient = null;
+        }
+        if (mediaPlayer != null && 
+                mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
+            mediaPlayer.stop();
+            mediaPlayer = null;
+        }
+        
         for (HypermediaFile file : hypermediaFiles) {
             if (file.getId() == image.getValue()) {
                 content = file.getContent();
@@ -179,16 +190,6 @@ public class MakeOfferController implements Initializable, IVideoStreamListener 
         }
         
         if (!content.isEmpty()) {
-            if (Client.getChannelStatus() && gRPCClient != null) {
-                videoFragments.clear();
-                gRPCClient.shutdown();
-                gRPCClient = null;
-            }
-            if (mediaPlayer != null && 
-                    mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
-                mediaPlayer.stop();
-                mediaPlayer = null;
-            }
             imgMainHypermediaFile.setVisible(true);
             imgMainHypermediaFile.setImage(image.getKey());
             imgMainHypermediaFile.setPreserveRatio(true);
@@ -279,6 +280,17 @@ public class MakeOfferController implements Initializable, IVideoStreamListener 
 
     @FXML
     private void imgReturnToPreviousPageClick(MouseEvent event) {
+        if (Client.getChannelStatus() && gRPCClient != null) {
+            videoFragments.clear();
+            gRPCClient.shutdown();
+            gRPCClient = null;
+        }
+        if (mediaPlayer != null && 
+                mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
+            mediaPlayer.stop();
+            mediaPlayer = null;
+        }
+        
         Stage baseStage = (Stage) hbImageCarrusel.getScene().getWindow();
         baseStage.setScene(Navigation.startScene("views/SearchAuctionView.fxml"));
         baseStage.setTitle("Buscar subasta");

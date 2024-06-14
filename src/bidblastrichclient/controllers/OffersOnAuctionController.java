@@ -80,7 +80,7 @@ public class OffersOnAuctionController implements Initializable, IVideoStreamLis
     private MediaPlayer mediaPlayer;
     private final List<byte[]> videoFragments = new ArrayList<>();;
     private int currentFragmentIndex = 0;
-    private Client client;
+    private Client gRPCClient;
     private int idAuction;
     @FXML
     private ImageView imgMainHypermediaFile;
@@ -329,6 +329,17 @@ public class OffersOnAuctionController implements Initializable, IVideoStreamLis
         mvVideoPlayer.setVisible(false);
         String content = "";
         
+        if (Client.getChannelStatus() && gRPCClient != null) {
+            videoFragments.clear();
+            gRPCClient.shutdown();
+            gRPCClient = null;
+        }
+        if (mediaPlayer != null && 
+                mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
+            mediaPlayer.stop();
+            mediaPlayer = null;
+        }
+        
         for (HypermediaFile file : hypermediaFiles) {
             if (file.getId() == image.getValue()) {
                 content = file.getContent();
@@ -336,23 +347,13 @@ public class OffersOnAuctionController implements Initializable, IVideoStreamLis
         }
         
         if (!content.isEmpty()) {
-            if (Client.getChannelStatus() && client != null) {
-                videoFragments.clear();
-                client.shutdown();
-                client = null;
-            }
-            if (mediaPlayer != null && 
-                    mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
-                mediaPlayer.stop();
-                mediaPlayer = null;
-            }
             imgMainHypermediaFile.setVisible(true);
             imgMainHypermediaFile.setImage(image.getKey());
             imgMainHypermediaFile.setPreserveRatio(true);
         } else {
             mvVideoPlayer.setVisible(true);
-            client = new Client(this);
-            client.streamVideo(image.getValue());
+            gRPCClient = new Client(this);
+            gRPCClient.streamVideo(image.getValue());
         }
     }
 
@@ -436,16 +437,17 @@ public class OffersOnAuctionController implements Initializable, IVideoStreamLis
 
     @FXML
     private void imgReturnToPreviousPageClick(MouseEvent event) {
-        if (Client.getChannelStatus() && client != null) {
+        if (Client.getChannelStatus() && gRPCClient != null) {
             videoFragments.clear();
-            client.shutdown();
-            client = null;
+            gRPCClient.shutdown();
+            gRPCClient = null;
         }
         if (mediaPlayer != null && 
                 mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
             mediaPlayer.stop();
             mediaPlayer = null;
         }
+        
         Stage baseStage = (Stage) tfLimit.getScene().getWindow();
 
         baseStage.setScene(Navigation.startScene("views/CreatedAuctionsListView.fxml"));
