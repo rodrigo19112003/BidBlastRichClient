@@ -329,6 +329,17 @@ public class OffersOnAuctionController implements Initializable, IVideoStreamLis
         mvVideoPlayer.setVisible(false);
         String content = "";
         
+        if (Client.getChannelStatus() && client != null) {
+            videoFragments.clear();
+            client.shutdown();
+            client = null;
+        }
+        if (mediaPlayer != null && 
+                mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
+            mediaPlayer.stop();
+            mediaPlayer = null;
+        }
+        
         for (HypermediaFile file : hypermediaFiles) {
             if (file.getId() == image.getValue()) {
                 content = file.getContent();
@@ -336,16 +347,6 @@ public class OffersOnAuctionController implements Initializable, IVideoStreamLis
         }
         
         if (!content.isEmpty()) {
-            if (Client.getChannelStatus() && client != null) {
-                videoFragments.clear();
-                client.shutdown();
-                client = null;
-            }
-            if (mediaPlayer != null && 
-                    mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
-                mediaPlayer.stop();
-                mediaPlayer = null;
-            }
             imgMainHypermediaFile.setVisible(true);
             imgMainHypermediaFile.setImage(image.getKey());
             imgMainHypermediaFile.setPreserveRatio(true);

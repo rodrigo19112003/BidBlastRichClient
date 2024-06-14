@@ -1,6 +1,7 @@
 package bidblastrichclient.controllers;
 
 import api.requests.auctions.AuctionCreateBody;
+import grpc.Server;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -59,6 +60,24 @@ public class AuctionFormController implements Initializable {
         tfAuctionMiniumBid.addEventFilter(KeyEvent.KEY_TYPED, this::validateNumericInput);
         tfAuctionDaysAvailable.addEventFilter(KeyEvent.KEY_TYPED, this::validateNumericInput);
         setFieldLimits();
+        
+        sendVideo();
+    }
+    
+    private void sendVideo() {
+        File videoFile = new File("src/bidblastrichclient/resources/videoplayback.mp4");
+        int auctionId = 110;
+        String mimeType = "video/mp4";
+        
+        Server videoService = new Server();
+
+        try {
+            videoService.uploadVideo(videoFile, auctionId, mimeType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            videoService.shutdown();
+        }
     }
 
     private void setFieldLimits() {

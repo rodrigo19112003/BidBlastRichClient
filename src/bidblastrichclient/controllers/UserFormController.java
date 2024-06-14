@@ -55,7 +55,9 @@ public class UserFormController implements Initializable {
     @FXML
     private Label lblPhoneNumberError;
     @FXML
-    private Label lblConfirmPassword;
+    private Label lblAsteriskPassword;
+    @FXML
+    private Label lblAsteriskConfirmPassword;
     private String avatarBase64;
     private String fullName;
     private String phoneNumber;
@@ -89,6 +91,8 @@ public class UserFormController implements Initializable {
     }
     
     private void loadUserInformationOnView() {
+        lblAsteriskPassword.setVisible(false);
+        lblAsteriskConfirmPassword.setVisible(false);
         tfFullName.setText(fullName);
         tfEmail.setText(email);
         tfPhoneNumber.setText(phoneNumber != null ? phoneNumber : "");
@@ -150,7 +154,8 @@ public class UserFormController implements Initializable {
                 !tfFullName.getText().trim().isEmpty()
                 && !tfEmail.getText().trim().isEmpty()
                 && ValidationToolkit.isValidEmail(tfEmail.getText());
-            if (!tfPassword.getText().trim().isEmpty()) {
+            if (!tfPassword.getText().trim().isEmpty() 
+                    || !tfConfirmPassword.getText().trim().isEmpty()) {
                 areValid = areValid 
                         && ValidationToolkit.isValidPassword(tfPassword.getText().trim())
                      && tfPassword.getText().trim().equals(tfConfirmPassword.getText().trim());
@@ -187,17 +192,21 @@ public class UserFormController implements Initializable {
         if (isEdition) {
             if (!tfPassword.getText().trim().isEmpty() 
                     && !ValidationToolkit.isValidPassword(tfPassword.getText().trim())) {
+                lblPasswordError.setText("Ingrese una contraseña con formato válido");
                 lblPasswordError.setVisible(true);
+            }
+            if (!tfPassword.getText().trim().isEmpty() 
+                    && ValidationToolkit.isValidPassword(tfPassword.getText().trim())) {
                 if (!tfPassword.getText().trim().equals(tfConfirmPassword.getText().trim())) {
                     lblConfirmPasswordError.setText("Confirme su contraseña, debe ser la misma");
-                    lblConfirmPassword.setVisible(true);
+                    lblConfirmPasswordError.setVisible(true);
                 }
             }
             if (!tfConfirmPassword.getText().trim().isEmpty() 
                     && tfPassword.getText().trim().isEmpty()) {
                 lblConfirmPasswordError.setText("Ha hecho una confirmación de contraseña "
                         + "para una inexistente");
-                lblConfirmPassword.setVisible(true);
+                lblConfirmPasswordError.setVisible(true);
             }
         } else {
             if (tfPassword.getText().trim().isEmpty() 

@@ -106,7 +106,7 @@
                         <Font name="System Bold" size="16.0" />
                     </font>
                 </Label>
-                <Label layoutX="288.0" layoutY="680.0" text="*" textFill="#ff5c00">
+                <Label fx:id="lblAsteriskPassword" layoutX="288.0" layoutY="680.0" text="*" textFill="#ff5c00">
                     <font>
                         <Font name="System Bold" size="16.0" />
                     </font>
@@ -126,12 +126,12 @@
                         <Font size="10.0" />
                     </font>
                 </Label>
-                <Label fx:id="lblConfirmPassword" layoutX="202.0" layoutY="763.0" text="Confirmar contraseña">
+                <Label layoutX="202.0" layoutY="763.0" text="Confirmar contraseña">
                     <font>
                         <Font name="System Bold" size="16.0" />
                     </font>
                 </Label>
-                <Label layoutX="367.0" layoutY="767.0" text="*" textFill="#ff5c00">
+                <Label fx:id="lblAsteriskConfirmPassword" layoutX="367.0" layoutY="767.0" text="*" textFill="#ff5c00">
                     <font>
                         <Font name="System Bold" size="16.0" />
                     </font>
