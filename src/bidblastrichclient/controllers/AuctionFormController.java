@@ -1,6 +1,8 @@
 package bidblastrichclient.controllers;
 
 import api.requests.auctions.AuctionCreateBody;
+import gRPC.Client;
+import gRPC.GrpcClientCallback;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -14,7 +16,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -76,9 +77,6 @@ public class AuctionFormController implements Initializable {
             public void onSuccess(List<AuctionState> auctionStates) {
                 Platform.runLater(() -> {
                     cbAuctionState.getItems().setAll(auctionStates);
-                    for (AuctionState state : auctionStates) {
-                        System.out.println("Loaded AuctionState: " + state.getId_item_condition() + " - " + state.getName());
-                    }
                 });
             }
 
@@ -113,11 +111,6 @@ public class AuctionFormController implements Initializable {
 
     @FXML
     private void btnUploadHipermedia(ActionEvent event) {
-        if (uploadedMediaFiles.size() >= 4) {
-            showAlert("No puedes subir más de 4 archivos multimedia.");
-            return;
-        }
-
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecciona archivos para subir");
         fileChooser.getExtensionFilters().addAll(
@@ -127,18 +120,12 @@ public class AuctionFormController implements Initializable {
 
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(new Stage());
         if (selectedFiles != null) {
-            if (uploadedMediaFiles.size() + selectedFiles.size() > 8) {
-                showAlert("No puedes subir más de 8 archivos multimedia en total.");
-                return;
-            }
-
             for (File file : selectedFiles) {
                 try {
                     if (isValidFile(file)) {
                         Label fileLabel = new Label(file.getName());
                         vboxUploadedFiles.getChildren().add(fileLabel);
-                        uploadedMediaFiles.add(new HypermediaFile(file.getName(), 
-                            convertFileToBase64(file), Files.probeContentType(file.toPath())));
+                        uploadedMediaFiles.add(new HypermediaFile(file.getName(), convertFileToBase64(file), Files.probeContentType(file.toPath())));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -157,7 +144,7 @@ public class AuctionFormController implements Initializable {
                 return false;
             }
             return true;
-        } else if (mimeType != null && mimeType.equals("video/x-msvideo")) {
+        } else if (mimeType != null && mimeType.equals("video/avi")) {
             if (fileSize > 5 * 1024 * 1024) {
                 showAlert("El archivo de video " + file.getName() + " excede el tamaño máximo permitido de 5 MB.");
                 return false;
@@ -251,9 +238,21 @@ public class AuctionFormController implements Initializable {
             return;
         }
 
+        List<HypermediaFile> imageFiles = new ArrayList<>();
+        List<HypermediaFile> videoFiles = new ArrayList<>();
+
+        for (HypermediaFile file : uploadedMediaFiles) {
+        if (file.getMimeType().startsWith("image")) {
+            imageFiles.add(file);
+        } else if (file.getMimeType().equals("video/mp4")) {
+            videoFiles.add(file);
+        }
+        }
+        
         AuctionCreateBody auctionBody = new AuctionCreateBody(
-            title, description, basePrice, minimumBid, daysAvailable, itemConditionId, uploadedMediaFiles
+            title, description, basePrice, minimumBid, daysAvailable, itemConditionId, imageFiles
         );
+
         new AuctionsRepository().createAuction(auctionBody, new IEmptyProcessStatusListener() {
             @Override
             public void onSuccess() {
@@ -266,6 +265,10 @@ public class AuctionFormController implements Initializable {
                         redirectToPreviousPage();
                     });
                 });
+
+                for (HypermediaFile videoFile : videoFiles) {
+                    sendVideoByGrpc(videoFile, auctionBody.getIdItemCondition());
+                }
             }
 
             @Override
@@ -275,6 +278,22 @@ public class AuctionFormController implements Initializable {
                 });
             }
         });
+    }
+
+    private void sendVideoByGrpc(HypermediaFile videoFile, int auctionId) {
+    System.out.println("Preparando para enviar el video por gRPC: " + videoFile.getName());
+    Client grpcClient = new Client();
+    grpcClient.uploadVideo(videoFile, auctionId, new GrpcClientCallback() {
+        @Override
+        public void onSuccess() {
+            System.out.println("Video cargado correctamente");
+        }
+
+        @Override
+        public void onError(Throwable error) {
+            System.err.println("Error al cargar el video: " + error.getMessage());
+        }
+    });
     }
 
     private void showAlert(String message) {
@@ -297,3 +316,4 @@ public class AuctionFormController implements Initializable {
         redirectToPreviousPage();
     }
 }
+
